@@ -1,10 +1,23 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace SupanthaPaul
 {
 	public class PlayerController : MonoBehaviour
 	{
-		[SerializeField] private float speed;
+        [SerializeField] public static PlayerInput PlayerInput;
+
+        public static Vector2 Movement;
+        public static bool JumpWasPressed;
+        public static bool JumpIsHeld;
+        public static bool JumpWasReleased;
+        public static bool DashWasPressed;
+
+        private InputAction moveAction;
+        private InputAction jumpAction;
+        private InputAction dashAction;
+
+        [SerializeField] private float speed;
 		[Header("Jumping")]
 		[SerializeField] private float jumpForce;
 		[SerializeField] private float fallMultiplier;
@@ -176,11 +189,25 @@ namespace SupanthaPaul
 
 			}
 		}
+        private void Awake()
+        {
+            PlayerInput = GetComponent<PlayerInput>();
 
-		private void Update()
+            moveAction = PlayerInput.actions["Move"];
+            jumpAction = PlayerInput.actions["Jump"];
+            dashAction = PlayerInput.actions["Dash"];
+        }
+
+        private void Update()
 		{
-			// horizontal input
-			moveInput = InputSystem.HorizontalRaw();
+            JumpWasPressed = jumpAction.WasPressedThisFrame();
+            JumpIsHeld = jumpAction.IsPressed();
+            JumpWasReleased = jumpAction.WasReleasedThisFrame();
+
+            DashWasPressed = dashAction.WasPressedThisFrame();
+
+            // horizontal input
+            moveInput = moveAction.ReadValue<Vector2>().x;
 
 
             if (isGrounded)
@@ -198,7 +225,7 @@ namespace SupanthaPaul
 			if (!isDashing && !m_hasDashedInAir && m_dashCooldown <= 0f)
 			{
 				// dash input (left shift)
-				if (InputSystem.DashWasPressed)
+				if (DashWasPressed)
 				{
 					isDashing = true;
 					// dash effect
@@ -218,20 +245,20 @@ namespace SupanthaPaul
 				m_hasDashedInAir = false;
 			
 			// Jumping
-			if(InputSystem.JumpWasPressed && m_extraJumps > 0 && !isGrounded && !m_wallGrabbing)	// extra jumping
+			if(JumpWasPressed && m_extraJumps > 0 && !isGrounded && !m_wallGrabbing)	// extra jumping
 			{
 				m_rb.linearVelocity = new Vector2(m_rb.linearVelocity.x, m_extraJumpForce); ;
 				m_extraJumps--;
 				// jumpEffect
 				PoolManager.instance.ReuseObject(jumpEffect, groundCheck.position, Quaternion.identity);
 			}
-			else if(InputSystem.JumpWasPressed && (isGrounded || m_groundedRemember > 0f))	// normal single jumping
+			else if(JumpWasPressed && (isGrounded || m_groundedRemember > 0f))	// normal single jumping
 			{
 				m_rb.linearVelocity = new Vector2(m_rb.linearVelocity.x, jumpForce);
 				// jumpEffect
 				PoolManager.instance.ReuseObject(jumpEffect, groundCheck.position, Quaternion.identity);
 			}
-			else if(InputSystem.JumpWasPressed && m_wallGrabbing && moveInput!=m_onWallSide )		// wall jumping off the wall
+			else if(JumpWasPressed && m_wallGrabbing && moveInput!=m_onWallSide )		// wall jumping off the wall
 			{
 				m_wallGrabbing = false;
 				m_wallJumping = true;
@@ -240,7 +267,7 @@ namespace SupanthaPaul
 					Flip();
 				m_rb.AddForce(new Vector2(-m_onWallSide * wallJumpForce.x, wallJumpForce.y), ForceMode2D.Impulse);
 			}
-			else if(InputSystem.JumpWasPressed && m_wallGrabbing && moveInput != 0 && (moveInput == m_onWallSide))      // wall climbing jump
+			else if(JumpWasPressed && m_wallGrabbing && moveInput != 0 && (moveInput == m_onWallSide))      // wall climbing jump
 			{
 				m_wallGrabbing = false;
 				m_wallJumping = true;
