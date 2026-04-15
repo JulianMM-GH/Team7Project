@@ -24,11 +24,13 @@ namespace SupanthaPaul
 		[SerializeField] private Transform groundCheck;
 		[SerializeField] private float groundCheckRadius;
 		[SerializeField] private LayerMask whatIsGround;
-		[SerializeField] private int extraJumpCount = 1;
+        [SerializeField] public bool canDoubleJump = false;
+        [SerializeField] public int extraJumpCount = 0;
 		[SerializeField] private GameObject jumpEffect;
 		[Header("Dashing")]
 		[SerializeField] private float dashSpeed = 30f;
-		[Tooltip("Amount of time (in seconds) the player will be in the dashing speed")]
+        [SerializeField] public bool canDash = false;
+        [Tooltip("Amount of time (in seconds) the player will be in the dashing speed")]
 		[SerializeField] private float startDashTime = 0.1f;
 		[Tooltip("Time (in seconds) between dashes")]
 		[SerializeField] private float dashCooldown = 0.2f;
@@ -55,8 +57,8 @@ namespace SupanthaPaul
 		private Rigidbody2D m_rb;
 		private ParticleSystem m_dustParticle;
 		private bool m_facingRight = true;
-		private readonly float m_groundedRememberTime = 0.25f;
-		private float m_groundedRemember = 0f;
+		//private readonly float m_groundedRememberTime = 0.25f;
+		//private float m_groundedRemember = 0f;
 		private int m_extraJumps;
 		private float m_extraJumpForce;
 		private float m_dashTime;
@@ -216,16 +218,18 @@ namespace SupanthaPaul
 			}
 
 			// grounded remember offset (for more responsive jump)
+			/*
 			m_groundedRemember -= Time.deltaTime;
 			if (isGrounded)
 				m_groundedRemember = m_groundedRememberTime;
+			*/
 
 			if (!isCurrentlyPlayable) return;
 			// if not currently dashing and hasn't already dashed in air once
 			if (!isDashing && !m_hasDashedInAir && m_dashCooldown <= 0f)
 			{
 				// dash input (left shift)
-				if (DashWasPressed)
+				if (DashWasPressed && canDash)
 				{
 					isDashing = true;
 					// dash effect
@@ -243,20 +247,25 @@ namespace SupanthaPaul
 			// if has dashed in air once but now grounded
 			if (m_hasDashedInAir && isGrounded)
 				m_hasDashedInAir = false;
-			
-			// Jumping
-			if(JumpWasPressed && m_extraJumps > 0 && !isGrounded && !m_wallGrabbing)	// extra jumping
+
+            // Jumping
+            
+			if(JumpWasPressed && m_extraJumps > 0 && !isGrounded && !m_wallGrabbing && canDoubleJump)	// extra jumping
 			{
 				m_rb.linearVelocity = new Vector2(m_rb.linearVelocity.x, m_extraJumpForce); ;
 				m_extraJumps--;
 				// jumpEffect
 				PoolManager.instance.ReuseObject(jumpEffect, groundCheck.position, Quaternion.identity);
 			}
-			else if(JumpWasPressed && (isGrounded || m_groundedRemember > 0f))	// normal single jumping
+			
+            //if (JumpWasPressed && (isGrounded || m_groundedRemember > 0f))  // normal single jumping
+
+            else if (JumpWasPressed && isGrounded)	// normal single jumping
 			{
 				m_rb.linearVelocity = new Vector2(m_rb.linearVelocity.x, jumpForce);
-				// jumpEffect
-				PoolManager.instance.ReuseObject(jumpEffect, groundCheck.position, Quaternion.identity);
+                m_extraJumps--;
+                // jumpEffect
+                PoolManager.instance.ReuseObject(jumpEffect, groundCheck.position, Quaternion.identity);
 			}
 			else if(JumpWasPressed && m_wallGrabbing && moveInput!=m_onWallSide )		// wall jumping off the wall
 			{
