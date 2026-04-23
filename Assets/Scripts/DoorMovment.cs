@@ -45,8 +45,8 @@ public class DoorMovment : MonoBehaviour
         else
         {
             float d = Vector2.Distance(transform.localPosition, StartPosition);
-            float t = d / (d + 2f); 
-            transform.localPosition = Vector2.Lerp(transform.localPosition, StartPosition, Time.deltaTime * raiseSpeed * Mathf.Lerp(20f, 4f, t * t));
+            float t = d / (d + 3f); 
+            transform.localPosition = Vector2.Lerp(transform.localPosition, StartPosition, Time.deltaTime * raiseSpeed * Mathf.Lerp(30f, 4f, t * t));
             if (Vector2.Distance(transform.localPosition, StartPosition) < 0.5f && !hasPlayedParticles)
             {
                 ParticleSystem[] Particles = GetComponentsInChildren<ParticleSystem>();
