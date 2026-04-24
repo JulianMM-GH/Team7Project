@@ -168,7 +168,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -194,24 +194,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 100
   scaleSpeed: 5
-  minScale: 1
+  minScale: 0
   maxScale: 15
-  pulseSpeed: 2
-  minAlpha: 0.3
-  maxAlpha: 1
-  sprites:
+  animationSpeed: 10
+  lightRadius: 0.25
+  hideDelay: 0.15
+  lightFrames:
   - {fileID: -3226458696929213421, guid: e10bd88edf0a45843a36a6910df710c9, type: 3}
   - {fileID: -8054660817990429621, guid: e10bd88edf0a45843a36a6910df710c9, type: 3}
-  - {fileID: 8315397515524912057, guid: e10bd88edf0a45843a36a6910df710c9, type: 3}
   - {fileID: -7999053148186574884, guid: e10bd88edf0a45843a36a6910df710c9, type: 3}
+  - {fileID: 8315397515524912057, guid: e10bd88edf0a45843a36a6910df710c9, type: 3}
   - {fileID: -8500102203923422641, guid: e10bd88edf0a45843a36a6910df710c9, type: 3}
-  spritesEmpty:
+  emptyFrames:
   - {fileID: 4073327853502806105, guid: 65f39046bf33dcb4a9f78524af6b6dcf, type: 3}
   - {fileID: 5740358291148734239, guid: 65f39046bf33dcb4a9f78524af6b6dcf, type: 3}
-  - {fileID: -3699107970340456641, guid: 65f39046bf33dcb4a9f78524af6b6dcf, type: 3}
   - {fileID: 3429823116594920459, guid: 65f39046bf33dcb4a9f78524af6b6dcf, type: 3}
+  - {fileID: -3699107970340456641, guid: 65f39046bf33dcb4a9f78524af6b6dcf, type: 3}
   - {fileID: 7544526402320283495, guid: 65f39046bf33dcb4a9f78524af6b6dcf, type: 3}
-  animationSpeed: 10
+  affectedLayers:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &1030642258142636204
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,7 +346,7 @@ MonoBehaviour:
   groundCheckRadius: 0.2
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 320
   canDoubleJump: 1
   extraJumpCount: 1
   jumpEffect: {fileID: 1756864995990567119, guid: 84373b93397a4544b9f154581f7b7cf4,
@@ -365,7 +367,7 @@ MonoBehaviour:
   grabLeftOffset: {x: -0.16, y: 0}
   grabCheckRadius: 0.24
   slideSpeed: 2.5
-  wallJumpForce: {x: 10.5, y: 18}
+  wallJumpForce: {x: 0, y: 0}
   wallClimbForce: {x: 4, y: 14}
 --- !u!114 &5440674214064144875
 MonoBehaviour:
