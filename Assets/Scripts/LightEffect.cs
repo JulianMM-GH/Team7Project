@@ -1,8 +1,15 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class LightEffect : MonoBehaviour
 {
+    [SerializeField] public static PlayerInput PlayerInput;
+
+    private InputAction lightAction;
+
+    [SerializeField] public bool canLight = false;
+
     public float rotationSpeed = 100f;
     public float scaleSpeed = 5f;
     public float minScale = 1f;
@@ -31,15 +38,19 @@ public class LightEffect : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         transform.localScale = Vector3.one * minScale;
+
+        PlayerInput = GetComponent<PlayerInput>();
+
+        lightAction = PlayerInput.actions["Light"];
     }
 
     void Update()
     {
-        bool isHoldingLight = Input.GetKey(KeyCode.Slash);
+        bool isHoldingLight = lightAction.IsPressed();
 
         RotateLight();
-        ResizeLight(isHoldingLight);
-        UpdateVisibility(isHoldingLight);
+        ResizeLight(isHoldingLight && canLight);
+        UpdateVisibility(isHoldingLight && canLight);
 
         TurnOffOldLitObjects();
 
@@ -47,7 +58,7 @@ public class LightEffect : MonoBehaviour
             return;
 
         AnimateLight();
-        LightObjectsNearby(isHoldingLight);
+        LightObjectsNearby(isHoldingLight && canLight);
     }
 
     void RotateLight()
