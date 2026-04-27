@@ -193,7 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85f4aaa8201dd0b47aa7481c83288d68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canLight: 0
+  canLight: 1
   rotationSpeed: 100
   scaleSpeed: 5
   minScale: 0
@@ -321,7 +321,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.5}
+  m_Offset: {x: 0, y: -0.55}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -331,7 +331,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.7, y: 1}
+  m_Size: {x: 0.7, y: 0.9}
   m_EdgeRadius: 0
 --- !u!50 &8976993317168319166
 Rigidbody2D:
@@ -380,7 +380,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 320
-  canDoubleJump: 1
+  canDoubleJump: 0
   canWallJump: 0
   extraJumpCount: 1
   jumpEffect: {fileID: 1756864995990567119, guid: 84373b93397a4544b9f154581f7b7cf4,
