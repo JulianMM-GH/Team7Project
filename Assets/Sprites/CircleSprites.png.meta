@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: e10bd88edf0a45843a36a6910df710c9
+guid: 65f39046bf33dcb4a9f78524af6b6dcf
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8500102203923422641
-    second: CircleSpritesFull_0
+      213: 7544526402320283495
+    second: CircleSprites 1_0
   - first:
-      213: -5842856215880750114
-    second: CircleSpritesFull_1
+      213: -2050666371517932411
+    second: CircleSprites 1_1
   - first:
-      213: -4035975114545600670
-    second: CircleSpritesFull_2
+      213: 1771467711287096237
+    second: CircleSprites 1_2
   - first:
-      213: -7999053148186574884
-    second: CircleSpritesFull_3
+      213: 3429823116594920459
+    second: CircleSprites 1_3
   - first:
-      213: -3226458696929213421
-    second: CircleSpritesFull_4
+      213: 4073327853502806105
+    second: CircleSprites 1_4
   - first:
-      213: 4587188033455109053
-    second: CircleSpritesFull_5
+      213: -2147454186276636606
+    second: CircleSprites 1_5
   - first:
-      213: -8054660817990429621
-    second: CircleSpritesFull_6
+      213: 5740358291148734239
+    second: CircleSprites 1_6
   - first:
-      213: 8315397515524912057
-    second: CircleSpritesFull_7
+      213: -3699107970340456641
+    second: CircleSprites 1_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -130,11 +130,24 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CircleSpritesFull_0
+      name: CircleSprites 1_0
       rect:
         serializedVersion: 2
         x: 3
@@ -149,14 +162,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f4221acb412990a80800000000000000
-      internalID: -8500102203923422641
+      spriteID: 7673bd05aca83b860800000000000000
+      internalID: 7544526402320283495
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CircleSpritesFull_1
+      name: CircleSprites 1_1
       rect:
         serializedVersion: 2
         x: 79
@@ -171,14 +184,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: edbaeba7a310aeea0800000000000000
-      internalID: -5842856215880750114
+      spriteID: 58c95dcccc19a83e0800000000000000
+      internalID: -2050666371517932411
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CircleSpritesFull_2
+      name: CircleSprites 1_2
       rect:
         serializedVersion: 2
         x: 155
@@ -193,14 +206,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 267613f44065df7c0800000000000000
-      internalID: -4035975114545600670
+      spriteID: da3775e6f74859810800000000000000
+      internalID: 1771467711287096237
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CircleSpritesFull_3
+      name: CircleSprites 1_3
       rect:
         serializedVersion: 2
         x: 230
@@ -215,14 +228,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cdf7ed2ea87adf090800000000000000
-      internalID: -7999053148186574884
+      spriteID: b0c301bd3fd299f20800000000000000
+      internalID: 3429823116594920459
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CircleSpritesFull_4
+      name: CircleSprites 1_4
       rect:
         serializedVersion: 2
         x: 3
@@ -237,14 +250,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 314801fd8e05933d0800000000000000
-      internalID: -3226458696929213421
+      spriteID: 9583db1f91e578830800000000000000
+      internalID: 4073327853502806105
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CircleSpritesFull_5
+      name: CircleSprites 1_5
       rect:
         serializedVersion: 2
         x: 79
@@ -259,14 +272,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: db3b3046637f8af30800000000000000
-      internalID: 4587188033455109053
+      spriteID: 2483e879bc5b232e0800000000000000
+      internalID: -2147454186276636606
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CircleSpritesFull_6
+      name: CircleSprites 1_6
       rect:
         serializedVersion: 2
         x: 155
@@ -281,14 +294,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b445c6559a8183090800000000000000
-      internalID: -8054660817990429621
+      spriteID: f1f736bb379d9af40800000000000000
+      internalID: 5740358291148734239
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CircleSpritesFull_7
+      name: CircleSprites 1_7
       rect:
         serializedVersion: 2
         x: 230
@@ -303,8 +316,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9b33707cbf9366370800000000000000
-      internalID: 8315397515524912057
+      spriteID: f377a0256e02aacc0800000000000000
+      internalID: -3699107970340456641
       vertices: []
       indices: 
       edges: []
@@ -323,14 +336,14 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      CircleSpritesFull_0: -8500102203923422641
-      CircleSpritesFull_1: -5842856215880750114
-      CircleSpritesFull_2: -4035975114545600670
-      CircleSpritesFull_3: -7999053148186574884
-      CircleSpritesFull_4: -3226458696929213421
-      CircleSpritesFull_5: 4587188033455109053
-      CircleSpritesFull_6: -8054660817990429621
-      CircleSpritesFull_7: 8315397515524912057
+      CircleSprites 1_0: 7544526402320283495
+      CircleSprites 1_1: -2050666371517932411
+      CircleSprites 1_2: 1771467711287096237
+      CircleSprites 1_3: 3429823116594920459
+      CircleSprites 1_4: 4073327853502806105
+      CircleSprites 1_5: -2147454186276636606
+      CircleSprites 1_6: 5740358291148734239
+      CircleSprites 1_7: -3699107970340456641
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

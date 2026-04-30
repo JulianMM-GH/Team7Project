@@ -296,8 +296,8 @@ namespace SupanthaPaul
 			scale.x *= -1;
 			transform.localScale = scale;
 		}
-
-		void CalculateSides()
+	
+        void CalculateSides()
 		{
 			if (m_onRightWall)
 				m_onWallSide = 1;
