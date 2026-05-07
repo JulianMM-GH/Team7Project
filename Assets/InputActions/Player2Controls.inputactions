@@ -131,6 +131,17 @@
                     "action": "Light",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3bf4f42a-0932-4e96-9bb4-fcc6b92b66c0",
+                    "path": "<Keyboard>/numpadPeriod",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Light",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

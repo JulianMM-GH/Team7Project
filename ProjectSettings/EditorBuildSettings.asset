@@ -20,5 +20,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameplayGym.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 4aa7681e32accbf46b2c59b902121029
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
