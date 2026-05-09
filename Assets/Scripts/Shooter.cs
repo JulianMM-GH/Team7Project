@@ -12,7 +12,7 @@ public class Shooter : MonoBehaviour
     [SerializeField] public GameObject projectilePrefab;
     [SerializeField] Transform LaunchOffset;
 
-    [Header("Projectile Properties")]
+    [Header("Slingshot / Projectile")]
     [SerializeField] public bool canShoot = false;
 
     [SerializeField] public float chargeTime = 0;
@@ -23,16 +23,16 @@ public class Shooter : MonoBehaviour
 
     [SerializeField] private float upwardForce = 0.5f;
 
-    [Header("Cooldown Settings")]
+    [Header("Cooldown")]
     [SerializeField] private float cooldown = 2.0f;
     private float cooldownTimer = 0f;
 
-    [Header("Projectile Charge UI Elements")]
+    [Header("Projectile Charge UI")]
     [SerializeField] public Slider chargeBar;
     [SerializeField] public Image barFill;
     [SerializeField] public Gradient chargeGradient;
 
-    [Header("Trajectory Properties")]
+    [Header("Trajectory")]
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private int resolution = 30;
     [SerializeField] private float stepTime = 0.1f;
