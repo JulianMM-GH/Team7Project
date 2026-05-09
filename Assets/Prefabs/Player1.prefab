@@ -5399,7 +5399,7 @@ MonoBehaviour:
   maxChargeTime: 1.5
   minSpeed: 3
   speedMultiplier: 7.5
-  upwardForce: 0.5
+  upwardForce: 0.6
   cooldown: 2
   chargeBar: {fileID: 0}
   barFill: {fileID: 0}
