@@ -162,7 +162,7 @@ public class Shooter : MonoBehaviour
             // Check for collision between the last point and the current point
             RaycastHit2D hit = Physics2D.Linecast(previousPos, pos);
 
-            if (hit.collider != null)
+            if (hit.collider != null && !hit.collider.CompareTag("Light"))
             {
                 // Set the current point to the collision spot
                 lineRenderer.SetPosition(i, hit.point);
