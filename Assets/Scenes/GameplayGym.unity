@@ -3340,7 +3340,7 @@ MonoBehaviour:
   PheonixImage: {fileID: -6362717398382630845, guid: 51c21d823f2745242bc1c78fc273f763,
     type: 3}
   photoTextChildName: photoText
-  PheonixText: 
+  PheonixText: Press Left Ctr To light up
   fadeTime: 1
   stayTime: 1
   lightEffect: {fileID: 0}
