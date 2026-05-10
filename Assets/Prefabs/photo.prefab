@@ -56,7 +56,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 103a4f516f06cba48b0fc81fdc06ca0e, type: 2}
+  - {fileID: 2100000, guid: 1c10ddf7cc731884398825654e8e64b8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -271,7 +271,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2618733643336642996}
-  - component: {fileID: 3321421334548891553}
+  - component: {fileID: 8748243435316079602}
   - component: {fileID: 3683122045472909434}
   m_Layer: 0
   m_Name: photo
@@ -297,7 +297,7 @@ Transform:
   - {fileID: 5563939025503406333}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3321421334548891553
+--- !u!114 &8748243435316079602
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -306,22 +306,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 5092034281625692313}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf32d15db1b4a7947ac83b045b3e2b07, type: 3}
+  m_Script: {fileID: 11500000, guid: b84fe5215d1fa8349a70ab2ef23acfcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerController1: {fileID: 0}
+  playerController2: {fileID: 0}
+  shooter: {fileID: 0}
+  lightEffect: {fileID: 0}
   BobHeight: 0.5
   BobSpeed: 2
-  SpinSpeed: 200
-  PheonixGameObjectName: Player2
+  SpinSpeed: 90
+  GameObjectName: Player1
   photoFrame: {fileID: 0}
-  photoImageChildName: PhotoImage
+  photoImageChildName: photoImage
   PheonixImage: {fileID: -6362717398382630845, guid: 51c21d823f2745242bc1c78fc273f763,
     type: 3}
-  photoTextChildName: PhotoText
-  PheonixText: The light Of The Pheonix
-  fadeTime: 1.5
-  stayTime: 3
-  lightEffect: {fileID: 0}
+  photoTextChildName: photoText
+  PheonixText: Pheonix
+  fadeTime: 1
+  stayTime: 1
 --- !u!61 &3683122045472909434
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -424,7 +427,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 103a4f516f06cba48b0fc81fdc06ca0e, type: 2}
+  - {fileID: 2100000, guid: 1c10ddf7cc731884398825654e8e64b8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

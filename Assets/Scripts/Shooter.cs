@@ -32,7 +32,7 @@ public class Shooter : MonoBehaviour
     [SerializeField] public Image barFill;
     [SerializeField] public Gradient chargeGradient;
 
-    [Header("Trajectory")]
+    [Header("Trajectory")] public Gradient chargeGradient2;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private int resolution = 30;
     [SerializeField] private float stepTime = 0.1f;
