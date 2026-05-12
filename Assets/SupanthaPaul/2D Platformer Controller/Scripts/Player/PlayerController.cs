@@ -18,6 +18,7 @@ namespace SupanthaPaul
         private InputAction dashAction;
 
         [SerializeField] private float speed;
+
 		[Header("Jumping")]
 		[SerializeField] private float jumpForce;
 		[SerializeField] private float fallMultiplier;
@@ -28,9 +29,11 @@ namespace SupanthaPaul
         [SerializeField] public bool canWallJump = false;
         [SerializeField] public int extraJumpCount = 0;
 		[SerializeField] private GameObject jumpEffect;
+
 		[Header("Dashing")]
 		[SerializeField] private float dashSpeed = 30f;
         [SerializeField] public bool canDash = false;
+
         [Tooltip("Amount of time (in seconds) the player will be in the dashing speed")]
 		[SerializeField] private float startDashTime = 0.1f;
 		[Tooltip("Time (in seconds) between dashes")]

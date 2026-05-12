@@ -1,18 +1,24 @@
+using SupanthaPaul;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using System.Collections;
 
 public class PhotoItem : MonoBehaviour
 {
+    [Header("Target Scripts")]
+    public PlayerController playerController1;
+    public PlayerController playerController2;
+    public Shooter shooter;
+    public LightEffect lightEffect;
+
     [Header("Movement")]
     public float BobHeight = 0.5f;
     public float BobSpeed = 2f;
     public float SpinSpeed = 90f;
 
     [Header("Trigger")]
-    public string PheonixGameObjectName = "Player2";
+    public string GameObjectName = "Player1";
 
     [Header("UI")]
     public GameObject photoFrame;
@@ -26,8 +32,6 @@ public class PhotoItem : MonoBehaviour
     [Header("Fade")]
     public float fadeTime = 1f;
     public float stayTime = 1f;
-
-    public LightEffect lightEffect;
 
     private Vector3 startPosition;
     private CanvasGroup canvasGroup;
@@ -77,7 +81,7 @@ public class PhotoItem : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.name != PheonixGameObjectName)
+        if (other.gameObject.name != GameObjectName)
             return;
 
         if (lightEffect != null)

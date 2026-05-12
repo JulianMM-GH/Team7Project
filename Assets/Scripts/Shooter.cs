@@ -32,7 +32,7 @@ public class Shooter : MonoBehaviour
     [SerializeField] public Image barFill;
     [SerializeField] public Gradient chargeGradient;
 
-    [Header("Trajectory")]
+    [Header("Trajectory")] public Gradient chargeGradient2;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private int resolution = 30;
     [SerializeField] private float stepTime = 0.1f;
@@ -151,12 +151,29 @@ public class Shooter : MonoBehaviour
 
         lineRenderer.positionCount = resolution;
 
+        Vector2 previousPos = startPos;
+
         for (int i = 0; i < resolution; i++)
         {
             float t = i * stepTime;
             // Gravity Formula: s = ut + 0.5at^2 (where a is gravity)
             Vector2 pos = startPos + velocity * t + 0.5f * Physics2D.gravity * t * t;
+
+            // Check for collision between the last point and the current point
+            RaycastHit2D hit = Physics2D.Linecast(previousPos, pos);
+
+            if (hit.collider != null && !hit.collider.CompareTag("Light"))
+            {
+                // Set the current point to the collision spot
+                lineRenderer.SetPosition(i, hit.point);
+
+                // Adjust line length to end here and stop calculating
+                lineRenderer.positionCount = i + 1;
+                break;
+            }
+
             lineRenderer.SetPosition(i, pos);
+            previousPos = pos;
         }
     }
 
