@@ -9,8 +9,15 @@ public class PhotoItem : MonoBehaviour
     [Header("Target Scripts")]
     public PlayerController playerController1;
     public PlayerController playerController2;
-    public Shooter shooter;
-    public LightEffect lightEffect;
+
+    private Shooter shooter;
+    private LightEffect lightEffect;
+
+    [Header("Abilities To Enable")]
+    public bool canWallJump;
+    public bool canLightEffect;
+    public bool canDoubleJump;
+    public bool canShoot;
 
     [Header("Movement")]
     public float BobHeight = 0.5f;
@@ -45,6 +52,9 @@ public class PhotoItem : MonoBehaviour
 
         if (lightEffect == null)
             lightEffect = FindAnyObjectByType<LightEffect>();
+
+        if (shooter == null && playerController1 != null)
+            shooter = playerController1.gameObject.GetComponent<Shooter>();
 
         if (photoFrame == null)
         {
@@ -84,8 +94,7 @@ public class PhotoItem : MonoBehaviour
         if (other.gameObject.name != GameObjectName)
             return;
 
-        if (lightEffect != null)
-            lightEffect.canLight = true;
+        EnableAbilities();
 
         if (photoImage != null)
             photoImage.sprite = PheonixImage;
@@ -100,6 +109,33 @@ public class PhotoItem : MonoBehaviour
             StopCoroutine(fadeCoroutine);
 
         fadeCoroutine = StartCoroutine(FadeInThenOut());
+    }
+
+    private void EnableAbilities()
+    {
+        if (canLightEffect && lightEffect != null)
+            lightEffect.canLight = true;
+
+        if (canShoot && shooter != null)
+            shooter.canShoot = true;
+
+        if (canWallJump)
+        {
+            if (playerController1 != null)
+                playerController1.canWallJump = true;
+
+            if (playerController2 != null)
+                playerController2.canWallJump = true;
+        }
+
+        if (canDoubleJump)
+        {
+            if (playerController1 != null)
+                playerController1.canDoubleJump = true;
+
+            if (playerController2 != null)
+                playerController2.canDoubleJump = true;
+        }
     }
 
     private IEnumerator FadeInThenOut()
