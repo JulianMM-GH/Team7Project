@@ -311,17 +311,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerController1: {fileID: 0}
   playerController2: {fileID: 0}
-  shooter: {fileID: 0}
-  lightEffect: {fileID: 0}
+  canWallJump: 0
+  canLightEffect: 1
+  canDoubleJump: 0
+  canShoot: 0
   BobHeight: 0.5
   BobSpeed: 2
   SpinSpeed: 90
   GameObjectName: Player1
   photoFrame: {fileID: 0}
-  photoImageChildName: photoImage
+  photoImageChildName: PhotoImage
   PheonixImage: {fileID: -6362717398382630845, guid: 51c21d823f2745242bc1c78fc273f763,
     type: 3}
-  photoTextChildName: photoText
+  photoTextChildName: PhotoText
   PheonixText: Pheonix
   fadeTime: 1
   stayTime: 1

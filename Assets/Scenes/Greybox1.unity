@@ -24374,7 +24374,7 @@ PrefabInstance:
     - target: {fileID: 2618733643336642996, guid: a99400de30242234dbf4898577f2bf57,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.25
+      value: 0.74
       objectReference: {fileID: 0}
     - target: {fileID: 2618733643336642996, guid: a99400de30242234dbf4898577f2bf57,
         type: 3}
@@ -24423,8 +24423,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8748243435316079602, guid: a99400de30242234dbf4898577f2bf57,
         type: 3}
-      propertyPath: shooter
-      value: 
+      propertyPath: BobHeight
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8748243435316079602, guid: a99400de30242234dbf4898577f2bf57,
+        type: 3}
+      propertyPath: SpinSpeed
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 8748243435316079602, guid: a99400de30242234dbf4898577f2bf57,
         type: 3}
@@ -24433,18 +24438,8 @@ PrefabInstance:
       objectReference: {fileID: 932516137}
     - target: {fileID: 8748243435316079602, guid: a99400de30242234dbf4898577f2bf57,
         type: 3}
-      propertyPath: lightEffect
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748243435316079602, guid: a99400de30242234dbf4898577f2bf57,
-        type: 3}
-      propertyPath: canDoubleJump
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748243435316079602, guid: a99400de30242234dbf4898577f2bf57,
-        type: 3}
-      propertyPath: canLightEffect
-      value: 1
+      propertyPath: PheonixText
+      value: The light of the pheonix shines
       objectReference: {fileID: 0}
     - target: {fileID: 8748243435316079602, guid: a99400de30242234dbf4898577f2bf57,
         type: 3}
@@ -24456,16 +24451,6 @@ PrefabInstance:
       propertyPath: playerController2
       value: 
       objectReference: {fileID: 649435541}
-    - target: {fileID: 8748243435316079602, guid: a99400de30242234dbf4898577f2bf57,
-        type: 3}
-      propertyPath: photoTextChildName
-      value: PhotoText
-      objectReference: {fileID: 0}
-    - target: {fileID: 8748243435316079602, guid: a99400de30242234dbf4898577f2bf57,
-        type: 3}
-      propertyPath: photoImageChildName
-      value: PhotoImage
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
