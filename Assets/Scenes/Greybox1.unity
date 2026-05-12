@@ -23831,6 +23831,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8881289087088860210, guid: 476bf55313b27c54a8971337646f437e,
+        type: 3}
+      propertyPath: canLight
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -23840,6 +23845,18 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1003575435}
   m_SourcePrefab: {fileID: 100100000, guid: 476bf55313b27c54a8971337646f437e, type: 3}
+--- !u!114 &649435541 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1093205523021602698, guid: 476bf55313b27c54a8971337646f437e,
+    type: 3}
+  m_PrefabInstance: {fileID: 649435540}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1003575429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4af389105722f64d8db36af0a4eb949, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &650073972
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24421,13 +24438,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8748243435316079602, guid: a99400de30242234dbf4898577f2bf57,
         type: 3}
+      propertyPath: canDoubleJump
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8748243435316079602, guid: a99400de30242234dbf4898577f2bf57,
+        type: 3}
+      propertyPath: canLightEffect
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8748243435316079602, guid: a99400de30242234dbf4898577f2bf57,
+        type: 3}
       propertyPath: playerController1
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2003905465}
     - target: {fileID: 8748243435316079602, guid: a99400de30242234dbf4898577f2bf57,
         type: 3}
       propertyPath: playerController2
       value: 
+      objectReference: {fileID: 649435541}
+    - target: {fileID: 8748243435316079602, guid: a99400de30242234dbf4898577f2bf57,
+        type: 3}
+      propertyPath: photoTextChildName
+      value: PhotoText
+      objectReference: {fileID: 0}
+    - target: {fileID: 8748243435316079602, guid: a99400de30242234dbf4898577f2bf57,
+        type: 3}
+      propertyPath: photoImageChildName
+      value: PhotoImage
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -26237,6 +26274,18 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 770314524}
   m_SourcePrefab: {fileID: 100100000, guid: 6e9786bd0ce17b344a6b11945b03b0be, type: 3}
+--- !u!114 &2003905465 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6603325034030458748, guid: 6e9786bd0ce17b344a6b11945b03b0be,
+    type: 3}
+  m_PrefabInstance: {fileID: 2003905464}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770314512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4af389105722f64d8db36af0a4eb949, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2015968818
 PrefabInstance:
   m_ObjectHideFlags: 0

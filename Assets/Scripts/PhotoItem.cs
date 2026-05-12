@@ -141,10 +141,18 @@ public class PhotoItem : MonoBehaviour
     private IEnumerator FadeInThenOut()
     {
         yield return FadeTo(1f);
+        SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+
+        foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+        {
+            spriteRenderer.enabled = false;
+        }
 
         yield return new WaitForSeconds(stayTime);
 
         yield return FadeTo(0f);
+
+        Destroy(gameObject);
     }
 
     private IEnumerator FadeTo(float targetAlpha)
