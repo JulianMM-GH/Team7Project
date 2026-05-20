@@ -2,21 +2,21 @@ using UnityEngine;
 
 public class TutorialUIPlayerFollow : MonoBehaviour
 {
-    [SerializeField] public GameObject canvas1;
-    [SerializeField] public GameObject canvas2;
+    [SerializeField] public GameObject silasTutorialCanvas;
+    [SerializeField] public GameObject phoenixTutorialCanvas;
 
     void Awake()
     {
-        canvas1.SetActive(false);
-        canvas2.SetActive(false);
+        silasTutorialCanvas.SetActive(false);
+        phoenixTutorialCanvas.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            canvas1.SetActive(true);
-            canvas2.SetActive(true);
+            silasTutorialCanvas.SetActive(true);
+            phoenixTutorialCanvas.SetActive(true);
         }
     }
 
@@ -24,8 +24,8 @@ public class TutorialUIPlayerFollow : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            canvas1.SetActive(false);
-            canvas2.SetActive(false);
+            silasTutorialCanvas.SetActive(false);
+            phoenixTutorialCanvas.SetActive(false);
         }
     }
 }
