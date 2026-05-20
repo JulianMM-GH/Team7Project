@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85f4aaa8201dd0b47aa7481c83288d68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canLight: 1
+  canLight: 0
   rotationSpeed: 100
   scaleSpeed: 5
   minScale: 0
@@ -297,6 +297,7 @@ GameObject:
   - component: {fileID: 8976993317168319166}
   - component: {fileID: 1093205523021602698}
   - component: {fileID: 5440674214064144875}
+  - component: {fileID: 2673523657677221320}
   m_Layer: 10
   m_Name: Player2
   m_TagString: Player
@@ -471,6 +472,19 @@ MonoBehaviour:
   m_DefaultActionMap: Player2
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &2673523657677221320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030642258142636204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76b37d1168d85f84585edcd4d8f455bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentCheckpoint: {fileID: 0}
 --- !u!1 &5482390944995661622
 GameObject:
   m_ObjectHideFlags: 0

@@ -278,7 +278,11 @@ namespace SupanthaPaul
 				Debug.Log("Wall jumped");
 				if (m_playerSide == m_onWallSide)
 					Flip();
-				m_rb.AddForce(new Vector2(-m_onWallSide * wallJumpForce.x, wallJumpForce.y), ForceMode2D.Impulse);
+
+                // Reset velocity for consistent force application
+                m_rb.linearVelocity = Vector2.zero;
+
+                m_rb.AddForce(new Vector2(-m_onWallSide * wallJumpForce.x, wallJumpForce.y), ForceMode2D.Impulse);
 			}
 			else if(JumpWasPressed && m_wallGrabbing && moveInput != 0 && (moveInput == m_onWallSide) && canWallJump)      // wall climbing jump
 			{
@@ -287,7 +291,11 @@ namespace SupanthaPaul
 				Debug.Log("Wall climbed");
 				if (m_playerSide == m_onWallSide)
 					Flip();
-				m_rb.AddForce(new Vector2(-m_onWallSide * wallClimbForce.x, wallClimbForce.y), ForceMode2D.Impulse);
+
+                // Reset velocity for consistent force application
+                m_rb.linearVelocity = Vector2.zero;
+
+                m_rb.AddForce(new Vector2(-m_onWallSide * wallClimbForce.x, wallClimbForce.y), ForceMode2D.Impulse);
 			}
 
 		}
