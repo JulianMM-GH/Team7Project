@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 46712727}
   - component: {fileID: 46712726}
   - component: {fileID: 46712725}
-  - component: {fileID: 46712724}
+  - component: {fileID: 46712728}
   m_Layer: 5
   m_Name: Quit
   m_TagString: Untagged
@@ -159,18 +159,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -431}
   m_SizeDelta: {x: 351, y: 197}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &46712724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 46712722}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32b02c85d27faa745b51051dfe39b0e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &46712725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,10 +203,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1035551170}
-        m_TargetAssemblyTypeName: MenuTransition, Assembly-CSharp
-        m_MethodName: ChangeMenu
-        m_Mode: 3
+      - m_Target: {fileID: 46712728}
+        m_TargetAssemblyTypeName: QuitButton, Assembly-CSharp
+        m_MethodName: QuitGame
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -266,6 +254,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 46712722}
   m_CullTransparentMesh: 1
+--- !u!114 &46712728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 46712722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6388e26f2080d59429bfa53646710eeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &50195832
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,8 +325,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Settings
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 738bef99d8c0d7b46858ff55c71b83af, type: 2}
+  m_sharedMaterial: {fileID: -8033912427089417082, guid: 738bef99d8c0d7b46858ff55c71b83af,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -990,8 +991,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Perspiscere
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 738bef99d8c0d7b46858ff55c71b83af, type: 2}
+  m_sharedMaterial: {fileID: -8033912427089417082, guid: 738bef99d8c0d7b46858ff55c71b83af,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1144,8 +1146,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Quit
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 738bef99d8c0d7b46858ff55c71b83af, type: 2}
+  m_sharedMaterial: {fileID: -8033912427089417082, guid: 738bef99d8c0d7b46858ff55c71b83af,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1677,6 +1680,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 434384761411883983, guid: 36817d2600c82bf46b2f4d367d8a09e5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -872
+      objectReference: {fileID: 0}
     - target: {fileID: 724286111136532249, guid: 36817d2600c82bf46b2f4d367d8a09e5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1940,8 +1948,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5731902266153793525, guid: 36817d2600c82bf46b2f4d367d8a09e5,
         type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 738bef99d8c0d7b46858ff55c71b83af,
+        type: 2}
+    - target: {fileID: 5731902266153793525, guid: 36817d2600c82bf46b2f4d367d8a09e5,
+        type: 3}
       propertyPath: m_fontSizeBase
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5731902266153793525, guid: 36817d2600c82bf46b2f4d367d8a09e5,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -8033912427089417082, guid: 738bef99d8c0d7b46858ff55c71b83af,
+        type: 2}
+    - target: {fileID: 5731902266153793525, guid: 36817d2600c82bf46b2f4d367d8a09e5,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6675326552440420384, guid: 36817d2600c82bf46b2f4d367d8a09e5,
         type: 3}
@@ -1961,17 +1986,17 @@ PrefabInstance:
     - target: {fileID: 6675356404806517959, guid: 36817d2600c82bf46b2f4d367d8a09e5,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.15
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6675356404806517959, guid: 36817d2600c82bf46b2f4d367d8a09e5,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.15
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6675356404806517959, guid: 36817d2600c82bf46b2f4d367d8a09e5,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.15
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6675356404806517959, guid: 36817d2600c82bf46b2f4d367d8a09e5,
         type: 3}
@@ -1996,17 +2021,17 @@ PrefabInstance:
     - target: {fileID: 6743347718674594185, guid: 36817d2600c82bf46b2f4d367d8a09e5,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.15
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6743347718674594185, guid: 36817d2600c82bf46b2f4d367d8a09e5,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.15
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6743347718674594185, guid: 36817d2600c82bf46b2f4d367d8a09e5,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.15
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6743347718674594185, guid: 36817d2600c82bf46b2f4d367d8a09e5,
         type: 3}
