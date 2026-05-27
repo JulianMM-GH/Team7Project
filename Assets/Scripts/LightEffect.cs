@@ -34,7 +34,7 @@ public class LightEffect : MonoBehaviour
 
     void Awake()
     {
-        DisableOwnCollision();
+        ColliderToTrigger();
 
         spriteMask = GetComponent<SpriteMask>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -49,17 +49,17 @@ public class LightEffect : MonoBehaviour
 
     void OnEnable()
     {
-        DisableOwnCollision();
+        ColliderToTrigger();
     }
 
-    void DisableOwnCollision()
+    void ColliderToTrigger()
     {
         Collider2D[] ownColliders = GetComponentsInChildren<Collider2D>(true);
 
         foreach (Collider2D col in ownColliders)
         {
             if (col != null)
-                col.enabled = false;
+                col.isTrigger = true;
         }
     }
 
