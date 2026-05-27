@@ -34,6 +34,8 @@ public class LightEffect : MonoBehaviour
 
     void Awake()
     {
+        DisableOwnCollision();
+
         spriteMask = GetComponent<SpriteMask>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
@@ -41,16 +43,37 @@ public class LightEffect : MonoBehaviour
 
         PlayerInput = GetComponent<PlayerInput>();
 
-        lightAction = PlayerInput.actions["Light"];
+        if (PlayerInput != null)
+            lightAction = PlayerInput.actions["Light"];
+    }
+
+    void OnEnable()
+    {
+        DisableOwnCollision();
+    }
+
+    void DisableOwnCollision()
+    {
+        Collider2D[] ownColliders = GetComponentsInChildren<Collider2D>(true);
+
+        foreach (Collider2D col in ownColliders)
+        {
+            if (col != null)
+                col.enabled = false;
+        }
     }
 
     void Update()
     {
+        if (lightAction == null)
+            return;
+
         bool isHoldingLight = lightAction.IsPressed();
+        bool lightIsActive = isHoldingLight && canLight;
 
         RotateLight();
-        ResizeLight(isHoldingLight && canLight);
-        UpdateVisibility(isHoldingLight && canLight);
+        ResizeLight(lightIsActive);
+        UpdateVisibility(lightIsActive);
 
         TurnOffOldLitObjects();
 
@@ -58,7 +81,10 @@ public class LightEffect : MonoBehaviour
             return;
 
         AnimateLight();
-        LightObjectsNearby(isHoldingLight && canLight);
+        if (lightIsActive)
+        {
+            LightObjectsNearby();
+        }
     }
 
     void RotateLight()
@@ -135,12 +161,9 @@ public class LightEffect : MonoBehaviour
             spriteRenderer.sprite = emptyFrames[currentFrame];
     }
 
-    void LightObjectsNearby(bool isHoldingLight)
+    void LightObjectsNearby()
     {
-        float radius = isHoldingLight
-            ? lightRadius * transform.localScale.x
-            : lightRadius * maxScale;
-
+        float radius = lightRadius * transform.localScale.x;
         Vector2 lightPosition = transform.position;
 
         SpriteRenderer[] sprites = FindObjectsByType<SpriteRenderer>(FindObjectsSortMode.None);
