@@ -58,7 +58,11 @@ namespace SupanthaPaul
 		public Vector2 wallJumpForce = new Vector2(10.5f, 18f);
 		public Vector2 wallClimbForce = new Vector2(4f, 14f);
 
-		private Rigidbody2D m_rb;
+		[Header("Sounds")]
+		[SerializeField] private AudioClip jumpSoundClip;
+		[SerializeField] private AudioClip wallJumpSoundClip;
+
+        private Rigidbody2D m_rb;
 		private ParticleSystem m_dustParticle;
 		private bool m_facingRight = true;
 		//private readonly float m_groundedRememberTime = 0.25f;
@@ -266,6 +270,8 @@ namespace SupanthaPaul
 
             else if (JumpWasPressed && isGrounded)	// normal single jumping
 			{
+				SFXManager.instance.PlaySFXClip(jumpSoundClip, transform, 1f);
+
 				m_rb.linearVelocity = new Vector2(m_rb.linearVelocity.x, jumpForce);
                 m_extraJumps--;
                 // jumpEffect
@@ -273,7 +279,9 @@ namespace SupanthaPaul
 			}
 			else if(JumpWasPressed && m_wallGrabbing && moveInput!=m_onWallSide && canWallJump)		// wall jumping off the wall
 			{
-				m_wallGrabbing = false;
+                SFXManager.instance.PlaySFXClip(wallJumpSoundClip, transform, 1f);
+
+                m_wallGrabbing = false;
 				m_wallJumping = true;
 				Debug.Log("Wall jumped");
 				if (m_playerSide == m_onWallSide)
