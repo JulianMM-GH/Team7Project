@@ -62173,15 +62173,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player2
       objectReference: {fileID: 0}
+    - target: {fileID: 1093205523021602698, guid: 476bf55313b27c54a8971337646f437e,
+        type: 3}
+      propertyPath: wallUnstickBuffer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7498931246729304417, guid: 476bf55313b27c54a8971337646f437e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.3988342
+      value: 55.448833
       objectReference: {fileID: 0}
     - target: {fileID: 7498931246729304417, guid: 476bf55313b27c54a8971337646f437e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.47
+      value: 6.9800005
       objectReference: {fileID: 0}
     - target: {fileID: 7498931246729304417, guid: 476bf55313b27c54a8971337646f437e,
         type: 3}
@@ -62228,6 +62233,11 @@ PrefabInstance:
       propertyPath: hideDelay
       value: 0.05
       objectReference: {fileID: 0}
+    - target: {fileID: 8976993317168319166, guid: 476bf55313b27c54a8971337646f437e,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: caa709d65fe4e474eb730fc16743231f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -63618,7 +63628,7 @@ PrefabInstance:
         type: 3}
       propertyPath: playerController2
       value: 
-      objectReference: {fileID: 649435541}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -65937,12 +65947,12 @@ PrefabInstance:
     - target: {fileID: 2644038771920387518, guid: 87bf8c1bb82c18141b66b97e913ccc1e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.860001
+      value: 53.34
       objectReference: {fileID: 0}
     - target: {fileID: 2644038771920387518, guid: 87bf8c1bb82c18141b66b97e913ccc1e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.75
+      value: 7.06
       objectReference: {fileID: 0}
     - target: {fileID: 2644038771920387518, guid: 87bf8c1bb82c18141b66b97e913ccc1e,
         type: 3}
@@ -69344,6 +69354,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player1
       objectReference: {fileID: 0}
+    - target: {fileID: 6603325034030458748, guid: 6e9786bd0ce17b344a6b11945b03b0be,
+        type: 3}
+      propertyPath: canWallJump
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6603325034030458748, guid: 6e9786bd0ce17b344a6b11945b03b0be,
+        type: 3}
+      propertyPath: maxSlipSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6603325034030458748, guid: 6e9786bd0ce17b344a6b11945b03b0be,
+        type: 3}
+      propertyPath: wallStickDuration
+      value: 0.75
+      objectReference: {fileID: 0}
     - target: {fileID: 6907182921173081310, guid: 6e9786bd0ce17b344a6b11945b03b0be,
         type: 3}
       propertyPath: barFill
@@ -69357,12 +69382,12 @@ PrefabInstance:
     - target: {fileID: 8602188746184304220, guid: 6e9786bd0ce17b344a6b11945b03b0be,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.36
+      value: 50.69
       objectReference: {fileID: 0}
     - target: {fileID: 8602188746184304220, guid: 6e9786bd0ce17b344a6b11945b03b0be,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.47
+      value: 7.2900004
       objectReference: {fileID: 0}
     - target: {fileID: 8602188746184304220, guid: 6e9786bd0ce17b344a6b11945b03b0be,
         type: 3}

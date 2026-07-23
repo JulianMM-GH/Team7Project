@@ -54,8 +54,13 @@ namespace SupanthaPaul
 		public Vector2 grabRightOffset = new Vector2(0.16f, 0f);
 		public Vector2 grabLeftOffset = new Vector2(-0.16f, 0f);
 		public float grabCheckRadius = 0.24f;
-		public float slideSpeed = 2.5f;
-		public Vector2 wallJumpForce = new Vector2(10.5f, 18f);
+		// public float slideSpeed = 2.5f; - unused - skullyy
+		public float wallStickDuration = 1.5f;
+		public float slipRampDuration = 1.5f;
+		public float maxSlipSpeed = 8f;
+		public float wallUnstickBuffer = 0.2f;
+		public float wallJumpRegrabDelay = 0.25f;
+		public Vector2 wallJumpForce = new Vector2(16f, 18f);
 		public Vector2 wallClimbForce = new Vector2(4f, 14f);
 
 		private Rigidbody2D m_rb;
@@ -75,6 +80,9 @@ namespace SupanthaPaul
 		private float m_wallStick = 0f;
 		private bool m_wallJumping = false;
 		private float m_dashCooldown;
+		private float m_wallGrabTimer = 0f;
+		private float m_currentSlipSpeed = 0f;
+		private float m_grabLockout = 0f;
 
 		// 0 -> none, 1 -> right, -1 -> left
 		private int m_onWallSide = 0;
@@ -124,7 +132,10 @@ namespace SupanthaPaul
 				// horizontal movement
 				if(m_wallJumping)
 				{
-					m_rb.linearVelocity = Vector2.Lerp(m_rb.linearVelocity, (new Vector2(moveInput * speed, m_rb.linearVelocity.y)), 1.5f * Time.fixedDeltaTime);
+					// only steer if a direction is held - otherwise keep the jump's
+					// momentum so the wall jump carries you further on its own
+					if (moveInput != 0f)
+						m_rb.linearVelocity = Vector2.Lerp(m_rb.linearVelocity, (new Vector2(moveInput * speed, m_rb.linearVelocity.y)), 1.5f * Time.fixedDeltaTime);
 				}
 				else
 				{
@@ -166,11 +177,39 @@ namespace SupanthaPaul
 				}
 
 				// wall grab
-				if(m_onWall && !isGrounded && m_rb.linearVelocity.y <= 0f && m_playerSide == m_onWallSide && canWallJump)
+				m_grabLockout -= Time.fixedDeltaTime;
+				bool wantsToGrab = m_onWall && !isGrounded && m_rb.linearVelocity.y <= 0f && m_playerSide == m_onWallSide && canWallJump && m_grabLockout <= 0f;
+				// buffer: shortly after grabbing, stay attached even if pushing away
+				// (wall jumps still escape instantly - they clear m_wallGrabbing before this runs)
+				bool heldByBuffer = m_wallGrabbing && m_onWall && !isGrounded && canWallJump && m_wallGrabTimer < wallUnstickBuffer && m_grabLockout <= 0f;
+				if(wantsToGrab || heldByBuffer)
 				{
+					// fresh grab this frame reset stick timer and slip speed
+					if (!m_wallGrabbing)
+					{
+						m_wallGrabTimer = 0f;
+						m_currentSlipSpeed = 0f;
+					}
+
 					actuallyWallGrabbing = true;    // for animation
 					m_wallGrabbing = true;
-					m_rb.linearVelocity = new Vector2(moveInput * speed, -slideSpeed);
+					m_wallGrabTimer += Time.fixedDeltaTime;
+
+					// during the buffer, ignore horizontal input so it can't peel you off the wall
+					float horizontalVel = (m_wallGrabTimer < wallUnstickBuffer) ? 0f : moveInput * speed;
+
+					if (m_wallGrabTimer < wallStickDuration)
+					{
+						// what the player does when actually wall jumping
+						m_rb.linearVelocity = new Vector2(horizontalVel, 0f);
+					}
+					else
+					{
+						// slipping like banana peel
+						float t = Mathf.Clamp01((m_wallGrabTimer - wallStickDuration) / slipRampDuration);
+						m_currentSlipSpeed = maxSlipSpeed * t * t;	// quadratic ease-in
+						m_rb.linearVelocity = new Vector2(horizontalVel, -m_currentSlipSpeed);
+					}
 					m_wallStick = m_wallStickTime;
 				} else
 				{
@@ -271,10 +310,11 @@ namespace SupanthaPaul
                 // jumpEffect
                 PoolManager.instance.ReuseObject(jumpEffect, groundCheck.position, Quaternion.identity);
 			}
-			else if(JumpWasPressed && m_wallGrabbing && moveInput!=m_onWallSide && canWallJump)		// wall jumping off the wall
+			else if(JumpWasPressed && m_wallGrabbing && m_onWall && moveInput!=m_onWallSide && canWallJump)		// wall jumping off the wall
 			{
 				m_wallGrabbing = false;
 				m_wallJumping = true;
+				m_grabLockout = wallJumpRegrabDelay;
 				Debug.Log("Wall jumped");
 				if (m_playerSide == m_onWallSide)
 					Flip();
@@ -284,10 +324,11 @@ namespace SupanthaPaul
 
                 m_rb.AddForce(new Vector2(-m_onWallSide * wallJumpForce.x, wallJumpForce.y), ForceMode2D.Impulse);
 			}
-			else if(JumpWasPressed && m_wallGrabbing && moveInput != 0 && (moveInput == m_onWallSide) && canWallJump)      // wall climbing jump
+			else if(JumpWasPressed && m_wallGrabbing && m_onWall && moveInput != 0 && (moveInput == m_onWallSide) && canWallJump)      // wall climbing jump
 			{
 				m_wallGrabbing = false;
 				m_wallJumping = true;
+				m_grabLockout = wallJumpRegrabDelay;
 				Debug.Log("Wall climbed");
 				if (m_playerSide == m_onWallSide)
 					Flip();
