@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class CameraLimits : MonoBehaviour
 {
-    public GameObject[] Players;
+    private List<GameObject> players = new List<GameObject>();
     private Camera cam;
 
     public float smoothSpeed = 0.125f;
@@ -16,17 +17,26 @@ public class CameraLimits : MonoBehaviour
         cam = GetComponent<Camera>();
     }
 
-    private Vector3 AveragePositions(GameObject[] positions)
+    public void RegisterPlayer(GameObject player)
     {
-        if (positions.Length == 0) return Vector3.zero;
+        if (player != null && !players.Contains(player))
+        {
+            players.Add(player);
+        }
+    }
+
+    private Vector3 AveragePositions(List<GameObject> positions)
+    {
+        if (positions.Count == 0) return Vector3.zero;
 
         Vector3 sum = Vector3.zero;
         foreach (GameObject p in positions)
         {
-            sum += p.transform.position;
+            // Null check
+            if (p != null) sum += p.transform.position;
         }
 
-        return sum / positions.Length;
+        return sum / positions.Count;
     }
 
     private void ClampPlayersToBounds()
@@ -34,8 +44,9 @@ public class CameraLimits : MonoBehaviour
         Vector3 min = boundsCenter - boundsSize / 2f;
         Vector3 max = boundsCenter + boundsSize / 2f;
 
-        foreach (GameObject player in Players)
+        foreach (GameObject player in players)
         {
+            if (player == null) continue;
             Vector3 pos = player.transform.position;
 
             pos.x = Mathf.Clamp(pos.x, min.x, max.x);
@@ -55,16 +66,34 @@ public class CameraLimits : MonoBehaviour
         float camHeight = cam.orthographicSize;
         float camWidth = camHeight * cam.aspect;
 
-        pos.x = Mathf.Clamp(pos.x, min.x + camWidth, max.x - camWidth);
-        pos.y = Mathf.Clamp(pos.y, min.y + camHeight, max.y - camHeight);
+        // Check if bounds are wide enough to accommodate camera size
+        if ((max.x - camWidth) > (min.x + camWidth))
+        {
+            pos.x = Mathf.Clamp(pos.x, min.x + camWidth, max.x - camWidth);
+        }
+        else
+        {
+            pos.x = boundsCenter.x; // Force center if bounds are too small
+        }
+
+        // Check if bounds are tall enough to accommodate camera size
+        if ((max.y - camHeight) > (min.y + camHeight))
+        {
+            pos.y = Mathf.Clamp(pos.y, min.y + camHeight, max.y - camHeight);
+        }
+        else
+        {
+            pos.y = boundsCenter.y; // Force center if bounds are too small
+        }
 
         transform.position = pos;
     }
 
     private void ClampPlayersToCamera()
     {
-        foreach (GameObject player in Players)
+        foreach (GameObject player in players)
         {
+            if (player == null) continue;
             Vector3 viewportPos = cam.WorldToViewportPoint(player.transform.position);
 
             bool outside =
@@ -89,13 +118,16 @@ public class CameraLimits : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 meanPosition = AveragePositions(Players);
-        Vector3 desiredPosition = meanPosition + Offset;
-       transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+        // If no players are spawned yet, do nothing and prevent errors
+        if (players.Count == 0) return;
 
-        ClampCameraToBounds();  
-        ClampPlayersToBounds();  
-        ClampPlayersToCamera(); 
+        Vector3 meanPosition = AveragePositions(players);
+        Vector3 desiredPosition = meanPosition + Offset;
+        transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+
+        ClampCameraToBounds();
+        ClampPlayersToBounds();
+        ClampPlayersToCamera();
     }
 
     private void OnDrawGizmos()

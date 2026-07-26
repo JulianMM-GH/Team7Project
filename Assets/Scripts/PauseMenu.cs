@@ -1,9 +1,8 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine.TextCore.Text;
-using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -12,34 +11,44 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject menuPanel;
     [SerializeField] private GameObject settingsPanel;
 
-    // Player Input
-    // To ensure that the players can't receive input when the game is paused, their action maps are changed to "UI", preventing inputs such as movement or jumping
-    [SerializeField] private PlayerInput Player1Input;
-    [SerializeField] private PlayerInput Player2Input;
-    private InputAction menuAction;
+    // Track active players dynamically as they join
+    private List<PlayerInput> activePlayers = new List<PlayerInput>();
+
+    // Store original action maps so we can safely switch back to them on resume
+    private Dictionary<PlayerInput, string> playerDefaultMaps = new Dictionary<PlayerInput, string>();
+
     public static bool MenuWasPressed;
-
-    // Pause
     public static bool isPaused = false;
-
-    private void Awake()
-    {
-        menuAction = Player1Input.actions["MenuOpen"];
-    }
 
     void Start()
     {
-        // Menu is hidden
         pauseMenuCanvas.SetActive(false);
         isPaused = false;
         Time.timeScale = 1f;
     }
 
+    // Public method the Spawner script will call whenever a player spawns
+    public void RegisterPlayerInput(PlayerInput pInput)
+    {
+        if (pInput != null && !activePlayers.Contains(pInput))
+        {
+            activePlayers.Add(pInput);
+
+            // Save what map they were using when they spawned (e.g., "Player1" or "Player2")
+            playerDefaultMaps[pInput] = pInput.currentActionMap.name;
+
+            // SAFETY: If the game is already paused when a new player joins, force them into UI mode instantly
+            if (isPaused)
+            {
+                pInput.SwitchCurrentActionMap("UI");
+            }
+        }
+    }
+
     void Update()
     {
-        MenuWasPressed = menuAction.WasPressedThisFrame();
+        MenuWasPressed = CheckForMenuInput();
 
-        // Toggle pause menu
         if (MenuWasPressed)
         {
             if (isPaused)
@@ -49,18 +58,44 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
+    // Global listener: Checks if ANY valid device triggers the "MenuOpen" equivalent action
+    private bool CheckForMenuInput()
+    {
+        // 1. Keyboard Escape check
+        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            return true;
+        }
+
+        // 2. Controller Start/Menu button check (loops through all active gamepads)
+        foreach (Gamepad pad in Gamepad.all)
+        {
+            if (pad.startButton.wasPressedThisFrame)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void PauseGame()
     {
         pauseMenuCanvas.SetActive(true);
         menuPanel.SetActive(true);
         settingsPanel.SetActive(false);
 
-        Time.timeScale = 0f; // Pause
-        //AudioListener.pause = true;
+        Time.timeScale = 0f;
         isPaused = true;
 
-        Player1Input.SwitchCurrentActionMap("UI");
-        Player2Input.SwitchCurrentActionMap("UI");
+        // Freeze controls for every player currently in the scene
+        foreach (PlayerInput player in activePlayers)
+        {
+            if (player != null)
+            {
+                player.SwitchCurrentActionMap("UI");
+            }
+        }
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -69,15 +104,19 @@ public class PauseMenu : MonoBehaviour
     public void ResumeGame()
     {
         pauseMenuCanvas.SetActive(false);
-        Time.timeScale = 1f; // Unpause
-        //AudioListener.pause = false;
+        Time.timeScale = 1f;
         isPaused = false;
 
-        Player1Input.SwitchCurrentActionMap("Player1");
-        Player2Input.SwitchCurrentActionMap("Player2");
+        // Restore the original independent control schemes for each active player
+        foreach (PlayerInput player in activePlayers)
+        {
+            if (player != null && playerDefaultMaps.TryGetValue(player, out string savedMap))
+            {
+                player.SwitchCurrentActionMap(savedMap);
+            }
+        }
     }
 
-    // Pause Menu Navigation
     public void OpenSettings()
     {
         menuPanel.SetActive(false);
@@ -90,17 +129,14 @@ public class PauseMenu : MonoBehaviour
         menuPanel.SetActive(true);
     }
 
-    // Change Scene
     public void MoveToScene(int sceneID)
     {
         pauseMenuCanvas.SetActive(false);
         isPaused = false;
         Time.timeScale = 1f;
-
         SceneManager.LoadScene(sceneID);
     }
 
-    // Quit
     public void QuitGame()
     {
         Application.Quit();

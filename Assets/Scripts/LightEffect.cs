@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class LightEffect : MonoBehaviour
 {
-    [SerializeField] public static PlayerInput PlayerInput;
+    [SerializeField] private PlayerInput playerInput;
 
     private InputAction lightAction;
 
@@ -40,11 +40,22 @@ public class LightEffect : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         transform.localScale = Vector3.one * minScale;
+    }
 
-        PlayerInput = GetComponent<PlayerInput>();
+    void Start()
+    {
+        // Find the PlayerInput component on the parent
+        playerInput = GetComponentInParent<PlayerInput>();
 
-        if (PlayerInput != null)
-            lightAction = PlayerInput.actions["Light"];
+        if (playerInput != null)
+        {
+            // Extract the reference for the "Light" command
+            lightAction = playerInput.actions["Light"];
+        }
+        else
+        {
+            Debug.LogError("Cannot find a PlayerInput component");
+        }
     }
 
     void OnEnable()
