@@ -43,7 +43,6 @@ GameObject:
   - component: {fileID: 5025604458179688034}
   - component: {fileID: 8472729728926275367}
   - component: {fileID: 8881289087088860210}
-  - component: {fileID: 5987211756315312542}
   - component: {fileID: 9085296359336462211}
   m_Layer: 10
   m_Name: LightEffect
@@ -194,6 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85f4aaa8201dd0b47aa7481c83288d68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInput: {fileID: 0}
   canLight: 0
   rotationSpeed: 100
   scaleSpeed: 5
@@ -201,7 +201,7 @@ MonoBehaviour:
   maxScale: 10
   animationSpeed: 10
   lightRadius: 0.25
-  hideDelay: 0.15
+  hideDelay: 0.05
   lightFrames:
   - {fileID: -3226458696929213421, guid: e10bd88edf0a45843a36a6910df710c9, type: 3}
   - {fileID: -8054660817990429621, guid: e10bd88edf0a45843a36a6910df710c9, type: 3}
@@ -217,37 +217,6 @@ MonoBehaviour:
   affectedLayers:
     serializedVersion: 2
     m_Bits: 64
---- !u!114 &5987211756315312542
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 788879682801412412}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: c898e999895ee8b4f927206a5f0aba13,
-    type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player2
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!58 &9085296359336462211
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -441,6 +410,8 @@ MonoBehaviour:
   slideSpeed: 2.5
   wallJumpForce: {x: 0, y: 0}
   wallClimbForce: {x: 4, y: 14}
+  jumpSoundClip: {fileID: 8300000, guid: 2233fa070cb14b64e835b3a6d320323a, type: 3}
+  wallJumpSoundClip: {fileID: 0}
 --- !u!114 &5440674214064144875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,9 +424,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: c898e999895ee8b4f927206a5f0aba13,
+  m_Actions: {fileID: -944628639613478452, guid: 73f86cbbba984bb47adffe180c38ac33,
     type: 3}
-  m_NotificationBehavior: 0
+  m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -466,10 +437,74 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_ActionEvents: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4a0d6d94-2c93-4dc4-871b-67dba5346959
+    m_ActionName: 'Player/Move[/DualSenseGamepadHID/leftStick,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9ebdafb3-6f2c-4a4c-adeb-3547fd48cdef
+    m_ActionName: 'Player/Jump[/DualSenseGamepadHID/buttonSouth,/Keyboard/w,/Keyboard/upArrow]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e436dc0d-3a5c-4f20-9d55-b86fe743d400
+    m_ActionName: 'Player/Light[/DualSenseGamepadHID/rightTrigger,/Keyboard/rightCtrl]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 92c8b46c-f945-41d4-8513-452fbe7dff53
+    m_ActionName: 'Player/Shoot[/DualSenseGamepadHID/rightTrigger,/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f8658ae3-8bec-46a2-95ef-952a5f0fee6d
+    m_ActionName: 'Player/MenuOpen[/Keyboard/escape,/DualSenseGamepadHID/start]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 65fe3610-7337-4806-a499-5e4b8ff0a1e4
+    m_ActionName: 'Player/Dash[/DualSenseGamepadHID/leftTrigger,/Keyboard/shift]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4bdb8e37-121d-4517-a604-0daee07f869c
+    m_ActionName: 'UI/Navigate[/DualSenseGamepadHID/leftStick/up,/DualSenseGamepadHID/rightStick/up,/DualSenseGamepadHID/leftStick/down,/DualSenseGamepadHID/rightStick/down,/DualSenseGamepadHID/leftStick/left,/DualSenseGamepadHID/rightStick/left,/DualSenseGamepadHID/leftStick/right,/DualSenseGamepadHID/rightStick/right,/DualSenseGamepadHID/dpad,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b1c53b65-3065-4b2a-8116-6e34aa36305a
+    m_ActionName: 'UI/Submit[/Keyboard/enter,/DualSenseGamepadHID/buttonSouth]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 312ac6a3-778b-4f84-937e-892f74155e60
+    m_ActionName: 'UI/Cancel[/Keyboard/escape,/DualSenseGamepadHID/buttonEast]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 00cac56a-f80b-46d9-8cb3-1299e6a43935
+    m_ActionName: 'UI/Point[/Mouse/position,/Pen/position]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9a58c2bf-1bb4-450a-8bf9-1450d4b64048
+    m_ActionName: 'UI/Click[/Mouse/leftButton,/Pen/tip]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 00ee56e6-d03d-4838-93b5-7d9699cfe7ea
+    m_ActionName: 'UI/ScrollWheel[/Mouse/scroll]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: df12057b-02bc-4688-b85c-8932949ddbaf
+    m_ActionName: 'UI/MiddleClick[/Mouse/middleButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: dd44aa44-32b6-4ce0-8147-17a39956c5a3
+    m_ActionName: 'UI/RightClick[/Mouse/rightButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 89418687-1cc5-4139-9bce-dc60448a41d2
+    m_ActionName: UI/TrackedDevicePosition
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a539800e-afcc-48f5-87f1-7ba137e84b4f
+    m_ActionName: UI/TrackedDeviceOrientation
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Player2
+  m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &2673523657677221320
