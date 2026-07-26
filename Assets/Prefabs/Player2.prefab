@@ -201,7 +201,7 @@ MonoBehaviour:
   maxScale: 10
   animationSpeed: 10
   lightRadius: 0.25
-  hideDelay: 0.15
+  hideDelay: 0.05
   lightFrames:
   - {fileID: -3226458696929213421, guid: e10bd88edf0a45843a36a6910df710c9, type: 3}
   - {fileID: -8054660817990429621, guid: e10bd88edf0a45843a36a6910df710c9, type: 3}
@@ -387,7 +387,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 4
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: caa709d65fe4e474eb730fc16743231f, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -438,7 +438,11 @@ MonoBehaviour:
   grabRightOffset: {x: 0.16, y: 0}
   grabLeftOffset: {x: -0.16, y: 0}
   grabCheckRadius: 0.24
-  slideSpeed: 2.5
+  wallStickDuration: 1.5
+  slipRampDuration: 1.5
+  maxSlipSpeed: 8
+  wallUnstickBuffer: 0
+  wallJumpRegrabDelay: 0.25
   wallJumpForce: {x: 0, y: 0}
   wallClimbForce: {x: 4, y: 14}
 --- !u!114 &5440674214064144875

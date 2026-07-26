@@ -5347,7 +5347,11 @@ MonoBehaviour:
   grabRightOffset: {x: 0.34, y: 0}
   grabLeftOffset: {x: -0.34, y: 0}
   grabCheckRadius: 0.24
-  slideSpeed: 2.5
+  wallStickDuration: 0.75
+  slipRampDuration: 1.5
+  maxSlipSpeed: 5
+  wallUnstickBuffer: 0.2
+  wallJumpRegrabDelay: 0.25
   wallJumpForce: {x: 4, y: 16}
   wallClimbForce: {x: 4, y: 14}
 --- !u!114 &830854498358484181
