@@ -356,7 +356,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 4
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: caa709d65fe4e474eb730fc16743231f, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -407,7 +407,11 @@ MonoBehaviour:
   grabRightOffset: {x: 0.16, y: 0}
   grabLeftOffset: {x: -0.16, y: 0}
   grabCheckRadius: 0.24
-  slideSpeed: 2.5
+  wallStickDuration: 1.5
+  slipRampDuration: 1.5
+  maxSlipSpeed: 8
+  wallUnstickBuffer: 0
+  wallJumpRegrabDelay: 0.25
   wallJumpForce: {x: 0, y: 0}
   wallClimbForce: {x: 4, y: 14}
   jumpSoundClip: {fileID: 8300000, guid: 2233fa070cb14b64e835b3a6d320323a, type: 3}

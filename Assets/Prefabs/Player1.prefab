@@ -5500,7 +5500,11 @@ MonoBehaviour:
   grabRightOffset: {x: 0.34, y: 0}
   grabLeftOffset: {x: -0.34, y: 0}
   grabCheckRadius: 0.24
-  slideSpeed: 2.5
+  wallStickDuration: 0.75
+  slipRampDuration: 1.5
+  maxSlipSpeed: 5
+  wallUnstickBuffer: 0.2
+  wallJumpRegrabDelay: 0.25
   wallJumpForce: {x: 4, y: 16}
   wallClimbForce: {x: 4, y: 14}
   jumpSoundClip: {fileID: 8300000, guid: 2233fa070cb14b64e835b3a6d320323a, type: 3}
