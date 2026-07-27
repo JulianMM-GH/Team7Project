@@ -332,7 +332,7 @@
                     "name": "Cancel",
                     "type": "Button",
                     "id": "312ac6a3-778b-4f84-937e-892f74155e60",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -832,11 +832,6 @@
                     "devicePath": "<Gamepad>",
                     "isOptional": false,
                     "isOR": false
-                },
-                {
-                    "devicePath": "<Mouse>",
-                    "isOptional": false,
-                    "isOR": false
                 }
             ]
         },
@@ -848,11 +843,6 @@
                     "devicePath": "<Keyboard>",
                     "isOptional": false,
                     "isOR": false
-                },
-                {
-                    "devicePath": "<Mouse>",
-                    "isOptional": false,
-                    "isOR": false
                 }
             ]
         },
@@ -862,17 +852,6 @@
             "devices": [
                 {
                     "devicePath": "<Keyboard>",
-                    "isOptional": false,
-                    "isOR": false
-                }
-            ]
-        },
-        {
-            "name": "New Control Scheme",
-            "bindingGroup": "New Control Scheme",
-            "devices": [
-                {
-                    "devicePath": "<Mouse>",
                     "isOptional": false,
                     "isOR": false
                 }
