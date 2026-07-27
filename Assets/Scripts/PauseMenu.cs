@@ -1,20 +1,28 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    [Header("UI")]
+    [Header("UI Panels")]
     [SerializeField] private GameObject pauseMenuCanvas;
-    [SerializeField] private GameObject menuPanel;
-    [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private GameObject menuPanel;      // Main pause menu; Resume, Settings, Quit
+    [SerializeField] private GameObject settingsPanel;  // Hub: Controls, Audio, Back
+    [SerializeField] private GameObject controlsPanel;  // Device select menu
+    [SerializeField] private GameObject audioPanel;     // Audio settings
 
-    // Track active players dynamically as they join
+    [Header("First Selected Buttons (for controller navigation)")]
+    [SerializeField] private GameObject menuFirstSelected;
+    [SerializeField] private GameObject settingsFirstSelected;
+    [SerializeField] private GameObject controlsFirstSelected;
+    [SerializeField] private GameObject audioFirstSelected;
+
     private List<PlayerInput> activePlayers = new List<PlayerInput>();
 
-    // Store original action maps so we can safely switch back to them on resume
+    // Original action maps so we can safely switch back on resume
     private Dictionary<PlayerInput, string> playerDefaultMaps = new Dictionary<PlayerInput, string>();
 
     public static bool MenuWasPressed;
@@ -27,17 +35,14 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    // Public method the Spawner script will call whenever a player spawns
     public void RegisterPlayerInput(PlayerInput pInput)
     {
         if (pInput != null && !activePlayers.Contains(pInput))
         {
             activePlayers.Add(pInput);
-
-            // Save what map they were using when they spawned (e.g., "Player1" or "Player2")
             playerDefaultMaps[pInput] = pInput.currentActionMap.name;
 
-            // SAFETY: If the game is already paused when a new player joins, force them into UI mode instantly
+            // If the game is already paused when a new player joins, force them into UI mode
             if (isPaused)
             {
                 pInput.SwitchCurrentActionMap("UI");
@@ -58,16 +63,13 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
-    // Global listener: Checks if ANY valid device triggers the "MenuOpen" equivalent action
     private bool CheckForMenuInput()
     {
-        // 1. Keyboard Escape check
         if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             return true;
         }
 
-        // 2. Controller Start/Menu button check (loops through all active gamepads)
         foreach (Gamepad pad in Gamepad.all)
         {
             if (pad.startButton.wasPressedThisFrame)
@@ -82,13 +84,11 @@ public class PauseMenu : MonoBehaviour
     public void PauseGame()
     {
         pauseMenuCanvas.SetActive(true);
-        menuPanel.SetActive(true);
-        settingsPanel.SetActive(false);
+        ShowPanel(menuPanel, menuFirstSelected);
 
         Time.timeScale = 0f;
         isPaused = true;
 
-        // Freeze controls for every player currently in the scene
         foreach (PlayerInput player in activePlayers)
         {
             if (player != null)
@@ -107,7 +107,6 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         isPaused = false;
 
-        // Restore the original independent control schemes for each active player
         foreach (PlayerInput player in activePlayers)
         {
             if (player != null && playerDefaultMaps.TryGetValue(player, out string savedMap))
@@ -117,16 +116,27 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
-    public void OpenSettings()
-    {
-        menuPanel.SetActive(false);
-        settingsPanel.SetActive(true);
-    }
+    // Panel navigation
+    public void OpenSettings()   => ShowPanel(settingsPanel, settingsFirstSelected);  // "Settings" button on main pause panel
+    public void CloseSettings()  => ShowPanel(menuPanel, menuFirstSelected);          // "Back" button on settings hub -> main pause panel
 
-    public void CloseSettings()
+    public void OpenControls()   => ShowPanel(controlsPanel, controlsFirstSelected);  // "Controls" button on settings hub
+    public void OpenAudio()      => ShowPanel(audioPanel, audioFirstSelected);        // "Audio" button on settings hub
+    public void BackToSettings() => ShowPanel(settingsPanel, settingsFirstSelected);  // "Back" button on Controls AND Audio panels
+
+    private void ShowPanel(GameObject panel, GameObject firstSelected)
     {
-        settingsPanel.SetActive(false);
-        menuPanel.SetActive(true);
+        menuPanel.SetActive(panel == menuPanel);
+        settingsPanel.SetActive(panel == settingsPanel);
+        if (controlsPanel != null) controlsPanel.SetActive(panel == controlsPanel);
+        if (audioPanel != null) audioPanel.SetActive(panel == audioPanel);
+
+        // Give controllers something selected to navigate from
+        if (firstSelected != null && EventSystem.current != null)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(firstSelected);
+        }
     }
 
     public void MoveToScene(int sceneID)

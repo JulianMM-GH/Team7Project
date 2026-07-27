@@ -356,7 +356,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 4
-  m_Material: {fileID: 6200000, guid: caa709d65fe4e474eb730fc16743231f, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -410,7 +410,7 @@ MonoBehaviour:
   wallStickDuration: 1.5
   slipRampDuration: 1.5
   maxSlipSpeed: 8
-  wallUnstickBuffer: 0
+  wallUnstickBuffer: 0.2
   wallJumpRegrabDelay: 0.25
   wallJumpForce: {x: 0, y: 0}
   wallClimbForce: {x: 4, y: 14}
@@ -428,7 +428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 73f86cbbba984bb47adffe180c38ac33,
+  m_Actions: {fileID: -944628639613478452, guid: be8015a2aeea2ec4297b91841bd9bb38,
     type: 3}
   m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
