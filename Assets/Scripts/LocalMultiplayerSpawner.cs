@@ -11,6 +11,14 @@ public class LocalMultiplayerSpawner : MonoBehaviour
     [SerializeField] private Transform player1SpawnPoint;
     [SerializeField] private Transform player2SpawnPoint;
 
+    [Header("Tutorial Prompt Prefabs")]
+    [SerializeField] private GameObject player1KeyboardTutorial;
+    [SerializeField] private GameObject player1ControllerTutorial;
+
+    [SerializeField] private GameObject player2KeyboardTutorial;
+    [SerializeField] private GameObject player2ControllerTutorial;
+
+
     private PlayerInputManager inputManager;
     private CameraLimits cameraLimitsScript;
     private PauseMenu pauseMenuScript;
@@ -24,6 +32,13 @@ public class LocalMultiplayerSpawner : MonoBehaviour
         inputManager = GetComponent<PlayerInputManager>();
         cameraLimitsScript = Object.FindFirstObjectByType<CameraLimits>();
         pauseMenuScript = Object.FindFirstObjectByType<PauseMenu>();
+
+        //Hide all tutorial prompts
+        player1KeyboardTutorial.SetActive(false);
+        player1ControllerTutorial.SetActive(false);
+
+        player2KeyboardTutorial.SetActive(false);
+        player2ControllerTutorial.SetActive(false);
     }
 
     void Update()
@@ -36,11 +51,13 @@ public class LocalMultiplayerSpawner : MonoBehaviour
             // Join via W key -> gets KeyboardWASD profile
             if (Keyboard.current != null && Keyboard.current.wKey.wasPressedThisFrame)
             {
+                //player1KeyboardTutorial.SetActive(true);
                 SpawnPlayer(Keyboard.current, "KeyboardWASD");
             }
             // Join via Gamepad 1 button -> gets Gamepad profile
             else if (Gamepad.all.Count > 0 && Gamepad.all[0].buttonSouth.wasPressedThisFrame)
             {
+                //player1ControllerTutorial.SetActive(true);
                 SpawnPlayer(Gamepad.all[0], "Gamepad");
             }
         }
@@ -51,6 +68,7 @@ public class LocalMultiplayerSpawner : MonoBehaviour
             if (Keyboard.current != null && Keyboard.current.upArrowKey.wasPressedThisFrame)
             {
                 // Only allow if Player 1 isn't using a controller exclusively
+                //player2KeyboardTutorial.SetActive(true);
                 SpawnPlayer(Keyboard.current, "KeyboardArrows");
             }
             // Scenario B: Gamepad assignment
@@ -59,11 +77,13 @@ public class LocalMultiplayerSpawner : MonoBehaviour
                 // If there are two gamepads connected, check if the second one presses a button
                 if (Gamepad.all.Count > 1 && Gamepad.all[1].buttonSouth.wasPressedThisFrame)
                 {
+                    //player2ControllerTutorial.SetActive(true);
                     SpawnPlayer(Gamepad.all[1], "Gamepad");
                 }
                 // If there is only one gamepad, but Player 1 used the keyboard, Player 2 can take Gamepad 0
                 else if (Gamepad.all[0].buttonSouth.wasPressedThisFrame && player1Device is Keyboard)
                 {
+                    //player2ControllerTutorial.SetActive(true);
                     SpawnPlayer(Gamepad.all[0], "Gamepad");
                 }
             }

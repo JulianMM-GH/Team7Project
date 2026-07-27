@@ -62152,7 +62152,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &426704486
 Transform:
   m_ObjectHideFlags: 0
@@ -62179,7 +62179,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 426704485}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aab5f57232e6cb34396f5bea192d898b, type: 3}
   m_Name: 
@@ -67111,6 +67111,10 @@ MonoBehaviour:
     type: 3}
   player1SpawnPoint: {fileID: 1880955356}
   player2SpawnPoint: {fileID: 1142235665}
+  player1KeyboardTutorial: {fileID: 426704485}
+  player1ControllerTutorial: {fileID: 1292118946}
+  player2KeyboardTutorial: {fileID: 1305502724}
+  player2ControllerTutorial: {fileID: 240052939}
 --- !u!1 &1097390983
 GameObject:
   m_ObjectHideFlags: 0
@@ -68668,7 +68672,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1305502725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68676,7 +68680,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1305502724}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aab5f57232e6cb34396f5bea192d898b, type: 3}
   m_Name: 

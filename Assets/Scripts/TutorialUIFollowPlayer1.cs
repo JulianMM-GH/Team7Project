@@ -5,18 +5,12 @@ public class TutorialUIPlayerFollow : MonoBehaviour
     [SerializeField] public GameObject silasTutorialCanvas;
     [SerializeField] public GameObject phoenixTutorialCanvas;
 
-    void Awake()
-    {
-        silasTutorialCanvas.SetActive(false);
-        phoenixTutorialCanvas.SetActive(false);
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            silasTutorialCanvas.SetActive(true);
-            phoenixTutorialCanvas.SetActive(true);
+            //silasTutorialCanvas.SetActive(true);
+            //phoenixTutorialCanvas.SetActive(true);
         }
     }
 
@@ -24,8 +18,8 @@ public class TutorialUIPlayerFollow : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            silasTutorialCanvas.SetActive(false);
-            phoenixTutorialCanvas.SetActive(false);
+            //silasTutorialCanvas.SetActive(false);
+            //phoenixTutorialCanvas.SetActive(false);
         }
     }
 }
