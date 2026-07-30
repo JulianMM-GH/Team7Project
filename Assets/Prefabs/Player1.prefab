@@ -5341,7 +5341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aab5f57232e6cb34396f5bea192d898b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  targetPlayerIndex: 0
   offset: {x: 0, y: 1.3, z: 0}
 --- !u!1 &3984128876734411159
 GameObject:
@@ -5500,7 +5500,11 @@ MonoBehaviour:
   grabRightOffset: {x: 0.34, y: 0}
   grabLeftOffset: {x: -0.34, y: 0}
   grabCheckRadius: 0.24
-  slideSpeed: 2.5
+  wallStickDuration: 1.5
+  slipRampDuration: 1.5
+  maxSlipSpeed: 8
+  wallUnstickBuffer: 0.2
+  wallJumpRegrabDelay: 0.25
   wallJumpForce: {x: 4, y: 16}
   wallClimbForce: {x: 4, y: 14}
   jumpSoundClip: {fileID: 8300000, guid: 2233fa070cb14b64e835b3a6d320323a, type: 3}
@@ -5517,7 +5521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 73f86cbbba984bb47adffe180c38ac33,
+  m_Actions: {fileID: -944628639613478452, guid: be8015a2aeea2ec4297b91841bd9bb38,
     type: 3}
   m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
