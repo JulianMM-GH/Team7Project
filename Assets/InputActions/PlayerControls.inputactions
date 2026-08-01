@@ -251,6 +251,17 @@
                 },
                 {
                     "name": "",
+                    "id": "5bf1ab10-0c9c-499e-bc16-d38e7b9b8eb1",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardWASD",
+                    "action": "Light",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "16fbf807-a765-49db-9611-5969c9ca64d6",
                     "path": "<Keyboard>/rightCtrl",
                     "interactions": "",
@@ -278,6 +289,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardWASD",
+                    "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9d7feb7b-9240-4fae-aa49-e75aae2db745",
+                    "path": "<Keyboard>/rightCtrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardArrows",
                     "action": "Shoot",
                     "isComposite": false,
                     "isPartOfComposite": false

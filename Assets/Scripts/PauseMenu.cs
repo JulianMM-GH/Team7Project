@@ -114,6 +114,8 @@ public class PauseMenu : MonoBehaviour
                 player.SwitchCurrentActionMap(savedMap);
             }
         }
+
+        TutorialUIPlayerFollow.RefreshActiveTutorials();
     }
 
     // Panel navigation
