@@ -1771,6 +1771,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: HomeMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 3331832555665711773, guid: 36817d2600c82bf46b2f4d367d8a09e5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -66
+      objectReference: {fileID: 0}
     - target: {fileID: 3353323396719743994, guid: 36817d2600c82bf46b2f4d367d8a09e5,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -2078,6 +2083,7 @@ PrefabInstance:
     - {fileID: 7142124529197841444, guid: 36817d2600c82bf46b2f4d367d8a09e5, type: 3}
     - {fileID: 8217049130712911724, guid: 36817d2600c82bf46b2f4d367d8a09e5, type: 3}
     - {fileID: 7232257305028904593, guid: 36817d2600c82bf46b2f4d367d8a09e5, type: 3}
+    - {fileID: 3190946560266053721, guid: 36817d2600c82bf46b2f4d367d8a09e5, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 1428215947000293282, guid: 36817d2600c82bf46b2f4d367d8a09e5,
         type: 3}
