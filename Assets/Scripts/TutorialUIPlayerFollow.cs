@@ -148,16 +148,16 @@ public class TutorialUIPlayerFollow : MonoBehaviour
         Collider2D myTrigger = GetComponent<Collider2D>();
         if (myTrigger == null) return false;
 
-        // Overlap check to see if any part of the player intersects this trigger area
-        Collider2D[] results = new Collider2D[10];
-        ContactFilter2D filter = new ContactFilter2D();
-        filter.NoFilter();
-        filter.useTriggers = true;
+        // Grab all colliders directly attached to the player root and its children
+        Collider2D[] playerColliders = pObj.GetComponentsInChildren<Collider2D>();
 
-        int count = Physics2D.OverlapCollider(myTrigger, filter, results);
-        for (int i = 0; i < count; i++)
+        foreach (var pCollider in playerColliders)
         {
-            if (results[i] != null && (results[i].gameObject == pObj || results[i].transform.IsChildOf(pObj.transform)))
+            // Skip triggers or inactive objects to avoid false tracking positives
+            if (pCollider.isTrigger || !pCollider.gameObject.activeInHierarchy) continue;
+
+            // Geometric verification: check if player bounds intersect trigger bounds
+            if (myTrigger.bounds.Intersects(pCollider.bounds))
             {
                 return true;
             }

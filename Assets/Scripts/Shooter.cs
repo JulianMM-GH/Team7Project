@@ -98,7 +98,7 @@ public class Shooter : MonoBehaviour
 
     void FireProjectile()
     {
-        SFXManager.instance.PlaySFXClip(shootSoundClip, transform, 1f);
+        SFXManager.instance.PlaySFXClip(shootSoundClip, transform, 1f, 0.5f);
 
         GameObject projectile = Instantiate(projectilePrefab, LaunchOffset.position, transform.rotation);
         Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();

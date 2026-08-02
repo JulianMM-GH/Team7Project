@@ -5691,7 +5691,7 @@ MonoBehaviour:
   lineRenderer: {fileID: 8811579687641559892}
   resolution: 30
   stepTime: 0.1
-  shootSoundClip: {fileID: 8300000, guid: 2233fa070cb14b64e835b3a6d320323a, type: 3}
+  shootSoundClip: {fileID: 8300000, guid: f26305827a0d34d4e9406a7db28acd21, type: 3}
 --- !u!114 &1735220561290830865
 MonoBehaviour:
   m_ObjectHideFlags: 0
