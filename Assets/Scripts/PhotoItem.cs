@@ -27,6 +27,7 @@ public class PhotoItem : MonoBehaviour
 
     [Header("UI")]
     public GameObject photoFrame;
+    public GameObject ButtonPrompt;
 
     public string photoImageChildName = "photoImage";
     public Sprite PheonixImage;
@@ -57,6 +58,7 @@ public class PhotoItem : MonoBehaviour
 
         photoFrame.SetActive(true);
         canvasGroup = photoFrame.GetComponent<CanvasGroup>();
+        ButtonPrompt.SetActive(false);
 
         if (canvasGroup == null)
             canvasGroup = photoFrame.AddComponent<CanvasGroup>();
@@ -79,12 +81,21 @@ public class PhotoItem : MonoBehaviour
 
         float bob = Mathf.Sin(Time.time * BobSpeed) * BobHeight;
         transform.position = startPosition + new Vector3(0f, bob, 0f);
+
+    }
+
+    private void OnTriggerExit2D(UnityEngine.Collider2D collision)
+    {
+        ButtonPrompt.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (hasBeenPickedUp) return;
-
+        if (!Input.GetKey(KeyCode.F)) {
+            ButtonPrompt.SetActive(true);
+            return;    
+        }
         // Verify the triggering object belongs to an actual player setup
         PlayerController touchingPlayer = other.GetComponentInParent<PlayerController>();
         if (touchingPlayer == null) return;
