@@ -7,6 +7,9 @@ public class ProjectileBehaviour : MonoBehaviour
 
     [SerializeField] private Color fireColor = Color.red;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioClip[] fireSoundClips;
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Destroy(gameObject);
@@ -16,6 +19,8 @@ public class ProjectileBehaviour : MonoBehaviour
     {
         if (other.CompareTag("Light"))
         {
+            SFXManager.instance.PlayRandomSFXClip(fireSoundClips, transform, 1f, 0.75f);
+
             currentState = ProjectileState.OnFire;
 
             if (TryGetComponent<SpriteRenderer>(out var sr))
