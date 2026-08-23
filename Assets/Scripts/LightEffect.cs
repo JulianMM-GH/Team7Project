@@ -27,6 +27,7 @@ public class LightEffect : MonoBehaviour
     SpriteRenderer spriteRenderer;
 
     List<Collider2D> litObjects = new List<Collider2D>();
+    List<(SpriteRenderer sprite, Collider2D collider)> lightableObjects = new List<(SpriteRenderer, Collider2D)>();
 
     int currentFrame;
     float animationTimer;
@@ -55,6 +56,23 @@ public class LightEffect : MonoBehaviour
         else
         {
             Debug.LogError("Cannot find a PlayerInput component");
+        }
+
+        CacheLightableObjects();
+    }
+
+    // Scans the scene once instead of every frame - was causing stutter while lighting was active
+    void CacheLightableObjects()
+    {
+        SpriteRenderer[] allSprites = FindObjectsByType<SpriteRenderer>(FindObjectsSortMode.None);
+
+        foreach (SpriteRenderer sprite in allSprites)
+        {
+            if (sprite == spriteRenderer) continue;
+            if ((affectedLayers & (1 << sprite.gameObject.layer)) == 0) continue;
+            if (!sprite.TryGetComponent(out Collider2D objectCollider)) continue;
+
+            lightableObjects.Add((sprite, objectCollider));
         }
     }
 
@@ -177,18 +195,9 @@ public class LightEffect : MonoBehaviour
         float radius = lightRadius * transform.localScale.x;
         Vector2 lightPosition = transform.position;
 
-        SpriteRenderer[] sprites = FindObjectsByType<SpriteRenderer>(FindObjectsSortMode.None);
-
-        foreach (SpriteRenderer sprite in sprites)
+        foreach (var (sprite, objectCollider) in lightableObjects)
         {
-            if (sprite == spriteRenderer)
-                continue;
-
-            if ((affectedLayers & (1 << sprite.gameObject.layer)) == 0)
-                continue;
-
-            if (!sprite.TryGetComponent(out Collider2D objectCollider))
-                continue;
+            if (sprite == null) continue;
 
             float distance = Vector2.Distance(
                 lightPosition,
