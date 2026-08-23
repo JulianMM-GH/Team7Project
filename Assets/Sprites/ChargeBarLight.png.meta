@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: fffbbe18eebe2a64d8ba2d36e62de304
+guid: 09f7ccb18f9f93d4da01ce177c81c4c3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5661814423695369946
-    second: IMG_6945_0
+      213: 8995154407686431259
+    second: Empty_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -97,19 +97,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: WindowsStoreApps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -126,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: IMG_6945_0
+      name: Empty_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 74
-        width: 1552
-        height: 1730
+        x: 0
+        y: 0
+        width: 62
+        height: 427
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 629547b77c13d61b0800000000000000
-      internalID: -5661814423695369946
+      spriteID: b1260f1864535dc70800000000000000
+      internalID: 8995154407686431259
       vertices: []
       indices: 
       edges: []
@@ -151,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      IMG_6945_0: -5661814423695369946
+      Empty_0: 8995154407686431259
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

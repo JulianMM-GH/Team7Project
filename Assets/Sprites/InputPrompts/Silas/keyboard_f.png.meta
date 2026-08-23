@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: fffbbe18eebe2a64d8ba2d36e62de304
+guid: 1ede84229a1ca4547a6fcdb701d687c1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5661814423695369946
-    second: IMG_6945_0
+      213: 1622727937493990531
+    second: keyboard_e_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: IMG_6945_0
+      name: keyboard_e_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 74
-        width: 1552
-        height: 1730
+        x: 7
+        y: 7
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 629547b77c13d61b0800000000000000
-      internalID: -5661814423695369946
+      spriteID: 38c7e692676158610800000000000000
+      internalID: 1622727937493990531
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      IMG_6945_0: -5661814423695369946
+      keyboard_e_0: 1622727937493990531
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
