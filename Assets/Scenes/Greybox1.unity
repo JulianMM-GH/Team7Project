@@ -1553,8 +1553,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33fb7a4825ecfc34686b6900b9de4493, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  silasTutorialCanvas: {fileID: 1809281111}
-  phoenixTutorialCanvas: {fileID: 501566761}
+  player1KeyboardTutorialCanvas: {fileID: 0}
+  player1ControllerTutorialCanvas: {fileID: 0}
+  player2KeyboardTutorialCanvas: {fileID: 0}
+  player2ControllerTutorialCanvas: {fileID: 0}
 --- !u!61 &177573968
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -61122,8 +61124,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33fb7a4825ecfc34686b6900b9de4493, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  silasTutorialCanvas: {fileID: 1834265755}
-  phoenixTutorialCanvas: {fileID: 1569846041}
+  player1KeyboardTutorialCanvas: {fileID: 0}
+  player1ControllerTutorialCanvas: {fileID: 0}
+  player2KeyboardTutorialCanvas: {fileID: 0}
+  player2ControllerTutorialCanvas: {fileID: 0}
 --- !u!61 &258022822
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -61487,8 +61491,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33fb7a4825ecfc34686b6900b9de4493, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  silasTutorialCanvas: {fileID: 457061663}
-  phoenixTutorialCanvas: {fileID: 1569846041}
+  player1KeyboardTutorialCanvas: {fileID: 0}
+  player1ControllerTutorialCanvas: {fileID: 0}
+  player2KeyboardTutorialCanvas: {fileID: 0}
+  player2ControllerTutorialCanvas: {fileID: 0}
 --- !u!61 &288862956
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -63386,8 +63392,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33fb7a4825ecfc34686b6900b9de4493, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  silasTutorialCanvas: {fileID: 2142234317}
-  phoenixTutorialCanvas: {fileID: 967251147}
+  player1KeyboardTutorialCanvas: {fileID: 0}
+  player1ControllerTutorialCanvas: {fileID: 0}
+  player2KeyboardTutorialCanvas: {fileID: 0}
+  player2ControllerTutorialCanvas: {fileID: 0}
 --- !u!1 &501566761
 GameObject:
   m_ObjectHideFlags: 0
@@ -63807,6 +63815,74 @@ RectTransform:
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &551256099
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5424747665457462708, guid: ce1cff1bbf1b00c429f0955cc78df90d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 285.15848
+      objectReference: {fileID: 0}
+    - target: {fileID: 5424747665457462708, guid: ce1cff1bbf1b00c429f0955cc78df90d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.327709
+      objectReference: {fileID: 0}
+    - target: {fileID: 5424747665457462708, guid: ce1cff1bbf1b00c429f0955cc78df90d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.137305
+      objectReference: {fileID: 0}
+    - target: {fileID: 5424747665457462708, guid: ce1cff1bbf1b00c429f0955cc78df90d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5424747665457462708, guid: ce1cff1bbf1b00c429f0955cc78df90d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5424747665457462708, guid: ce1cff1bbf1b00c429f0955cc78df90d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5424747665457462708, guid: ce1cff1bbf1b00c429f0955cc78df90d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5424747665457462708, guid: ce1cff1bbf1b00c429f0955cc78df90d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5424747665457462708, guid: ce1cff1bbf1b00c429f0955cc78df90d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5424747665457462708, guid: ce1cff1bbf1b00c429f0955cc78df90d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6454763947440396232, guid: ce1cff1bbf1b00c429f0955cc78df90d,
+        type: 3}
+      propertyPath: m_Name
+      value: MovingPlatformPrefab 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ce1cff1bbf1b00c429f0955cc78df90d, type: 3}
 --- !u!1 &572994379
 GameObject:
   m_ObjectHideFlags: 0
@@ -65257,6 +65333,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectToDestroy: {fileID: 612477721}
+  bellSoundClip: {fileID: 0}
 --- !u!233 &698420123
 HingeJoint2D:
   m_ObjectHideFlags: 0
@@ -69928,6 +70005,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectToDestroy: {fileID: 1935938319}
+  bellSoundClip: {fileID: 0}
 --- !u!1 &1305502724
 GameObject:
   m_ObjectHideFlags: 0
@@ -77471,8 +77549,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33fb7a4825ecfc34686b6900b9de4493, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  silasTutorialCanvas: {fileID: 1834265755}
-  phoenixTutorialCanvas: {fileID: 1569846041}
+  player1KeyboardTutorialCanvas: {fileID: 0}
+  player1ControllerTutorialCanvas: {fileID: 0}
+  player2KeyboardTutorialCanvas: {fileID: 0}
+  player2ControllerTutorialCanvas: {fileID: 0}
 --- !u!61 &2073978991
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -78875,3 +78955,4 @@ SceneRoots:
   - {fileID: 467395989}
   - {fileID: 191369010}
   - {fileID: 237970290}
+  - {fileID: 551256099}
