@@ -306,7 +306,7 @@ namespace SupanthaPaul
 
             else if (JumpWasPressed && (isGrounded || m_coyoteTimer > 0f))  // normal single jumping
             {
-                SFXManager.instance.PlaySFXClip(jumpSoundClip, transform, 1f);
+                RAudio.PlayOneShot("Jump");
 
                 m_rb.linearVelocity = new Vector2(m_rb.linearVelocity.x, jumpForce);
                 m_coyoteTimer = 0f;
