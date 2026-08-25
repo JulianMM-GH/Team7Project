@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="DataFile" id="{a92e894c-f69f-424a-91e3-12879e36ff06}">
+		<property name="assetPath">
+			<value>Sound Sources/peaks/rainforest 1.wav.reapeaks</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{a1c536a2-d445-4abf-b1af-d916a767ad79}</destination>
+		</relationship>
+	</object>
+</objects>

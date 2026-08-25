@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="DataFile" id="{5b79362a-de41-43e4-9435-f4102665a92b}">
+		<property name="assetPath">
+			<value>SFX/Light Up/vid alight.mp4</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{a1c536a2-d445-4abf-b1af-d916a767ad79}</destination>
+		</relationship>
+	</object>
+</objects>

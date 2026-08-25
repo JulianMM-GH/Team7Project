@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{9faf7a32-730e-42f7-b28f-7149290642cc}">
+		<property name="assetPath">
+			<value>SFX/Jumps, Wall Jumps and Wall Slides/Wall Slide/Wall_Slide_001.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.41408163265306125</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{a1c536a2-d445-4abf-b1af-d916a767ad79}</destination>
+		</relationship>
+	</object>
+</objects>

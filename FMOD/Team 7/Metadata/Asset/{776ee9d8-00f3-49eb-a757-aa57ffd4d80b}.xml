@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="EncodableAsset" id="{776ee9d8-00f3-49eb-a757-aa57ffd4d80b}">
+		<property name="assetPath">
+			<value>SFX/Jumps, Wall Jumps and Wall Slides/Wall Jump/</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{a1c536a2-d445-4abf-b1af-d916a767ad79}</destination>
+		</relationship>
+	</object>
+</objects>
