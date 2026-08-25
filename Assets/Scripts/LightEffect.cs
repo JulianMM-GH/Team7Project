@@ -14,19 +14,26 @@ public class LightEffect : MonoBehaviour
     public float scaleSpeed = 5f;
     public float minScale = 1f;
     public float maxScale = 3f;
+    private float ChargePower = 0f;
+    public float MaxChargePower = 100f;
 
     public float animationSpeed = 10f;
     public float lightRadius = 0.5f;
     public float hideDelay = 0.15f;
+    public GameObject MaskObj;
+    private Vector2 MaskPos;
+
 
     public Sprite[] lightFrames;
     public Sprite[] emptyFrames;
     public LayerMask affectedLayers;
+    private bool lightEnabled;
 
     SpriteMask spriteMask;
     SpriteRenderer spriteRenderer;
 
     List<Collider2D> litObjects = new List<Collider2D>();
+    List<(SpriteRenderer sprite, Collider2D collider)> lightableObjects = new List<(SpriteRenderer, Collider2D)>();
 
     int currentFrame;
     float animationTimer;
@@ -44,6 +51,8 @@ public class LightEffect : MonoBehaviour
 
     void Start()
     {
+        MaskPos = MaskObj.transform.localPosition;
+        
         // Find the PlayerInput component on the parent
         playerInput = GetComponentInParent<PlayerInput>();
 
@@ -55,6 +64,23 @@ public class LightEffect : MonoBehaviour
         else
         {
             Debug.LogError("Cannot find a PlayerInput component");
+        }
+
+        CacheLightableObjects();
+    }
+
+    // Scans the scene once instead of every frame - was causing stutter while lighting was active
+    void CacheLightableObjects()
+    {
+        SpriteRenderer[] allSprites = FindObjectsByType<SpriteRenderer>(FindObjectsSortMode.None);
+
+        foreach (SpriteRenderer sprite in allSprites)
+        {
+            if (sprite == spriteRenderer) continue;
+            if ((affectedLayers & (1 << sprite.gameObject.layer)) == 0) continue;
+            if (!sprite.TryGetComponent(out Collider2D objectCollider)) continue;
+
+            lightableObjects.Add((sprite, objectCollider));
         }
     }
 
@@ -74,13 +100,40 @@ public class LightEffect : MonoBehaviour
         }
     }
 
+
+
     void Update()
     {
+        MaskObj.transform.localPosition = Vector2.Lerp(Vector2.zero, MaskPos, ChargePower / MaxChargePower);
+
         if (lightAction == null)
             return;
 
-        bool isHoldingLight = lightAction.IsPressed();
-        bool lightIsActive = isHoldingLight && canLight;
+        if (lightAction.WasPressedThisFrame())
+            lightEnabled = !lightEnabled;
+
+        if (lightEnabled)
+        {
+            ChargePower -= (float)(0.5 * Time.deltaTime);
+            if (ChargePower <= 0f)
+            {
+                ChargePower = 0f;
+                lightEnabled = false; 
+            }
+        }
+        else
+        {
+            ChargePower += (float)(1 * Time.deltaTime);
+            if (ChargePower > MaxChargePower)
+                ChargePower = MaxChargePower;
+        }
+
+        bool lightIsActive = lightEnabled && ChargePower > 0f;
+
+        var sr = MaskObj.transform.parent.GetComponent<SpriteRenderer>();
+        sr.enabled = lightIsActive || ChargePower < MaxChargePower;
+        sr = MaskObj.transform.parent.GetChild(1).GetComponent<SpriteRenderer>();
+        sr.enabled = lightIsActive || ChargePower < MaxChargePower;
 
         RotateLight();
         ResizeLight(lightIsActive);
@@ -92,10 +145,9 @@ public class LightEffect : MonoBehaviour
             return;
 
         AnimateLight();
+
         if (lightIsActive)
-        {
             LightObjectsNearby();
-        }
     }
 
     void RotateLight()
@@ -177,18 +229,9 @@ public class LightEffect : MonoBehaviour
         float radius = lightRadius * transform.localScale.x;
         Vector2 lightPosition = transform.position;
 
-        SpriteRenderer[] sprites = FindObjectsByType<SpriteRenderer>(FindObjectsSortMode.None);
-
-        foreach (SpriteRenderer sprite in sprites)
+        foreach (var (sprite, objectCollider) in lightableObjects)
         {
-            if (sprite == spriteRenderer)
-                continue;
-
-            if ((affectedLayers & (1 << sprite.gameObject.layer)) == 0)
-                continue;
-
-            if (!sprite.TryGetComponent(out Collider2D objectCollider))
-                continue;
+            if (sprite == null) continue;
 
             float distance = Vector2.Distance(
                 lightPosition,

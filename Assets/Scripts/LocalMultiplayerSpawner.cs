@@ -99,6 +99,16 @@ public class LocalMultiplayerSpawner : MonoBehaviour
         inputManager.EnableJoining();
     }
 
+    void Start()
+    {
+        // Devices already chosen in the main menu's controls popup join immediately,
+        // no need to press anything again once the level loads.
+        foreach (var entry in PendingPlayerJoins.Entries)
+            SpawnPlayer(entry.device, entry.scheme);
+
+        PendingPlayerJoins.Clear();
+    }
+
     void Update()
     {
         if (joinedCount >= 2) return;
@@ -318,9 +328,21 @@ public class LocalMultiplayerSpawner : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Lets a pre-join UI (e.g. the main menu controls popup) save a layout choice
+    /// before any player has actually joined. Uses the same PlayerPrefs keys as
+    /// SaveLayout(), so ApplySavedLayout() picks it up once players join for real.
+    /// </summary>
+    public static void SavePreJoinLayout(int playerIndex, string scheme, InputDevice device)
+    {
+        PlayerPrefs.SetString($"{PrefPrefix}{playerIndex}_Scheme", scheme);
+        PlayerPrefs.SetString($"{PrefPrefix}{playerIndex}_Device", GetDeviceKey(device));
+        PlayerPrefs.Save();
+    }
+
     // Device IDs change between sessions, so gamepads are identified by their
     // display name plus their ordinal among same-named pads (e.g. "DualSense|0").
-    private string GetDeviceKey(InputDevice device)
+    private static string GetDeviceKey(InputDevice device)
     {
         if (device is Keyboard) return "Keyboard";
 

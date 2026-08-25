@@ -22,6 +22,7 @@ namespace SupanthaPaul
         [Header("Jumping")]
         [SerializeField] private float jumpForce;
         [SerializeField] private float fallMultiplier;
+        [SerializeField] private float coyoteTime = 0.1f;
         [SerializeField] private Transform groundCheck;
         [SerializeField] private float groundCheckRadius;
         [SerializeField] private LayerMask whatIsGround;
@@ -70,10 +71,9 @@ namespace SupanthaPaul
         private Rigidbody2D m_rb;
         private ParticleSystem m_dustParticle;
         private bool m_facingRight = true;
-        //private readonly float m_groundedRememberTime = 0.25f;
-        //private float m_groundedRemember = 0f;
         private int m_extraJumps;
         private float m_extraJumpForce;
+        private float m_coyoteTimer = 0f;
         private float m_dashTime;
         private bool m_hasDashedInAir = false;
         private bool m_onWall = false;
@@ -265,12 +265,10 @@ namespace SupanthaPaul
                 m_extraJumps = extraJumpCount;
             }
 
-            // grounded remember offset (for more responsive jump)
-            /*
-			m_groundedRemember -= Time.deltaTime;
-			if (isGrounded)
-				m_groundedRemember = m_groundedRememberTime;
-			*/
+            // coyote time - lets a jump register briefly after walking off a ledge
+            m_coyoteTimer -= Time.deltaTime;
+            if (isGrounded)
+                m_coyoteTimer = coyoteTime;
 
             if (!isCurrentlyPlayable) return;
             // if not currently dashing and hasn't already dashed in air once
@@ -306,13 +304,12 @@ namespace SupanthaPaul
                 PoolManager.instance.ReuseObject(jumpEffect, groundCheck.position, Quaternion.identity);
             }
 
-            //if (JumpWasPressed && (isGrounded || m_groundedRemember > 0f))  // normal single jumping
-
-            else if (JumpWasPressed && isGrounded)  // normal single jumping
+            else if (JumpWasPressed && (isGrounded || m_coyoteTimer > 0f))  // normal single jumping
             {
                 SFXManager.instance.PlaySFXClip(jumpSoundClip, transform, 1f);
 
                 m_rb.linearVelocity = new Vector2(m_rb.linearVelocity.x, jumpForce);
+                m_coyoteTimer = 0f;
                 m_extraJumps--;
                 // jumpEffect
                 PoolManager.instance.ReuseObject(jumpEffect, groundCheck.position, Quaternion.identity);
@@ -356,6 +353,26 @@ namespace SupanthaPaul
             Vector3 scale = transform.localScale;
             scale.x *= -1;
             transform.localScale = scale;
+        }
+
+        // Called on respawn so leftover velocity/dash/wall-grab state doesn't carry over.
+        public void ResetPhysicsState()
+        {
+            m_rb.linearVelocity = Vector2.zero;
+
+            isDashing = false;
+            m_hasDashedInAir = false;
+            m_dashTime = startDashTime;
+            m_dashCooldown = dashCooldown;
+
+            m_wallGrabbing = false;
+            actuallyWallGrabbing = false;
+            m_wallJumping = false;
+            m_wallStick = 0f;
+            m_grabLockout = 0f;
+
+            m_extraJumps = extraJumpCount;
+            m_coyoteTimer = 0f;
         }
 
         void CalculateSides()
