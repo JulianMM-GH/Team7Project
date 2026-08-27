@@ -24,6 +24,9 @@ public class PressableButton : MonoBehaviour
     {
         if (collision.gameObject.layer == targetLayer)
         {
+            if (!isPressed)
+                RAudio.PlayOneShot("Pressure Plate Click");
+
             isPressed = true;
 
             releaseTimer = 0.1f;

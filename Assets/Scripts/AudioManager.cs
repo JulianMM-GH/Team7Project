@@ -45,6 +45,43 @@ using UnityEngine.SceneManagement;
 		{
 			return AudioManager.Manager.GGetParam(Parameter);
 		}
+
+		// Bus volume (options menu sliders) - persists across scenes and sessions via PlayerPrefs
+
+		public static void SetMasterVolume(float level) => AudioManager.Manager.SetMasterVolume(level);
+		public static void SetSFXVolume(float level) => AudioManager.Manager.SetSFXVolume(level);
+		public static void SetMusicVolume(float level) => AudioManager.Manager.SetMusicVolume(level);
+		public static void SetAmbienceVolume(float level) => AudioManager.Manager.SetAmbienceVolume(level);
+
+		public static float GetMasterVolume() => PlayerPrefs.GetFloat(SONIC_VOLUME_PREFS.Master, 1f);
+		public static float GetSFXVolume() => PlayerPrefs.GetFloat(SONIC_VOLUME_PREFS.SFX, 1f);
+		public static float GetMusicVolume() => PlayerPrefs.GetFloat(SONIC_VOLUME_PREFS.Music, 1f);
+		public static float GetAmbienceVolume() => PlayerPrefs.GetFloat(SONIC_VOLUME_PREFS.Ambience, 1f);
+
+		// Pauses/resumes every FMOD sound in one call (routes through the master bus) - used when the game is paused
+		public static void SetGlobalPause(bool paused) => AudioManager.Manager.SetGlobalPause(paused);
+	}
+
+	/// <summary>
+	/// FMOD mixer bus paths for the options menu volume sliders
+	/// </summary>
+	public static class SONIC_AUDIO_BUS
+	{
+		public const string Master = "bus:/";
+		public const string SFX = "bus:/SFX";
+		public const string Music = "bus:/MSC";
+		public const string Ambience = "bus:/AMBNC";
+	}
+
+	/// <summary>
+	/// PlayerPrefs keys the saved slider volumes are stored under
+	/// </summary>
+	public static class SONIC_VOLUME_PREFS
+	{
+		public const string Master = "Volume_Master";
+		public const string SFX = "Volume_SFX";
+		public const string Music = "Volume_Music";
+		public const string Ambience = "Volume_Ambience";
 	}
     
 	[Serializable]
@@ -125,6 +162,7 @@ using UnityEngine.SceneManagement;
 				transform.SetParent(null);
 				AudioManager.Instance = this;
 				DontDestroyOnLoad(this);
+				ApplySavedVolumes();
 			}
 			else{
 				if (AudioManager.Instance != this) Destroy(gameObject);
@@ -254,5 +292,34 @@ using UnityEngine.SceneManagement;
 		private void PlayOneShot(EventReference sound, Vector3 pos)
 		{
 			RuntimeManager.PlayOneShot(sound, pos);
+		}
+
+		// Bus volume (options menu sliders)
+
+		public void SetMasterVolume(float level) => SetBusVolume(SONIC_AUDIO_BUS.Master, SONIC_VOLUME_PREFS.Master, level);
+		public void SetSFXVolume(float level) => SetBusVolume(SONIC_AUDIO_BUS.SFX, SONIC_VOLUME_PREFS.SFX, level);
+		public void SetMusicVolume(float level) => SetBusVolume(SONIC_AUDIO_BUS.Music, SONIC_VOLUME_PREFS.Music, level);
+		public void SetAmbienceVolume(float level) => SetBusVolume(SONIC_AUDIO_BUS.Ambience, SONIC_VOLUME_PREFS.Ambience, level);
+
+		private void SetBusVolume(string busPath, string prefKey, float level)
+		{
+			RuntimeManager.GetBus(busPath).setVolume(level);
+			PlayerPrefs.SetFloat(prefKey, level);
+			PlayerPrefs.Save();
+		}
+
+		// Re-applies the saved slider levels to the FMOD buses - called once when this singleton is created,
+		// so the saved settings take effect immediately on boot rather than only once a slider is next touched.
+		private void ApplySavedVolumes()
+		{
+			RuntimeManager.GetBus(SONIC_AUDIO_BUS.Master).setVolume(RAudio.GetMasterVolume());
+			RuntimeManager.GetBus(SONIC_AUDIO_BUS.SFX).setVolume(RAudio.GetSFXVolume());
+			RuntimeManager.GetBus(SONIC_AUDIO_BUS.Music).setVolume(RAudio.GetMusicVolume());
+			RuntimeManager.GetBus(SONIC_AUDIO_BUS.Ambience).setVolume(RAudio.GetAmbienceVolume());
+		}
+
+		public void SetGlobalPause(bool paused)
+		{
+			RuntimeManager.GetBus(SONIC_AUDIO_BUS.Master).setPaused(paused);
 		}
 	}

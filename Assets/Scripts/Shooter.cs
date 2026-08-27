@@ -37,9 +37,6 @@ public class Shooter : MonoBehaviour
     [SerializeField] private int resolution = 30;
     [SerializeField] private float stepTime = 0.1f;
 
-    [Header("Sounds")]
-    [SerializeField] private AudioClip shootSoundClip;
-
     void Start()
     {
         if (chargeBar != null)
@@ -98,7 +95,7 @@ public class Shooter : MonoBehaviour
 
     void FireProjectile()
     {
-        SFXManager.instance.PlaySFXClip(shootSoundClip, transform, 1f, 0.5f);
+        RAudio.PlayOneShot("Slingshot");
 
         GameObject projectile = Instantiate(projectilePrefab, LaunchOffset.position, transform.rotation);
         Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();

@@ -41,10 +41,13 @@ public class PhotoItem : MonoBehaviour
 
     private Vector3 startPosition;
     private CanvasGroup canvasGroup;
+    private CanvasGroup buttonPromptCanvasGroup;
     private Image photoImage;
     private TMP_Text photoText;
     private Coroutine fadeCoroutine;
+    private Coroutine buttonPromptFadeCoroutine;
     private bool hasBeenPickedUp = false;
+    private bool playerInRange = false;
 
     void Start()
     {
@@ -65,6 +68,10 @@ public class PhotoItem : MonoBehaviour
 
         canvasGroup.alpha = 0f;
 
+        buttonPromptCanvasGroup = ButtonPrompt.GetComponent<CanvasGroup>();
+        if (buttonPromptCanvasGroup == null)
+            buttonPromptCanvasGroup = ButtonPrompt.AddComponent<CanvasGroup>();
+
         photoImage = FindChildImage(photoImageChildName);
         photoText = FindChildText(photoTextChildName);
 
@@ -82,25 +89,40 @@ public class PhotoItem : MonoBehaviour
         float bob = Mathf.Sin(Time.time * BobSpeed) * BobHeight;
         transform.position = startPosition + new Vector3(0f, bob, 0f);
 
-    }
-
-    private void OnTriggerExit2D(UnityEngine.Collider2D collision)
-    {
-        ButtonPrompt.SetActive(false);
+        if (playerInRange && !hasBeenPickedUp && Input.GetKeyDown(KeyCode.F))
+        {
+            PickUp();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (hasBeenPickedUp) return;
-        if (!Input.GetKey(KeyCode.F)) {
-            ButtonPrompt.SetActive(true);
-            return;    
-        }
+
         // Verify the triggering object belongs to an actual player setup
         PlayerController touchingPlayer = other.GetComponentInParent<PlayerController>();
         if (touchingPlayer == null) return;
 
+        playerInRange = true;
+        ButtonPrompt.SetActive(true);
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        playerInRange = false;
+        ButtonPrompt.SetActive(false);
+    }
+
+    private void PickUp()
+    {
         hasBeenPickedUp = true;
+        playerInRange = false;
+
+        RAudio.PlayOneShot("Respawn");
+
+        if (buttonPromptFadeCoroutine != null)
+            StopCoroutine(buttonPromptFadeCoroutine);
+        buttonPromptFadeCoroutine = StartCoroutine(FadeOutButtonPrompt());
 
         // Execute dynamic targeted unlocking
         EnableAbilitiesFiltered();
@@ -161,6 +183,28 @@ public class PhotoItem : MonoBehaviour
                 }
             }
         }
+    }
+
+    private IEnumerator FadeOutButtonPrompt()
+    {
+        if (buttonPromptCanvasGroup == null)
+        {
+            ButtonPrompt.SetActive(false);
+            yield break;
+        }
+
+        float startAlpha = buttonPromptCanvasGroup.alpha;
+        float timer = 0f;
+
+        while (timer < fadeTime)
+        {
+            timer += Time.deltaTime;
+            buttonPromptCanvasGroup.alpha = Mathf.Lerp(startAlpha, 0f, timer / fadeTime);
+            yield return null;
+        }
+
+        buttonPromptCanvasGroup.alpha = 0f;
+        ButtonPrompt.SetActive(false);
     }
 
     private IEnumerator FadeInThenOut()

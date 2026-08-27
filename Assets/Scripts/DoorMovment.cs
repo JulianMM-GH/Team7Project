@@ -12,6 +12,19 @@ public class DoorMovment : MonoBehaviour
     private bool hasPlayedParticles = false;
 
 
+    void Awake()
+    {
+        // A Collider2D with no Rigidbody2D is treated as static by the physics engine. Moving its
+        // Transform every frame (as this script does below) then forces the engine to tear down and
+        // rebuild the collider each frame, which is expensive and was the cause of the stutter while
+        // doors move. A Kinematic body lets Unity move the same collider cheaply instead.
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb == null)
+            rb = gameObject.AddComponent<Rigidbody2D>();
+
+        rb.bodyType = RigidbodyType2D.Kinematic;
+    }
+
     void Start()
     {
         StartPosition = (Vector2)transform.localPosition;
