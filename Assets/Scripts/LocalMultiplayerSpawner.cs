@@ -340,6 +340,42 @@ public class LocalMultiplayerSpawner : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    /// <summary>
+    /// Reads back a layout saved by SavePreJoinLayout/SaveLayout, without needing a spawner
+    /// instance - lets a pre-join UI (main menu controls popup) show what's already assigned
+    /// instead of starting blank every time it's opened. Returns false if nothing was saved for
+    /// this slot, or the saved device is no longer connected.
+    /// </summary>
+    public static bool TryLoadPreJoinLayout(int playerIndex, string gamepadSchemeName, out string scheme, out InputDevice device)
+    {
+        scheme = null;
+        device = null;
+
+        if (!PlayerPrefs.HasKey($"{PrefPrefix}{playerIndex}_Scheme"))
+            return false;
+
+        scheme = PlayerPrefs.GetString($"{PrefPrefix}{playerIndex}_Scheme");
+        string deviceKey = PlayerPrefs.GetString($"{PrefPrefix}{playerIndex}_Device");
+
+        if (scheme != gamepadSchemeName)
+        {
+            device = Keyboard.current;
+        }
+        else
+        {
+            foreach (var pad in Gamepad.all)
+            {
+                if (GetDeviceKey(pad) == deviceKey)
+                {
+                    device = pad;
+                    break;
+                }
+            }
+        }
+
+        return device != null;
+    }
+
     // Device IDs change between sessions, so gamepads are identified by their
     // display name plus their ordinal among same-named pads (e.g. "DualSense|0").
     private static string GetDeviceKey(InputDevice device)

@@ -32,6 +32,8 @@ public class ControlsSetupPopup : MonoBehaviour
     [Header("Panels")]
     [SerializeField] private GameObject popupRoot;
     [SerializeField] private GameObject firstSelected;
+    [Tooltip("Hidden when opened from the Settings screen (OpenSettingsOnly) - there's no scene to confirm into there.")]
+    [SerializeField] private GameObject confirmButton;
 
     [Header("Player Rows (index 0 = Player 1, 1 = Player 2)")]
     [SerializeField] private TMP_Text[] playerLabels = new TMP_Text[2];
@@ -71,6 +73,11 @@ public class ControlsSetupPopup : MonoBehaviour
         claimedGamepadIds.Clear();
         claimedSchemes.Clear();
 
+        TryRestoreSavedLayout();
+
+        if (confirmButton != null)
+            confirmButton.SetActive(true);
+
         isOpen = true;
         popupRoot.SetActive(true);
         RefreshRow(0);
@@ -81,6 +88,44 @@ public class ControlsSetupPopup : MonoBehaviour
         {
             EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(firstSelected);
+        }
+    }
+
+    // For opening this same popup from the Main Menu's Settings screen instead of the
+    // pre-Play flow - Join/Cycle already save on every change, so there's no scene to load;
+    // hide Confirm since there's nothing to confirm into, wire a "Back" button to
+    // CloseSettingsOnly() instead.
+    public void OpenSettingsOnly()
+    {
+        Open(-1);
+
+        if (confirmButton != null)
+            confirmButton.SetActive(false);
+    }
+
+    public void CloseSettingsOnly()
+    {
+        isOpen = false;
+        popupRoot.SetActive(false);
+    }
+
+    // Pre-fills each slot from whatever was last saved (via Join/Cycle here, or in-level via
+    // DeviceSelectMenu), so reopening this popup shows the current assignment instead of
+    // resetting to "Not Joined" every time.
+    private void TryRestoreSavedLayout()
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (!LocalMultiplayerSpawner.TryLoadPreJoinLayout(i, GamepadScheme, out string scheme, out InputDevice device))
+                continue;
+
+            bool alreadyClaimed = device is Gamepad pad ? claimedGamepadIds.Contains(pad.deviceId) : claimedSchemes.Contains(scheme);
+            if (alreadyClaimed) continue;
+
+            slots[i].joined = true;
+            slots[i].scheme = scheme;
+            slots[i].device = device;
+            Claim(slots[i]);
         }
     }
 
@@ -125,6 +170,7 @@ public class ControlsSetupPopup : MonoBehaviour
         slots[index].device = device;
         Claim(slots[index]);
 
+        LocalMultiplayerSpawner.SavePreJoinLayout(index, scheme, device);
         RefreshRow(index);
     }
 
@@ -160,6 +206,8 @@ public class ControlsSetupPopup : MonoBehaviour
             slots[playerIndex].scheme = candidate.scheme;
             slots[playerIndex].device = candidate.device;
             Claim(slots[playerIndex]);
+
+            LocalMultiplayerSpawner.SavePreJoinLayout(playerIndex, candidate.scheme, candidate.device);
             RefreshRow(playerIndex);
             return;
         }
