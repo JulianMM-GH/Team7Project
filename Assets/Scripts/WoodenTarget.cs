@@ -8,7 +8,7 @@ public class WoodenTarget : MonoBehaviour
         {
             if (projectile.currentState == ProjectileBehaviour.ProjectileState.OnFire)
             {
-                Debug.Log("Hit by fire projectile");
+                RAudio.PlayOneShot("Wall Crumble");
                 Destroy(gameObject);
             }
             else

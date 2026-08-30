@@ -32,8 +32,17 @@ public class LightEffect : MonoBehaviour
     SpriteMask spriteMask;
     SpriteRenderer spriteRenderer;
 
-    List<Collider2D> litObjects = new List<Collider2D>();
     List<(SpriteRenderer sprite, Collider2D collider)> lightableObjects = new List<(SpriteRenderer, Collider2D)>();
+    bool wasLightActive = false;
+
+    // Double-buffered lit-object sets, swapped each frame instead of reallocated. Colliders with no
+    // Rigidbody2D (e.g. the invisible platforms) are treated as static by the physics engine, so
+    // toggling .enabled every single frame - even for a platform that stays lit continuously - forces
+    // the engine to tear down and rebuild that collider every frame. That was the cause of the physics
+    // stutter when jumping on/standing on an invisible platform. Only touching .enabled on an actual
+    // enter/exit of the light avoids the churn.
+    HashSet<Collider2D> litSet = new HashSet<Collider2D>();
+    HashSet<Collider2D> currentlyLit = new HashSet<Collider2D>();
 
     int currentFrame;
     float animationTimer;
@@ -130,6 +139,13 @@ public class LightEffect : MonoBehaviour
 
         bool lightIsActive = lightEnabled && ChargePower > 0f;
 
+        // one-shot on activate and again on deactivate (covers both a manual toggle-off and the charge running out)
+        if (lightIsActive != wasLightActive)
+        {
+            RAudio.PlayOneShot("Invisible Platform");
+            wasLightActive = lightIsActive;
+        }
+
         var sr = MaskObj.transform.parent.GetComponent<SpriteRenderer>();
         sr.enabled = lightIsActive || ChargePower < MaxChargePower;
         sr = MaskObj.transform.parent.GetChild(1).GetComponent<SpriteRenderer>();
@@ -139,15 +155,12 @@ public class LightEffect : MonoBehaviour
         ResizeLight(lightIsActive);
         UpdateVisibility(lightIsActive);
 
-        TurnOffOldLitObjects();
+        UpdateLitObjects(lightIsActive && spriteRenderer.enabled);
 
         if (!spriteRenderer.enabled)
             return;
 
         AnimateLight();
-
-        if (lightIsActive)
-            LightObjectsNearby();
     }
 
     void RotateLight()
@@ -181,15 +194,43 @@ public class LightEffect : MonoBehaviour
         spriteRenderer.enabled = shouldShow;
     }
 
-    void TurnOffOldLitObjects()
+    void UpdateLitObjects(bool lightIsActive)
     {
-        foreach (Collider2D objectCollider in litObjects)
+        currentlyLit.Clear();
+
+        if (lightIsActive)
         {
-            if (objectCollider != null)
+            float radius = lightRadius * transform.localScale.x;
+            Vector2 lightPosition = transform.position;
+
+            foreach (var (sprite, objectCollider) in lightableObjects)
+            {
+                if (sprite == null) continue;
+
+                float distance = Vector2.Distance(
+                    lightPosition,
+                    sprite.bounds.ClosestPoint(lightPosition)
+                );
+
+                if (distance > radius)
+                    continue;
+
+                currentlyLit.Add(objectCollider);
+
+                // only flips enabled on the frame it actually enters the light
+                if (!litSet.Contains(objectCollider))
+                    objectCollider.enabled = true;
+            }
+        }
+
+        // anything lit last frame that isn't lit this frame just left the light
+        foreach (Collider2D objectCollider in litSet)
+        {
+            if (objectCollider != null && !currentlyLit.Contains(objectCollider))
                 objectCollider.enabled = false;
         }
 
-        litObjects.Clear();
+        (litSet, currentlyLit) = (currentlyLit, litSet);
     }
 
     void AnimateLight()
@@ -222,28 +263,6 @@ public class LightEffect : MonoBehaviour
 
         if (currentFrame < emptyFrames.Length)
             spriteRenderer.sprite = emptyFrames[currentFrame];
-    }
-
-    void LightObjectsNearby()
-    {
-        float radius = lightRadius * transform.localScale.x;
-        Vector2 lightPosition = transform.position;
-
-        foreach (var (sprite, objectCollider) in lightableObjects)
-        {
-            if (sprite == null) continue;
-
-            float distance = Vector2.Distance(
-                lightPosition,
-                sprite.bounds.ClosestPoint(lightPosition)
-            );
-
-            if (distance > radius)
-                continue;
-
-            objectCollider.enabled = true;
-            litObjects.Add(objectCollider);
-        }
     }
 
     void OnDrawGizmosSelected()

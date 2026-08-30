@@ -7,6 +7,8 @@ public class UIPlayerFollow : MonoBehaviour
     [Tooltip("0 for Player 1, 1 for Player 2")]
     [SerializeField] private int targetPlayerIndex = 0;
 
+    public int TargetPlayerIndex => targetPlayerIndex;
+
     [Header("Position Tuning")]
     [SerializeField] private Vector3 offset = new Vector3(0, 2f, 0);
 

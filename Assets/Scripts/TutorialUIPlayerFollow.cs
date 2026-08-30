@@ -1,119 +1,82 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
+/// <summary>
+/// One instance sits on each tutorial trigger zone. While a player is inside, it asks that
+/// player's PlayerHeadPrompts (on SilasTutorial / PhoenixTutorial) to show this zone's prompt
+/// canvas instead of the default one; on exit it releases that request. The canvas itself no
+/// longer needs a separate keyboard/controller version - TutorialIconSwap on its icon handles
+/// that, refreshed automatically whenever the zone's prompt is (re)shown.
+/// </summary>
 public class TutorialUIPlayerFollow : MonoBehaviour
 {
-    [Header("Player 1 Tutorial Canvases (Specific to this Zone)")]
-    [SerializeField] private GameObject player1KeyboardTutorialCanvas;
-    [SerializeField] private GameObject player1ControllerTutorialCanvas;
-
-    [Header("Player 2 Tutorial Canvases (Specific to this Zone)")]
-    [SerializeField] private GameObject player2KeyboardTutorialCanvas;
-    [SerializeField] private GameObject player2ControllerTutorialCanvas;
+    [Header("Player Tutorial Canvas (Specific to this Zone)")]
+    [SerializeField] private GameObject player1TutorialCanvas;
+    [SerializeField] private GameObject player2TutorialCanvas;
 
     private LocalMultiplayerSpawner spawner;
+    private readonly PlayerHeadPrompts[] headPromptsCache = new PlayerHeadPrompts[2];
 
     // Track which player indices (0 for Player 1, 1 for Player 2) are inside the box collision zone
     private readonly HashSet<int> playerIndicesInside = new HashSet<int>();
 
-    // Global list of all active box collision trigger zones so they can update when unpausing
-    private static readonly HashSet<TutorialUIPlayerFollow> activeInstances = new HashSet<TutorialUIPlayerFollow>();
-
     private void Awake()
     {
         spawner = Object.FindFirstObjectByType<LocalMultiplayerSpawner>();
-        HideAllCanvases();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         int playerIndex = GetPlayerIndexFromCollider(collision);
-        if (playerIndex != -1)
+        if (playerIndex != -1 && playerIndicesInside.Add(playerIndex))
         {
-            playerIndicesInside.Add(playerIndex);
-            activeInstances.Add(this);
-            UpdateTutorialVisibility();
+            GetHeadPrompts(playerIndex)?.ShowZonePrompt(CanvasFor(playerIndex));
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         int playerIndex = GetPlayerIndexFromCollider(collision);
-        if (playerIndex != -1)
+        if (playerIndex != -1 && !IsAnyColliderOfPlayerInTrigger(playerIndex))
         {
-            if (!IsAnyColliderOfPlayerInTrigger(playerIndex))
-            {
-                playerIndicesInside.Remove(playerIndex);
-            }
-
-            if (playerIndicesInside.Count == 0)
-            {
-                activeInstances.Remove(this);
-                HideAllCanvases();
-            }
-            else
-            {
-                UpdateTutorialVisibility();
-            }
+            playerIndicesInside.Remove(playerIndex);
+            GetHeadPrompts(playerIndex)?.HideZonePrompt(CanvasFor(playerIndex));
         }
     }
 
     private void OnDisable()
     {
-        activeInstances.Remove(this);
-        HideAllCanvases();
+        foreach (int playerIndex in playerIndicesInside)
+            GetHeadPrompts(playerIndex)?.HideZonePrompt(CanvasFor(playerIndex));
+
+        playerIndicesInside.Clear();
     }
 
-    // Called by PauseMenu.ResumeGame() to update active zones after changing controls.
-    // This ensures that even if you change your controls when tutorial prompts are already being displayed, they will remain accurate.
+    // Called by PauseMenu.ResumeGame() so every player's prompt icon reflects a control change
+    // made while paused, whether it's showing a zone-specific prompt or the default one.
     public static void RefreshActiveTutorials()
     {
-        foreach (var instance in activeInstances)
-        {
-            if (instance != null && instance.playerIndicesInside.Count > 0)
-            {
-                instance.UpdateTutorialVisibility();
-            }
-        }
+        foreach (PlayerHeadPrompts prompts in Object.FindObjectsByType<PlayerHeadPrompts>(FindObjectsSortMode.None))
+            prompts.RefreshIcons();
     }
 
-    public void UpdateTutorialVisibility()
+    private GameObject CanvasFor(int playerIndex) => playerIndex == 0 ? player1TutorialCanvas : player2TutorialCanvas;
+
+    private PlayerHeadPrompts GetHeadPrompts(int playerIndex)
     {
-        if (spawner == null)
-            spawner = Object.FindFirstObjectByType<LocalMultiplayerSpawner>();
+        if (headPromptsCache[playerIndex] != null)
+            return headPromptsCache[playerIndex];
 
-        // Player 1
-        var slot1 = spawner?.GetSlot(0);
-        bool p1Here = playerIndicesInside.Contains(0) && slot1 != null;
-
-        if (p1Here)
+        foreach (UIPlayerFollow follower in Object.FindObjectsByType<UIPlayerFollow>(FindObjectsSortMode.None))
         {
-            bool isGamepad1 = slot1.device is Gamepad;
-            if (player1KeyboardTutorialCanvas != null) player1KeyboardTutorialCanvas.SetActive(!isGamepad1);
-            if (player1ControllerTutorialCanvas != null) player1ControllerTutorialCanvas.SetActive(isGamepad1);
-        }
-        else
-        {
-            if (player1KeyboardTutorialCanvas != null) player1KeyboardTutorialCanvas.SetActive(false);
-            if (player1ControllerTutorialCanvas != null) player1ControllerTutorialCanvas.SetActive(false);
+            if (follower.TargetPlayerIndex == playerIndex)
+            {
+                headPromptsCache[playerIndex] = follower.GetComponent<PlayerHeadPrompts>();
+                break;
+            }
         }
 
-        // Player 2
-        var slot2 = spawner?.GetSlot(1);
-        bool p2Here = playerIndicesInside.Contains(1) && slot2 != null;
-
-        if (p2Here)
-        {
-            bool isGamepad2 = slot2.device is Gamepad;
-            if (player2KeyboardTutorialCanvas != null) player2KeyboardTutorialCanvas.SetActive(!isGamepad2);
-            if (player2ControllerTutorialCanvas != null) player2ControllerTutorialCanvas.SetActive(isGamepad2);
-        }
-        else
-        {
-            if (player2KeyboardTutorialCanvas != null) player2KeyboardTutorialCanvas.SetActive(false);
-            if (player2ControllerTutorialCanvas != null) player2ControllerTutorialCanvas.SetActive(false);
-        }
+        return headPromptsCache[playerIndex];
     }
 
     private int GetPlayerIndexFromCollider(Collider2D collision)
@@ -163,13 +126,5 @@ public class TutorialUIPlayerFollow : MonoBehaviour
             }
         }
         return false;
-    }
-
-    private void HideAllCanvases()
-    {
-        if (player1KeyboardTutorialCanvas != null) player1KeyboardTutorialCanvas.SetActive(false);
-        if (player1ControllerTutorialCanvas != null) player1ControllerTutorialCanvas.SetActive(false);
-        if (player2KeyboardTutorialCanvas != null) player2KeyboardTutorialCanvas.SetActive(false);
-        if (player2ControllerTutorialCanvas != null) player2ControllerTutorialCanvas.SetActive(false);
     }
 }

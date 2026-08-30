@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -89,6 +90,8 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 0f;
         isPaused = true;
 
+        RAudio.SetGlobalPause(true);
+
         foreach (PlayerInput player in activePlayers)
         {
             if (player != null)
@@ -107,6 +110,8 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         isPaused = false;
 
+        RAudio.SetGlobalPause(false);
+
         foreach (PlayerInput player in activePlayers)
         {
             if (player != null && playerDefaultMaps.TryGetValue(player, out string savedMap))
@@ -123,8 +128,33 @@ public class PauseMenu : MonoBehaviour
     public void CloseSettings()  => ShowPanel(menuPanel, menuFirstSelected);          // "Back" button on settings hub -> main pause panel
 
     public void OpenControls()   => ShowPanel(controlsPanel, controlsFirstSelected);  // "Controls" button on settings hub
-    public void OpenAudio()      => ShowPanel(audioPanel, audioFirstSelected);        // "Audio" button on settings hub
     public void BackToSettings() => ShowPanel(settingsPanel, settingsFirstSelected);  // "Back" button on Controls AND Audio panels
+
+    public void OpenAudio()  // "Audio" button on settings hub
+    {
+        ShowPanel(audioPanel, audioFirstSelected);
+        SyncAudioSliders();
+    }
+
+    // Reflects the saved/current bus volumes on the sliders so they don't just show 100%
+    // every time the panel is reopened. Looked up by name so no extra Inspector wiring is needed -
+    // each slider must sit at "<RowName>/Slider" under audioPanel (e.g. "MasterVolume/Slider").
+    private void SyncAudioSliders()
+    {
+        if (audioPanel == null) return;
+
+        SetSliderWithoutNotify("MasterVolume/Slider", RAudio.GetMasterVolume());
+        SetSliderWithoutNotify("SFXVolume/Slider", RAudio.GetSFXVolume());
+        SetSliderWithoutNotify("MusicVolume/Slider", RAudio.GetMusicVolume());
+        SetSliderWithoutNotify("AmbienceVolume/Slider", RAudio.GetAmbienceVolume());
+    }
+
+    private void SetSliderWithoutNotify(string path, float value)
+    {
+        Transform t = audioPanel.transform.Find(path);
+        if (t != null && t.TryGetComponent(out Slider slider))
+            slider.SetValueWithoutNotify(value);
+    }
 
     private void ShowPanel(GameObject panel, GameObject firstSelected)
     {
@@ -146,6 +176,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuCanvas.SetActive(false);
         isPaused = false;
         Time.timeScale = 1f;
+        RAudio.SetGlobalPause(false);
         SceneManager.LoadScene(sceneID);
     }
 

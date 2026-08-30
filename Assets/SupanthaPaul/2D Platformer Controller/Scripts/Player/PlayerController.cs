@@ -64,10 +64,6 @@ namespace SupanthaPaul
         public Vector2 wallJumpForce = new Vector2(16f, 18f);
         public Vector2 wallClimbForce = new Vector2(4f, 14f);
 
-        [Header("Sounds")]
-        [SerializeField] private AudioClip jumpSoundClip;
-        [SerializeField] private AudioClip wallJumpSoundClip;
-
         private Rigidbody2D m_rb;
         private ParticleSystem m_dustParticle;
         private bool m_facingRight = true;
@@ -80,6 +76,7 @@ namespace SupanthaPaul
         private bool m_onRightWall = false;
         private bool m_onLeftWall = false;
         private bool m_wallGrabbing = false;
+        private bool m_wasWallGrabbing = false;
         private readonly float m_wallStickTime = 0.25f;
         private float m_wallStick = 0f;
         private bool m_wallJumping = false;
@@ -226,6 +223,13 @@ namespace SupanthaPaul
                 if (m_wallGrabbing && isGrounded)
                     m_wallGrabbing = false;
 
+                // wall slide loop - starts/stops with the wall grab/slide state
+                if (m_wallGrabbing && !m_wasWallGrabbing)
+                    RAudio.Play("Wall Slide");
+                else if (!m_wallGrabbing && m_wasWallGrabbing)
+                    RAudio.Stop("Wall Slide");
+                m_wasWallGrabbing = m_wallGrabbing;
+
                 // enable/disable dust particles
                 float playerVelocityMag = m_rb.linearVelocity.sqrMagnitude;
                 if (m_dustParticle.isPlaying && playerVelocityMag == 0f)
@@ -316,7 +320,7 @@ namespace SupanthaPaul
             }
             else if (JumpWasPressed && m_wallGrabbing && m_onWall && moveInput != m_onWallSide && canWallJump)      // wall jumping off the wall
             {
-                SFXManager.instance.PlaySFXClip(wallJumpSoundClip, transform, 1f);
+                RAudio.PlayOneShot("Wall Jump");
 
                 m_wallGrabbing = false;
                 m_wallJumping = true;
@@ -365,7 +369,10 @@ namespace SupanthaPaul
             m_dashTime = startDashTime;
             m_dashCooldown = dashCooldown;
 
+            if (m_wallGrabbing)
+                RAudio.Stop("Wall Slide");
             m_wallGrabbing = false;
+            m_wasWallGrabbing = false;
             actuallyWallGrabbing = false;
             m_wallJumping = false;
             m_wallStick = 0f;

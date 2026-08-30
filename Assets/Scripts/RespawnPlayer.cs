@@ -20,5 +20,7 @@ public class PlayerRespawn : MonoBehaviour
 
         if (controller != null)
             controller.ResetPhysicsState();
+
+        RAudio.PlayOneShot("Respawn");
     }
 }
