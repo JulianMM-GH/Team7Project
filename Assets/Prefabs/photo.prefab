@@ -272,6 +272,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8660077683450700729}
   - component: {fileID: 9149597775457773775}
+  - component: {fileID: 3957857973042411588}
   m_Layer: 0
   m_Name: keyboard_e_0
   m_TagString: Untagged
@@ -350,6 +351,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3957857973042411588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3957857973042411587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e113c50f4b2451c8c01311a81b0f9c7, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  keyboardSprite: {fileID: 0}
+  xboxSprite: {fileID: -6386736834078336675, guid: 94996837b014ab04893103bb951b2fd4,
+    type: 3}
+  playstationSprite: {fileID: 6093300667260117779, guid: 3b6106621eee6de418e3f436dc774a34,
+    type: 3}
+  genericGamepadSprite: {fileID: -6386736834078336675, guid: 94996837b014ab04893103bb951b2fd4,
+    type: 3}
 --- !u!1 &5092034281625692313
 GameObject:
   m_ObjectHideFlags: 0

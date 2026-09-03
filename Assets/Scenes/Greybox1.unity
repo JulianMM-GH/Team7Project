@@ -866,7 +866,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyboardSprite: {fileID: 0}
-  controllerSprite: {fileID: 0}
+  xboxSprite: {fileID: 1820960272707687953, guid: 73053e937e0d3ea4a819b6f56ad1a69a,
+    type: 3}
+  playstationSprite: {fileID: -8328577525063146977, guid: 2746138cd3fb13f4ab5e190f9fa17413,
+    type: 3}
+  genericGamepadSprite: {fileID: 1820960272707687953, guid: 73053e937e0d3ea4a819b6f56ad1a69a,
+    type: 3}
 --- !u!1 &134223252
 GameObject:
   m_ObjectHideFlags: 0
@@ -61186,7 +61191,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyboardSprite: {fileID: 0}
-  controllerSprite: {fileID: 0}
+  xboxSprite: {fileID: 5597595145270463519, guid: ceebdf1e8673e39429711409d709dab9,
+    type: 3}
+  playstationSprite: {fileID: -5568462363978697797, guid: 5da70f52f581e2249a277b07ae31b23e,
+    type: 3}
+  genericGamepadSprite: {fileID: 5597595145270463519, guid: ceebdf1e8673e39429711409d709dab9,
+    type: 3}
 --- !u!1 &396892157
 GameObject:
   m_ObjectHideFlags: 0
@@ -61813,7 +61823,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyboardSprite: {fileID: 0}
-  controllerSprite: {fileID: 0}
+  xboxSprite: {fileID: -3329965328799417644, guid: 1793564287109f346b578e3d769869cd,
+    type: 3}
+  playstationSprite: {fileID: 7183705981973248961, guid: cb51864db473d0f4b92bbaa099a191b1,
+    type: 3}
+  genericGamepadSprite: {fileID: -3329965328799417644, guid: 1793564287109f346b578e3d769869cd,
+    type: 3}
 --- !u!1 &457061663
 GameObject:
   m_ObjectHideFlags: 0
@@ -63246,7 +63261,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyboardSprite: {fileID: 0}
-  controllerSprite: {fileID: 0}
+  xboxSprite: {fileID: -3329965328799417644, guid: 1793564287109f346b578e3d769869cd,
+    type: 3}
+  playstationSprite: {fileID: 7183705981973248961, guid: cb51864db473d0f4b92bbaa099a191b1,
+    type: 3}
+  genericGamepadSprite: {fileID: -3329965328799417644, guid: 1793564287109f346b578e3d769869cd,
+    type: 3}
 --- !u!1 &612477721
 GameObject:
   m_ObjectHideFlags: 0

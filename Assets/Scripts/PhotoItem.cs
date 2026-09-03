@@ -48,6 +48,7 @@ public class PhotoItem : MonoBehaviour
     private Coroutine buttonPromptFadeCoroutine;
     private bool hasBeenPickedUp = false;
     private bool playerInRange = false;
+    private TutorialIconSwap buttonPromptIcon;
 
     void Start()
     {
@@ -61,6 +62,7 @@ public class PhotoItem : MonoBehaviour
 
         photoFrame.SetActive(true);
         canvasGroup = photoFrame.GetComponent<CanvasGroup>();
+        buttonPromptIcon = ButtonPrompt.GetComponent<TutorialIconSwap>();
         ButtonPrompt.SetActive(false);
 
         if (canvasGroup == null)
@@ -89,10 +91,25 @@ public class PhotoItem : MonoBehaviour
         float bob = Mathf.Sin(Time.time * BobSpeed) * BobHeight;
         transform.position = startPosition + new Vector3(0f, bob, 0f);
 
-        if (playerInRange && !hasBeenPickedUp && Input.GetKeyDown(KeyCode.F))
+        if (playerInRange && !hasBeenPickedUp && InteractPressed())
         {
             PickUp();
         }
+    }
+
+    // F on keyboard, or the north face button (Y on Xbox, Triangle on PlayStation) on any gamepad.
+    private bool InteractPressed()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+            return true;
+
+        foreach (Gamepad pad in Gamepad.all)
+        {
+            if (pad.buttonNorth.wasPressedThisFrame)
+                return true;
+        }
+
+        return false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -104,6 +121,13 @@ public class PhotoItem : MonoBehaviour
         if (touchingPlayer == null) return;
 
         playerInRange = true;
+
+        if (buttonPromptIcon != null)
+        {
+            PlayerInput touchingInput = touchingPlayer.GetComponent<PlayerInput>();
+            buttonPromptIcon.SetTargetPlayer(touchingInput != null ? touchingInput.playerIndex : 0);
+        }
+
         ButtonPrompt.SetActive(true);
     }
 
