@@ -132,16 +132,12 @@ public class DeviceSelectMenu : MonoBehaviour
 
         if (device is Gamepad pad)
         {
-            string name = (pad.displayName ?? "").ToLowerInvariant();
-
-            if (pad is UnityEngine.InputSystem.DualShock.DualShockGamepad
-                || name.Contains("dualsense") || name.Contains("dualshock") || name.Contains("wireless controller"))
-                return playstationSprite;
-
-            if (pad is UnityEngine.InputSystem.XInput.XInputController || name.Contains("xbox"))
-                return xboxSprite;
-
-            return genericGamepadSprite;
+            return GamepadBrandUtility.GetBrand(pad) switch
+            {
+                GamepadBrand.PlayStation => playstationSprite,
+                GamepadBrand.Xbox => xboxSprite,
+                _ => genericGamepadSprite
+            };
         }
 
         return genericGamepadSprite;

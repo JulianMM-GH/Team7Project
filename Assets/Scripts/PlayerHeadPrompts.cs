@@ -44,7 +44,7 @@ public class PlayerHeadPrompts : MonoBehaviour
         GameObject current = CurrentTarget();
         if (current == null) return;
 
-        foreach (TutorialIconSwap icon in current.GetComponentsInChildren<TutorialIconSwap>(true))
+        foreach (ControlPromptIcon icon in current.GetComponentsInChildren<ControlPromptIcon>(true))
             icon.Refresh();
     }
 

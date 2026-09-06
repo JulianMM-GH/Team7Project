@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acd69475990d53c3a16f4ba945f9b776, type: 3}
+  m_Name: ControlPromptIcons
+  m_EditorClassIdentifier: 
+  entries:
+  - action: 0
+    keyboardWASD: {fileID: 21300000, guid: ee47c2367f78fb7489229ebb3bcbb777, type: 3}
+    keyboardArrows: {fileID: 21300000, guid: 537cb417ab8b4e948ab67c322884c80e, type: 3}
+    xbox: {fileID: -4946397778823012815, guid: 9008076996fa8b548b4194a83b430cd9, type: 3}
+    playstation: {fileID: -5204743545547036234, guid: d8d56ce2419dc3b4d957a7bd9212ff84,
+      type: 3}
+    genericGamepad: {fileID: -4946397778823012815, guid: 9008076996fa8b548b4194a83b430cd9,
+      type: 3}
+  - action: 1
+    keyboardWASD: {fileID: 8490249296049072782, guid: 1f7dfd4520b8db44eb8d404f4112d892,
+      type: 3}
+    keyboardArrows: {fileID: 5155483536694985241, guid: a9fe4273e476ec04a9ea6c15e68cf91e,
+      type: 3}
+    xbox: {fileID: -3329965328799417644, guid: 1793564287109f346b578e3d769869cd, type: 3}
+    playstation: {fileID: 7183705981973248961, guid: cb51864db473d0f4b92bbaa099a191b1,
+      type: 3}
+    genericGamepad: {fileID: -3329965328799417644, guid: 1793564287109f346b578e3d769869cd,
+      type: 3}
+  - action: 2
+    restrictToPlayer: 0
+    keyboardWASD: {fileID: 8490249296049072782, guid: 1f7dfd4520b8db44eb8d404f4112d892,
+      type: 3}
+    keyboardArrows: {fileID: 5155483536694985241, guid: a9fe4273e476ec04a9ea6c15e68cf91e,
+      type: 3}
+    xbox: {fileID: -3329965328799417644, guid: 1793564287109f346b578e3d769869cd, type: 3}
+    playstation: {fileID: 7183705981973248961, guid: cb51864db473d0f4b92bbaa099a191b1,
+      type: 3}
+    genericGamepad: {fileID: -3329965328799417644, guid: 1793564287109f346b578e3d769869cd,
+      type: 3}
+  - action: 3
+    restrictToPlayer: 1
+    keyboardWASD: {fileID: 8490249296049072782, guid: 1f7dfd4520b8db44eb8d404f4112d892,
+      type: 3}
+    keyboardArrows: {fileID: 5155483536694985241, guid: a9fe4273e476ec04a9ea6c15e68cf91e,
+      type: 3}
+    xbox: {fileID: -3329965328799417644, guid: 1793564287109f346b578e3d769869cd, type: 3}
+    playstation: {fileID: 7183705981973248961, guid: cb51864db473d0f4b92bbaa099a191b1,
+      type: 3}
+    genericGamepad: {fileID: -3329965328799417644, guid: 1793564287109f346b578e3d769869cd,
+      type: 3}
+  - action: 4
+    keyboardWASD: {fileID: 0}
+    keyboardArrows: {fileID: 0}
+    xbox: {fileID: -6359362802435346311, guid: 93dabb9f67d80714b9f930a7e4f1aebb, type: 3}
+    playstation: {fileID: -4985036719486329365, guid: abca7e9199d06af4da144680946a6ff1,
+      type: 3}
+    genericGamepad: {fileID: -6359362802435346311, guid: 93dabb9f67d80714b9f930a7e4f1aebb,
+      type: 3}
+  - action: 5
+    restrictToPlayer: 1
+    keyboardWASD: {fileID: -819502911608153168, guid: 9561d71ebdc66ad4d9d9723b54c41c29,
+      type: 3}
+    keyboardArrows: {fileID: 6687674514672921304, guid: c3947bcdeb08bae428446875b5a03496,
+      type: 3}
+    xbox: {fileID: 5597595145270463519, guid: ceebdf1e8673e39429711409d709dab9, type: 3}
+    playstation: {fileID: -5568462363978697797, guid: 5da70f52f581e2249a277b07ae31b23e,
+      type: 3}
+    genericGamepad: {fileID: 5597595145270463519, guid: ceebdf1e8673e39429711409d709dab9,
+      type: 3}
+  - action: 6
+    restrictToPlayer: 0
+    keyboardWASD: {fileID: -819502911608153168, guid: 9561d71ebdc66ad4d9d9723b54c41c29,
+      type: 3}
+    keyboardArrows: {fileID: 6687674514672921304, guid: c3947bcdeb08bae428446875b5a03496,
+      type: 3}
+    xbox: {fileID: 5597595145270463519, guid: ceebdf1e8673e39429711409d709dab9, type: 3}
+    playstation: {fileID: -5568462363978697797, guid: 5da70f52f581e2249a277b07ae31b23e,
+      type: 3}
+    genericGamepad: {fileID: 5597595145270463519, guid: ceebdf1e8673e39429711409d709dab9,
+      type: 3}
+  - action: 7
+    keyboardWASD: {fileID: 8673998270543040521, guid: 2cbdda34b2a933d4aa74f54caeeb5aec,
+      type: 3}
+    keyboardArrows: {fileID: 8673998270543040521, guid: 2cbdda34b2a933d4aa74f54caeeb5aec,
+      type: 3}
+    xbox: {fileID: -6386736834078336675, guid: 94996837b014ab04893103bb951b2fd4, type: 3}
+    playstation: {fileID: 6093300667260117779, guid: 3b6106621eee6de418e3f436dc774a34,
+      type: 3}
+    genericGamepad: {fileID: -6386736834078336675, guid: 94996837b014ab04893103bb951b2fd4,
+      type: 3}
+  - action: 8
+    keyboardWASD: {fileID: -3005080200256172549, guid: b0e77349c74e2b54f908fdad56bf0102,
+      type: 3}
+    keyboardArrows: {fileID: -3005080200256172549, guid: b0e77349c74e2b54f908fdad56bf0102,
+      type: 3}
+    xbox: {fileID: -2716852535002644642, guid: 50e889dd9d29fb845a3baa7316e8f5fd, type: 3}
+    playstation: {fileID: -8629294044117423697, guid: 35bbc87c7cd442446aec5251bb68d44b,
+      type: 3}
+    genericGamepad: {fileID: -2716852535002644642, guid: 50e889dd9d29fb845a3baa7316e8f5fd,
+      type: 3}

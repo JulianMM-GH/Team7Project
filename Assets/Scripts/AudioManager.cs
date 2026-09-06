@@ -163,20 +163,20 @@ using UnityEngine.SceneManagement;
 				AudioManager.Instance = this;
 				DontDestroyOnLoad(this);
 				ApplySavedVolumes();
+
+				// Bindings are generated here (not Start) so they exist before any
+				// other object's Start() runs and calls RAudio.Play() this frame -
+				// Unity doesn't guarantee Start() order across GameObjects.
+				SceneManager.activeSceneChanged += (n, o) =>
+				{
+					DestroyInstances();
+					Regenerate();
+				};
+				Regenerate();
 			}
 			else{
 				if (AudioManager.Instance != this) Destroy(gameObject);
 			}
-		}
-
-		private void Start()
-		{
-			SceneManager.activeSceneChanged += (n, o) =>
-			{
-				DestroyInstances();
-				Regenerate();
-			};
-			Regenerate();
 		}
 
 		private void OnDestroy()
@@ -262,6 +262,12 @@ using UnityEngine.SceneManagement;
 
 		public void Play(string id)
 		{
+			if (m_eventBindings == null)
+			{
+				Debug.LogWarning($"AudioManager not ready yet, dropped Play(\"{id}\")");
+				return;
+			}
+
 			EventInstanceBinding EIB = m_eventBindings.Find(b => b.id == id);
 			if(EIB == null)
             {
