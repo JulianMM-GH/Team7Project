@@ -360,16 +360,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3957857973042411587}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e113c50f4b2451c8c01311a81b0f9c7, type: 3}
+  m_Script: {fileID: 11500000, guid: 53d2e0e9cb6583474444291dced81e52, type: 3}
   m_Name:
   m_EditorClassIdentifier:
-  keyboardSprite: {fileID: 0}
-  xboxSprite: {fileID: -6386736834078336675, guid: 94996837b014ab04893103bb951b2fd4,
-    type: 3}
-  playstationSprite: {fileID: 6093300667260117779, guid: 3b6106621eee6de418e3f436dc774a34,
-    type: 3}
-  genericGamepadSprite: {fileID: -6386736834078336675, guid: 94996837b014ab04893103bb951b2fd4,
-    type: 3}
+  action: 7
+  iconSet: {fileID: 11400000, guid: 99485ce6856306ab955b9a55e22887ba, type: 2}
 --- !u!1 &5092034281625692313
 GameObject:
   m_ObjectHideFlags: 0

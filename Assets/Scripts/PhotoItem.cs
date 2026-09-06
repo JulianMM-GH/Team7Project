@@ -41,14 +41,12 @@ public class PhotoItem : MonoBehaviour
 
     private Vector3 startPosition;
     private CanvasGroup canvasGroup;
-    private CanvasGroup buttonPromptCanvasGroup;
     private Image photoImage;
     private TMP_Text photoText;
     private Coroutine fadeCoroutine;
-    private Coroutine buttonPromptFadeCoroutine;
     private bool hasBeenPickedUp = false;
     private bool playerInRange = false;
-    private TutorialIconSwap buttonPromptIcon;
+    private ControlPromptIcon buttonPromptIcon;
 
     void Start()
     {
@@ -62,17 +60,13 @@ public class PhotoItem : MonoBehaviour
 
         photoFrame.SetActive(true);
         canvasGroup = photoFrame.GetComponent<CanvasGroup>();
-        buttonPromptIcon = ButtonPrompt.GetComponent<TutorialIconSwap>();
-        ButtonPrompt.SetActive(false);
+        buttonPromptIcon = ButtonPrompt.GetComponent<ControlPromptIcon>();
+        buttonPromptIcon?.SetVisibleImmediate(false);
 
         if (canvasGroup == null)
             canvasGroup = photoFrame.AddComponent<CanvasGroup>();
 
         canvasGroup.alpha = 0f;
-
-        buttonPromptCanvasGroup = ButtonPrompt.GetComponent<CanvasGroup>();
-        if (buttonPromptCanvasGroup == null)
-            buttonPromptCanvasGroup = ButtonPrompt.AddComponent<CanvasGroup>();
 
         photoImage = FindChildImage(photoImageChildName);
         photoText = FindChildText(photoTextChildName);
@@ -128,13 +122,13 @@ public class PhotoItem : MonoBehaviour
             buttonPromptIcon.SetTargetPlayer(touchingInput != null ? touchingInput.playerIndex : 0);
         }
 
-        ButtonPrompt.SetActive(true);
+        buttonPromptIcon?.SetVisible(true);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         playerInRange = false;
-        ButtonPrompt.SetActive(false);
+        buttonPromptIcon?.SetVisible(false);
     }
 
     private void PickUp()
@@ -144,9 +138,7 @@ public class PhotoItem : MonoBehaviour
 
         RAudio.PlayOneShot("Respawn");
 
-        if (buttonPromptFadeCoroutine != null)
-            StopCoroutine(buttonPromptFadeCoroutine);
-        buttonPromptFadeCoroutine = StartCoroutine(FadeOutButtonPrompt());
+        buttonPromptIcon?.SetVisible(false);
 
         // Execute dynamic targeted unlocking
         EnableAbilitiesFiltered();
@@ -207,28 +199,6 @@ public class PhotoItem : MonoBehaviour
                 }
             }
         }
-    }
-
-    private IEnumerator FadeOutButtonPrompt()
-    {
-        if (buttonPromptCanvasGroup == null)
-        {
-            ButtonPrompt.SetActive(false);
-            yield break;
-        }
-
-        float startAlpha = buttonPromptCanvasGroup.alpha;
-        float timer = 0f;
-
-        while (timer < fadeTime)
-        {
-            timer += Time.deltaTime;
-            buttonPromptCanvasGroup.alpha = Mathf.Lerp(startAlpha, 0f, timer / fadeTime);
-            yield return null;
-        }
-
-        buttonPromptCanvasGroup.alpha = 0f;
-        ButtonPrompt.SetActive(false);
     }
 
     private IEnumerator FadeInThenOut()
