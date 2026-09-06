@@ -89,6 +89,11 @@ public class LightEffect : MonoBehaviour
             if ((affectedLayers & (1 << sprite.gameObject.layer)) == 0) continue;
             if (!sprite.TryGetComponent(out Collider2D objectCollider)) continue;
 
+            // Nothing is lit yet at this point, so start every lightable object's collider off -
+            // UpdateLitObjects only ever flips .enabled on an actual enter/exit of the light, it
+            // never establishes this initial state itself.
+            objectCollider.enabled = false;
+
             lightableObjects.Add((sprite, objectCollider));
         }
     }
