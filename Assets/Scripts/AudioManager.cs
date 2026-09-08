@@ -130,6 +130,7 @@ using UnityEngine.SceneManagement;
 
 		private List<AudioBinding> m_bindings;
 		private List<EventInstanceBinding> m_eventBindings;
+		private bool m_pendingInit;
 
         void Regenerate()
         {
@@ -162,7 +163,6 @@ using UnityEngine.SceneManagement;
 				transform.SetParent(null);
 				AudioManager.Instance = this;
 				DontDestroyOnLoad(this);
-				ApplySavedVolumes();
 
 				// Bindings are generated here (not Start) so they exist before any
 				// other object's Start() runs and calls RAudio.Play() this frame -
@@ -172,10 +172,39 @@ using UnityEngine.SceneManagement;
 					DestroyInstances();
 					Regenerate();
 				};
-				Regenerate();
+				InitializeAudio();
 			}
 			else{
 				if (AudioManager.Instance != this) Destroy(gameObject);
+			}
+		}
+
+		// FMOD's master banks are loaded synchronously, but if this Awake() runs
+		// before RuntimeManager has actually indexed them (RuntimeManager.
+		// HaveMasterBanksLoaded can read true before StudioSystem.getBankList()
+		// has anything to return), GetBus()/getBankList() come back empty and
+		// throw, aborting Awake() before Regenerate() runs - leaving
+		// m_eventBindings null for the rest of the session. Retry on Update()
+		// instead of letting that happen.
+		private void InitializeAudio()
+		{
+			try
+			{
+				ApplySavedVolumes();
+				Regenerate();
+				m_pendingInit = false;
+			}
+			catch (Exception)
+			{
+				m_pendingInit = true;
+			}
+		}
+
+		private void Update()
+		{
+			if (m_pendingInit)
+			{
+				InitializeAudio();
 			}
 		}
 
@@ -255,7 +284,19 @@ using UnityEngine.SceneManagement;
 		// ReSharper disable Unity.PerformanceAnalysis
 		public void PlayOneShot(string id)
 		{
+			if (m_bindings == null)
+			{
+				Debug.LogWarning($"AudioManager not ready yet, dropped PlayOneShot(\"{id}\")");
+				return;
+			}
+
 			AudioBinding bind = m_bindings.Find(s => s.id == id);
+			if (bind == null)
+			{
+				Debug.LogWarning("Sound effect was not found in the bank");
+				return;
+			}
+
 			if (!bind.generateFromPath) PlayOneShot(bind.reference, Vector3.zero);
 			else RuntimeManager.PlayOneShot(bind.path, Vector3.zero);
 		}
@@ -309,7 +350,7 @@ using UnityEngine.SceneManagement;
 
 		private void SetBusVolume(string busPath, string prefKey, float level)
 		{
-			RuntimeManager.GetBus(busPath).setVolume(level);
+			ResolveBus(busPath).setVolume(level);
 			PlayerPrefs.SetFloat(prefKey, level);
 			PlayerPrefs.Save();
 		}
@@ -318,14 +359,67 @@ using UnityEngine.SceneManagement;
 		// so the saved settings take effect immediately on boot rather than only once a slider is next touched.
 		private void ApplySavedVolumes()
 		{
-			RuntimeManager.GetBus(SONIC_AUDIO_BUS.Master).setVolume(RAudio.GetMasterVolume());
-			RuntimeManager.GetBus(SONIC_AUDIO_BUS.SFX).setVolume(RAudio.GetSFXVolume());
-			RuntimeManager.GetBus(SONIC_AUDIO_BUS.Music).setVolume(RAudio.GetMusicVolume());
-			RuntimeManager.GetBus(SONIC_AUDIO_BUS.Ambience).setVolume(RAudio.GetAmbienceVolume());
+			ResolveBus(SONIC_AUDIO_BUS.Master).setVolume(RAudio.GetMasterVolume());
+			ResolveBus(SONIC_AUDIO_BUS.SFX).setVolume(RAudio.GetSFXVolume());
+			ResolveBus(SONIC_AUDIO_BUS.Music).setVolume(RAudio.GetMusicVolume());
+			ResolveBus(SONIC_AUDIO_BUS.Ambience).setVolume(RAudio.GetAmbienceVolume());
 		}
 
 		public void SetGlobalPause(bool paused)
 		{
-			RuntimeManager.GetBus(SONIC_AUDIO_BUS.Master).setPaused(paused);
+			ResolveBus(SONIC_AUDIO_BUS.Master).setPaused(paused);
+		}
+
+		private Dictionary<string, Bus> m_busesByPath;
+
+		// RuntimeManager.GetBus(path) does a string lookup through FMOD's internal
+		// hash table, which has proven unreliable here even for buses that are
+		// definitely compiled into the bank (confirmed by inspecting the raw
+		// strings bank data). Walking each loaded bank's own bus list and
+		// indexing by path sidesteps that lookup entirely.
+		private int m_diagLogsRemaining = 3;
+
+		private Bus ResolveBus(string busPath)
+		{
+			// Don't permanently cache an empty result - if the bank scan came up
+			// empty because banks weren't enumerable yet, retry it next call
+			// instead of falling back to the broken GetBus() lookup forever.
+			if (m_busesByPath == null || m_busesByPath.Count == 0)
+			{
+				bool logThisAttempt = m_diagLogsRemaining > 0;
+				if (logThisAttempt) m_diagLogsRemaining--;
+
+				m_busesByPath = new Dictionary<string, Bus>();
+				FMOD.RESULT bankListResult = RuntimeManager.StudioSystem.getBankList(out Bank[] banks);
+				if (logThisAttempt) Debug.Log($"AudioManager: getBankList -> {bankListResult}, {banks?.Length ?? 0} bank(s)");
+
+				foreach (Bank bank in banks)
+				{
+					bank.getPath(out string bankPath);
+					FMOD.RESULT busListResult = bank.getBusList(out Bus[] buses);
+					if (logThisAttempt) Debug.Log($"AudioManager: bank '{bankPath}' getBusList -> {busListResult}, {buses?.Length ?? 0} bus(es)");
+					if (busListResult != FMOD.RESULT.OK) continue;
+
+					foreach (Bus bus in buses)
+					{
+						FMOD.RESULT pathResult = bus.getPath(out string path);
+						if (logThisAttempt) Debug.Log($"AudioManager:   bus.getPath -> {pathResult}, path='{path}'");
+						if (pathResult != FMOD.RESULT.OK) continue;
+
+						// FMOD's root/master bus sometimes reports an empty path
+						// rather than "bus:/" - normalize so it's still keyed
+						// the same way SONIC_AUDIO_BUS.Master looks it up.
+						if (string.IsNullOrEmpty(path)) path = SONIC_AUDIO_BUS.Master;
+						m_busesByPath[path] = bus;
+					}
+				}
+
+				if (logThisAttempt) Debug.Log($"AudioManager: resolved buses [{string.Join(", ", m_busesByPath.Keys)}]");
+			}
+
+			if (m_busesByPath.TryGetValue(busPath, out Bus found)) return found;
+
+			// Fall back for anything the bank scan didn't turn up.
+			return RuntimeManager.GetBus(busPath);
 		}
 	}
