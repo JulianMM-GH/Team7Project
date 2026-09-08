@@ -180,30 +180,27 @@ using UnityEngine.SceneManagement;
 		}
 
 		// FMOD's master banks are loaded synchronously, but if this Awake() runs
-		// before RuntimeManager has actually indexed them (RuntimeManager.
-		// HaveMasterBanksLoaded can read true before StudioSystem.getBankList()
-		// has anything to return), GetBus()/getBankList() come back empty and
-		// throw, aborting Awake() before Regenerate() runs - leaving
-		// m_eventBindings null for the rest of the session. Retry on Update()
-		// instead of letting that happen.
+		// before RuntimeManager has had a chance to load them (e.g. this is the
+		// first thing in the scene to touch FMOD), GetBus() throws and aborts
+		// Awake() before Regenerate() runs, leaving m_eventBindings null for the
+		// rest of the session. Retry on Update() instead of letting that happen.
 		private void InitializeAudio()
 		{
-			try
-			{
-				ApplySavedVolumes();
-				Regenerate();
-				m_pendingInit = false;
-			}
-			catch (Exception)
+			if (!RuntimeManager.HaveMasterBanksLoaded)
 			{
 				m_pendingInit = true;
+				return;
 			}
+
+			ApplySavedVolumes();
+			Regenerate();
 		}
 
 		private void Update()
 		{
-			if (m_pendingInit)
+			if (m_pendingInit && RuntimeManager.HaveMasterBanksLoaded)
 			{
+				m_pendingInit = false;
 				InitializeAudio();
 			}
 		}
@@ -284,19 +281,7 @@ using UnityEngine.SceneManagement;
 		// ReSharper disable Unity.PerformanceAnalysis
 		public void PlayOneShot(string id)
 		{
-			if (m_bindings == null)
-			{
-				Debug.LogWarning($"AudioManager not ready yet, dropped PlayOneShot(\"{id}\")");
-				return;
-			}
-
 			AudioBinding bind = m_bindings.Find(s => s.id == id);
-			if (bind == null)
-			{
-				Debug.LogWarning("Sound effect was not found in the bank");
-				return;
-			}
-
 			if (!bind.generateFromPath) PlayOneShot(bind.reference, Vector3.zero);
 			else RuntimeManager.PlayOneShot(bind.path, Vector3.zero);
 		}
@@ -370,56 +355,43 @@ using UnityEngine.SceneManagement;
 			ResolveBus(SONIC_AUDIO_BUS.Master).setPaused(paused);
 		}
 
-		private Dictionary<string, Bus> m_busesByPath;
+		private Bus m_masterBus;
+		private bool m_hasMasterBus;
 
-		// RuntimeManager.GetBus(path) does a string lookup through FMOD's internal
-		// hash table, which has proven unreliable here even for buses that are
-		// definitely compiled into the bank (confirmed by inspecting the raw
-		// strings bank data). Walking each loaded bank's own bus list and
-		// indexing by path sidesteps that lookup entirely.
-		private int m_diagLogsRemaining = 3;
-
+		// FMOD's own Unity integration treats System::getBus("bus:/") returning
+		// ERR_EVENT_NOTFOUND as a known, benign quirk of looking up the root bus
+		// by path (see RuntimeManager's ERROR_CALLBACK filter) - it reliably
+		// throws BusNotFoundException here instead. Fetch the root bus from the
+		// Master bank's own bus list instead, which works.
 		private Bus ResolveBus(string busPath)
 		{
-			// Don't permanently cache an empty result - if the bank scan came up
-			// empty because banks weren't enumerable yet, retry it next call
-			// instead of falling back to the broken GetBus() lookup forever.
-			if (m_busesByPath == null || m_busesByPath.Count == 0)
+			if (busPath != SONIC_AUDIO_BUS.Master) return RuntimeManager.GetBus(busPath);
+
+			if (!m_hasMasterBus)
 			{
-				bool logThisAttempt = m_diagLogsRemaining > 0;
-				if (logThisAttempt) m_diagLogsRemaining--;
-
-				m_busesByPath = new Dictionary<string, Bus>();
-				FMOD.RESULT bankListResult = RuntimeManager.StudioSystem.getBankList(out Bank[] banks);
-				if (logThisAttempt) Debug.Log($"AudioManager: getBankList -> {bankListResult}, {banks?.Length ?? 0} bank(s)");
-
+				RuntimeManager.StudioSystem.getBankList(out Bank[] banks);
 				foreach (Bank bank in banks)
 				{
 					bank.getPath(out string bankPath);
-					FMOD.RESULT busListResult = bank.getBusList(out Bus[] buses);
-					if (logThisAttempt) Debug.Log($"AudioManager: bank '{bankPath}' getBusList -> {busListResult}, {buses?.Length ?? 0} bus(es)");
-					if (busListResult != FMOD.RESULT.OK) continue;
+					if (bankPath != "bank:/Master") continue;
 
+					// The Master bank's bus list holds every bus in the mixer
+					// (not just the root), so match on path rather than assuming
+					// the root bus is first.
+					bank.getBusList(out Bus[] buses);
 					foreach (Bus bus in buses)
 					{
-						FMOD.RESULT pathResult = bus.getPath(out string path);
-						if (logThisAttempt) Debug.Log($"AudioManager:   bus.getPath -> {pathResult}, path='{path}'");
-						if (pathResult != FMOD.RESULT.OK) continue;
+						bus.getPath(out string candidatePath);
+						if (candidatePath != SONIC_AUDIO_BUS.Master) continue;
 
-						// FMOD's root/master bus sometimes reports an empty path
-						// rather than "bus:/" - normalize so it's still keyed
-						// the same way SONIC_AUDIO_BUS.Master looks it up.
-						if (string.IsNullOrEmpty(path)) path = SONIC_AUDIO_BUS.Master;
-						m_busesByPath[path] = bus;
+						m_masterBus = bus;
+						m_hasMasterBus = true;
+						break;
 					}
+					break;
 				}
-
-				if (logThisAttempt) Debug.Log($"AudioManager: resolved buses [{string.Join(", ", m_busesByPath.Keys)}]");
 			}
 
-			if (m_busesByPath.TryGetValue(busPath, out Bus found)) return found;
-
-			// Fall back for anything the bank scan didn't turn up.
-			return RuntimeManager.GetBus(busPath);
+			return m_masterBus;
 		}
 	}

@@ -385,6 +385,7 @@ MonoBehaviour:
   speed: 6
   jumpForce: 15
   fallMultiplier: 1.2
+  coyoteTime: 0.1
   groundCheck: {fileID: 8623072578881300133}
   groundCheckRadius: 0.2
   whatIsGround:
@@ -417,8 +418,6 @@ MonoBehaviour:
   wallJumpRegrabDelay: 0.25
   wallJumpForce: {x: 0, y: 0}
   wallClimbForce: {x: 4, y: 14}
-  jumpSoundClip: {fileID: 8300000, guid: 2233fa070cb14b64e835b3a6d320323a, type: 3}
-  wallJumpSoundClip: {fileID: 0}
 --- !u!114 &5440674214064144875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5600,7 +5599,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.62, y: 4.27}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
