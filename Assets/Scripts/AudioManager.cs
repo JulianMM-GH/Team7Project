@@ -130,6 +130,7 @@ using UnityEngine.SceneManagement;
 
 		private List<AudioBinding> m_bindings;
 		private List<EventInstanceBinding> m_eventBindings;
+		private bool m_pendingInit;
 
         void Regenerate()
         {
@@ -162,7 +163,6 @@ using UnityEngine.SceneManagement;
 				transform.SetParent(null);
 				AudioManager.Instance = this;
 				DontDestroyOnLoad(this);
-				ApplySavedVolumes();
 
 				// Bindings are generated here (not Start) so they exist before any
 				// other object's Start() runs and calls RAudio.Play() this frame -
@@ -172,10 +172,36 @@ using UnityEngine.SceneManagement;
 					DestroyInstances();
 					Regenerate();
 				};
-				Regenerate();
+				InitializeAudio();
 			}
 			else{
 				if (AudioManager.Instance != this) Destroy(gameObject);
+			}
+		}
+
+		// FMOD's master banks are loaded synchronously, but if this Awake() runs
+		// before RuntimeManager has had a chance to load them (e.g. this is the
+		// first thing in the scene to touch FMOD), GetBus() throws and aborts
+		// Awake() before Regenerate() runs, leaving m_eventBindings null for the
+		// rest of the session. Retry on Update() instead of letting that happen.
+		private void InitializeAudio()
+		{
+			if (!RuntimeManager.HaveMasterBanksLoaded)
+			{
+				m_pendingInit = true;
+				return;
+			}
+
+			ApplySavedVolumes();
+			Regenerate();
+		}
+
+		private void Update()
+		{
+			if (m_pendingInit && RuntimeManager.HaveMasterBanksLoaded)
+			{
+				m_pendingInit = false;
+				InitializeAudio();
 			}
 		}
 
@@ -309,7 +335,7 @@ using UnityEngine.SceneManagement;
 
 		private void SetBusVolume(string busPath, string prefKey, float level)
 		{
-			RuntimeManager.GetBus(busPath).setVolume(level);
+			ResolveBus(busPath).setVolume(level);
 			PlayerPrefs.SetFloat(prefKey, level);
 			PlayerPrefs.Save();
 		}
@@ -318,14 +344,54 @@ using UnityEngine.SceneManagement;
 		// so the saved settings take effect immediately on boot rather than only once a slider is next touched.
 		private void ApplySavedVolumes()
 		{
-			RuntimeManager.GetBus(SONIC_AUDIO_BUS.Master).setVolume(RAudio.GetMasterVolume());
-			RuntimeManager.GetBus(SONIC_AUDIO_BUS.SFX).setVolume(RAudio.GetSFXVolume());
-			RuntimeManager.GetBus(SONIC_AUDIO_BUS.Music).setVolume(RAudio.GetMusicVolume());
-			RuntimeManager.GetBus(SONIC_AUDIO_BUS.Ambience).setVolume(RAudio.GetAmbienceVolume());
+			ResolveBus(SONIC_AUDIO_BUS.Master).setVolume(RAudio.GetMasterVolume());
+			ResolveBus(SONIC_AUDIO_BUS.SFX).setVolume(RAudio.GetSFXVolume());
+			ResolveBus(SONIC_AUDIO_BUS.Music).setVolume(RAudio.GetMusicVolume());
+			ResolveBus(SONIC_AUDIO_BUS.Ambience).setVolume(RAudio.GetAmbienceVolume());
 		}
 
 		public void SetGlobalPause(bool paused)
 		{
-			RuntimeManager.GetBus(SONIC_AUDIO_BUS.Master).setPaused(paused);
+			ResolveBus(SONIC_AUDIO_BUS.Master).setPaused(paused);
+		}
+
+		private Bus m_masterBus;
+		private bool m_hasMasterBus;
+
+		// FMOD's own Unity integration treats System::getBus("bus:/") returning
+		// ERR_EVENT_NOTFOUND as a known, benign quirk of looking up the root bus
+		// by path (see RuntimeManager's ERROR_CALLBACK filter) - it reliably
+		// throws BusNotFoundException here instead. Fetch the root bus from the
+		// Master bank's own bus list instead, which works.
+		private Bus ResolveBus(string busPath)
+		{
+			if (busPath != SONIC_AUDIO_BUS.Master) return RuntimeManager.GetBus(busPath);
+
+			if (!m_hasMasterBus)
+			{
+				RuntimeManager.StudioSystem.getBankList(out Bank[] banks);
+				foreach (Bank bank in banks)
+				{
+					bank.getPath(out string bankPath);
+					if (bankPath != "bank:/Master") continue;
+
+					// The Master bank's bus list holds every bus in the mixer
+					// (not just the root), so match on path rather than assuming
+					// the root bus is first.
+					bank.getBusList(out Bus[] buses);
+					foreach (Bus bus in buses)
+					{
+						bus.getPath(out string candidatePath);
+						if (candidatePath != SONIC_AUDIO_BUS.Master) continue;
+
+						m_masterBus = bus;
+						m_hasMasterBus = true;
+						break;
+					}
+					break;
+				}
+			}
+
+			return m_masterBus;
 		}
 	}
