@@ -168,3 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   fireColor: {r: 1, g: 0, b: 0, a: 1}
+  fireSoundClips:
+  - {fileID: 8300000, guid: 0d444ea6bb838504a809051dc2c9612a, type: 3}
+  - {fileID: 8300000, guid: 03e5579c62dc94441967994f14a69674, type: 3}
+  - {fileID: 8300000, guid: 426e4fbd150ae5a4c872ceea4d0403e7, type: 3}

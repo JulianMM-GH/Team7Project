@@ -95,6 +95,8 @@ public class Shooter : MonoBehaviour
 
     void FireProjectile()
     {
+        RAudio.PlayOneShot("Slingshot");
+
         GameObject projectile = Instantiate(projectilePrefab, LaunchOffset.position, transform.rotation);
         Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
 

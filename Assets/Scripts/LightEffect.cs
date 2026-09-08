@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class LightEffect : MonoBehaviour
 {
-    [SerializeField] public static PlayerInput PlayerInput;
+    [SerializeField] private PlayerInput playerInput;
 
     private InputAction lightAction;
 
@@ -14,19 +14,35 @@ public class LightEffect : MonoBehaviour
     public float scaleSpeed = 5f;
     public float minScale = 1f;
     public float maxScale = 3f;
+    private float ChargePower = 0f;
+    public float MaxChargePower = 100f;
 
     public float animationSpeed = 10f;
     public float lightRadius = 0.5f;
     public float hideDelay = 0.15f;
+    public GameObject MaskObj;
+    private Vector2 MaskPos;
+
 
     public Sprite[] lightFrames;
     public Sprite[] emptyFrames;
     public LayerMask affectedLayers;
+    private bool lightEnabled;
 
     SpriteMask spriteMask;
     SpriteRenderer spriteRenderer;
 
-    List<Collider2D> litObjects = new List<Collider2D>();
+    List<(SpriteRenderer sprite, Collider2D collider)> lightableObjects = new List<(SpriteRenderer, Collider2D)>();
+    bool wasLightActive = false;
+
+    // Double-buffered lit-object sets, swapped each frame instead of reallocated. Colliders with no
+    // Rigidbody2D (e.g. the invisible platforms) are treated as static by the physics engine, so
+    // toggling .enabled every single frame - even for a platform that stays lit continuously - forces
+    // the engine to tear down and rebuild that collider every frame. That was the cause of the physics
+    // stutter when jumping on/standing on an invisible platform. Only touching .enabled on an actual
+    // enter/exit of the light avoids the churn.
+    HashSet<Collider2D> litSet = new HashSet<Collider2D>();
+    HashSet<Collider2D> currentlyLit = new HashSet<Collider2D>();
 
     int currentFrame;
     float animationTimer;
@@ -40,11 +56,46 @@ public class LightEffect : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         transform.localScale = Vector3.one * minScale;
+    }
 
-        PlayerInput = GetComponent<PlayerInput>();
+    void Start()
+    {
+        MaskPos = MaskObj.transform.localPosition;
+        
+        // Find the PlayerInput component on the parent
+        playerInput = GetComponentInParent<PlayerInput>();
 
-        if (PlayerInput != null)
-            lightAction = PlayerInput.actions["Light"];
+        if (playerInput != null)
+        {
+            // Extract the reference for the "Light" command
+            lightAction = playerInput.actions["Light"];
+        }
+        else
+        {
+            Debug.LogError("Cannot find a PlayerInput component");
+        }
+
+        CacheLightableObjects();
+    }
+
+    // Scans the scene once instead of every frame - was causing stutter while lighting was active
+    void CacheLightableObjects()
+    {
+        SpriteRenderer[] allSprites = FindObjectsByType<SpriteRenderer>(FindObjectsSortMode.None);
+
+        foreach (SpriteRenderer sprite in allSprites)
+        {
+            if (sprite == spriteRenderer) continue;
+            if ((affectedLayers & (1 << sprite.gameObject.layer)) == 0) continue;
+            if (!sprite.TryGetComponent(out Collider2D objectCollider)) continue;
+
+            // Nothing is lit yet at this point, so start every lightable object's collider off -
+            // UpdateLitObjects only ever flips .enabled on an actual enter/exit of the light, it
+            // never establishes this initial state itself.
+            objectCollider.enabled = false;
+
+            lightableObjects.Add((sprite, objectCollider));
+        }
     }
 
     void OnEnable()
@@ -63,28 +114,58 @@ public class LightEffect : MonoBehaviour
         }
     }
 
+
+
     void Update()
     {
+        MaskObj.transform.localPosition = Vector2.Lerp(Vector2.zero, MaskPos, ChargePower / MaxChargePower);
+
         if (lightAction == null)
             return;
 
-        bool isHoldingLight = lightAction.IsPressed();
-        bool lightIsActive = isHoldingLight && canLight;
+        if (lightAction.WasPressedThisFrame())
+            lightEnabled = !lightEnabled;
+
+        if (lightEnabled)
+        {
+            ChargePower -= (float)(0.5 * Time.deltaTime);
+            if (ChargePower <= 0f)
+            {
+                ChargePower = 0f;
+                lightEnabled = false; 
+            }
+        }
+        else
+        {
+            ChargePower += (float)(1 * Time.deltaTime);
+            if (ChargePower > MaxChargePower)
+                ChargePower = MaxChargePower;
+        }
+
+        bool lightIsActive = lightEnabled && ChargePower > 0f;
+
+        // one-shot on activate and again on deactivate (covers both a manual toggle-off and the charge running out)
+        if (lightIsActive != wasLightActive)
+        {
+            RAudio.PlayOneShot("Invisible Platform");
+            wasLightActive = lightIsActive;
+        }
+
+        var sr = MaskObj.transform.parent.GetComponent<SpriteRenderer>();
+        sr.enabled = lightIsActive || ChargePower < MaxChargePower;
+        sr = MaskObj.transform.parent.GetChild(1).GetComponent<SpriteRenderer>();
+        sr.enabled = lightIsActive || ChargePower < MaxChargePower;
 
         RotateLight();
         ResizeLight(lightIsActive);
         UpdateVisibility(lightIsActive);
 
-        TurnOffOldLitObjects();
+        UpdateLitObjects(lightIsActive && spriteRenderer.enabled);
 
         if (!spriteRenderer.enabled)
             return;
 
         AnimateLight();
-        if (lightIsActive)
-        {
-            LightObjectsNearby();
-        }
     }
 
     void RotateLight()
@@ -118,15 +199,43 @@ public class LightEffect : MonoBehaviour
         spriteRenderer.enabled = shouldShow;
     }
 
-    void TurnOffOldLitObjects()
+    void UpdateLitObjects(bool lightIsActive)
     {
-        foreach (Collider2D objectCollider in litObjects)
+        currentlyLit.Clear();
+
+        if (lightIsActive)
         {
-            if (objectCollider != null)
+            float radius = lightRadius * transform.localScale.x;
+            Vector2 lightPosition = transform.position;
+
+            foreach (var (sprite, objectCollider) in lightableObjects)
+            {
+                if (sprite == null) continue;
+
+                float distance = Vector2.Distance(
+                    lightPosition,
+                    sprite.bounds.ClosestPoint(lightPosition)
+                );
+
+                if (distance > radius)
+                    continue;
+
+                currentlyLit.Add(objectCollider);
+
+                // only flips enabled on the frame it actually enters the light
+                if (!litSet.Contains(objectCollider))
+                    objectCollider.enabled = true;
+            }
+        }
+
+        // anything lit last frame that isn't lit this frame just left the light
+        foreach (Collider2D objectCollider in litSet)
+        {
+            if (objectCollider != null && !currentlyLit.Contains(objectCollider))
                 objectCollider.enabled = false;
         }
 
-        litObjects.Clear();
+        (litSet, currentlyLit) = (currentlyLit, litSet);
     }
 
     void AnimateLight()
@@ -159,37 +268,6 @@ public class LightEffect : MonoBehaviour
 
         if (currentFrame < emptyFrames.Length)
             spriteRenderer.sprite = emptyFrames[currentFrame];
-    }
-
-    void LightObjectsNearby()
-    {
-        float radius = lightRadius * transform.localScale.x;
-        Vector2 lightPosition = transform.position;
-
-        SpriteRenderer[] sprites = FindObjectsByType<SpriteRenderer>(FindObjectsSortMode.None);
-
-        foreach (SpriteRenderer sprite in sprites)
-        {
-            if (sprite == spriteRenderer)
-                continue;
-
-            if ((affectedLayers & (1 << sprite.gameObject.layer)) == 0)
-                continue;
-
-            if (!sprite.TryGetComponent(out Collider2D objectCollider))
-                continue;
-
-            float distance = Vector2.Distance(
-                lightPosition,
-                sprite.bounds.ClosestPoint(lightPosition)
-            );
-
-            if (distance > radius)
-                continue;
-
-            objectCollider.enabled = true;
-            litObjects.Add(objectCollider);
-        }
     }
 
     void OnDrawGizmosSelected()

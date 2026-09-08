@@ -9,6 +9,7 @@ public class KillZone : MonoBehaviour
             PlayerRespawn player = collision.GetComponent<PlayerRespawn>();
             if (player != null)
             {
+                RAudio.PlayOneShot("Death");
                 player.Respawn();
             }
         }

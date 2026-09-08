@@ -1,17 +1,18 @@
 using SupanthaPaul;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem; // Added to check PlayerInput tracking indices
 
 public class PhotoItem : MonoBehaviour
 {
-    [Header("Target Scripts")]
-    public PlayerController playerController1;
-    public PlayerController playerController2;
+    // Simple enum structure to pick target rules cleanly in the inspector dropdown
+    public enum TargetPlayerRule { BothPlayers, Player1Only, Player2Only }
 
-    private Shooter shooter;
-    private LightEffect lightEffect;
+    [Header("Target Configuration")]
+    [SerializeField] private TargetPlayerRule targetRestriction = TargetPlayerRule.BothPlayers;
 
     [Header("Abilities To Enable")]
     public bool canWallJump;
@@ -24,11 +25,9 @@ public class PhotoItem : MonoBehaviour
     public float BobSpeed = 2f;
     public float SpinSpeed = 90f;
 
-    [Header("Trigger")]
-    public string GameObjectName = "Player1";
-
     [Header("UI")]
     public GameObject photoFrame;
+    public GameObject ButtonPrompt;
 
     public string photoImageChildName = "photoImage";
     public Sprite PheonixImage;
@@ -45,16 +44,13 @@ public class PhotoItem : MonoBehaviour
     private Image photoImage;
     private TMP_Text photoText;
     private Coroutine fadeCoroutine;
+    private bool hasBeenPickedUp = false;
+    private bool playerInRange = false;
+    private ControlPromptIcon buttonPromptIcon;
 
     void Start()
     {
         startPosition = transform.position;
-
-        if (lightEffect == null)
-            lightEffect = FindAnyObjectByType<LightEffect>();
-
-        if (shooter == null && playerController1 != null)
-            shooter = playerController1.gameObject.GetComponent<Shooter>();
 
         if (photoFrame == null)
         {
@@ -63,8 +59,9 @@ public class PhotoItem : MonoBehaviour
         }
 
         photoFrame.SetActive(true);
-
         canvasGroup = photoFrame.GetComponent<CanvasGroup>();
+        buttonPromptIcon = ButtonPrompt.GetComponent<ControlPromptIcon>();
+        buttonPromptIcon?.SetVisibleImmediate(false);
 
         if (canvasGroup == null)
             canvasGroup = photoFrame.AddComponent<CanvasGroup>();
@@ -87,14 +84,64 @@ public class PhotoItem : MonoBehaviour
 
         float bob = Mathf.Sin(Time.time * BobSpeed) * BobHeight;
         transform.position = startPosition + new Vector3(0f, bob, 0f);
+
+        if (playerInRange && !hasBeenPickedUp && InteractPressed())
+        {
+            PickUp();
+        }
+    }
+
+    // F on keyboard, or the north face button (Y on Xbox, Triangle on PlayStation) on any gamepad.
+    private bool InteractPressed()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+            return true;
+
+        foreach (Gamepad pad in Gamepad.all)
+        {
+            if (pad.buttonNorth.wasPressedThisFrame)
+                return true;
+        }
+
+        return false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.name != GameObjectName)
-            return;
+        if (hasBeenPickedUp) return;
 
-        EnableAbilities();
+        // Verify the triggering object belongs to an actual player setup
+        PlayerController touchingPlayer = other.GetComponentInParent<PlayerController>();
+        if (touchingPlayer == null) return;
+
+        playerInRange = true;
+
+        if (buttonPromptIcon != null)
+        {
+            PlayerInput touchingInput = touchingPlayer.GetComponent<PlayerInput>();
+            buttonPromptIcon.SetTargetPlayer(touchingInput != null ? touchingInput.playerIndex : 0);
+        }
+
+        buttonPromptIcon?.SetVisible(true);
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        playerInRange = false;
+        buttonPromptIcon?.SetVisible(false);
+    }
+
+    private void PickUp()
+    {
+        hasBeenPickedUp = true;
+        playerInRange = false;
+
+        RAudio.PlayOneShot("Respawn");
+
+        buttonPromptIcon?.SetVisible(false);
+
+        // Execute dynamic targeted unlocking
+        EnableAbilitiesFiltered();
 
         if (photoImage != null)
             photoImage.sprite = PheonixImage;
@@ -111,38 +158,54 @@ public class PhotoItem : MonoBehaviour
         fadeCoroutine = StartCoroutine(FadeInThenOut());
     }
 
-    private void EnableAbilities()
+    private void EnableAbilitiesFiltered()
     {
-        if (canLightEffect && lightEffect != null)
-            lightEffect.canLight = true;
+        PlayerController[] allPlayers = Object.FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
 
-        if (canShoot && shooter != null)
-            shooter.canShoot = true;
-
-        if (canWallJump)
+        foreach (PlayerController player in allPlayers)
         {
-            if (playerController1 != null)
-                playerController1.canWallJump = true;
+            if (player == null) continue;
 
-            if (playerController2 != null)
-                playerController2.canWallJump = true;
-        }
+            // Fetch the Input System wrapper component from the player root
+            PlayerInput inputComp = player.GetComponent<PlayerInput>();
+            if (inputComp == null) continue;
 
-        if (canDoubleJump)
-        {
-            if (playerController1 != null)
-                playerController1.canDoubleJump = true;
+            // Enforce rules using the official player placement index (0 = P1, 1 = P2)
+            if (targetRestriction == TargetPlayerRule.Player1Only && inputComp.playerIndex != 0) continue;
+            if (targetRestriction == TargetPlayerRule.Player2Only && inputComp.playerIndex != 1) continue;
 
-            if (playerController2 != null)
-                playerController2.canDoubleJump = true;
+            // Apply selected upgrades to authorized characters
+            if (canWallJump)
+                player.canWallJump = true;
+
+            if (canDoubleJump)
+                player.canDoubleJump = true;
+
+            if (canLightEffect)
+            {
+                LightEffect localLight = player.GetComponentInChildren<LightEffect>(true);
+                if (localLight != null)
+                {
+                    localLight.canLight = true;
+                }
+            }
+
+            if (canShoot)
+            {
+                Shooter localShooter = player.GetComponent<Shooter>();
+                if (localShooter != null)
+                {
+                    localShooter.canShoot = true;
+                }
+            }
         }
     }
 
     private IEnumerator FadeInThenOut()
     {
         yield return FadeTo(1f);
-        SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
 
+        SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
         foreach (SpriteRenderer spriteRenderer in spriteRenderers)
         {
             spriteRenderer.enabled = false;
@@ -173,26 +236,22 @@ public class PhotoItem : MonoBehaviour
     private Image FindChildImage(string childName)
     {
         Image[] images = photoFrame.GetComponentsInChildren<Image>(true);
-
         foreach (Image image in images)
         {
             if (image.gameObject.name == childName)
                 return image;
         }
-
         return null;
     }
 
     private TMP_Text FindChildText(string childName)
     {
         TMP_Text[] texts = photoFrame.GetComponentsInChildren<TMP_Text>(true);
-
         foreach (TMP_Text text in texts)
         {
             if (text.gameObject.name == childName)
                 return text;
         }
-
         return null;
     }
 }

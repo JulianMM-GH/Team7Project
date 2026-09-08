@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 188086466629136933}
   - component: {fileID: 188086466629136929}
-  - component: {fileID: 8099190036412159358}
+  - component: {fileID: 2881723514707519897}
   m_Layer: 0
   m_Name: _GameManger
   m_TagString: Untagged
@@ -25,12 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 188086466629136935}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &188086466629136929
 MonoBehaviour:
@@ -44,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de59613261ae88f4bb9e539a33f7ab7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8099190036412159358
+--- !u!114 &2881723514707519897
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -53,6 +54,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 188086466629136935}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25dd0eb06cc627449a9bfc2ef65d78a5, type: 3}
+  m_Script: {fileID: 11500000, guid: 9276de45e71b9424aacdfe24df8c5e0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pauseMenuCanvas: {fileID: 0}
+  menuPanel: {fileID: 0}
+  settingsPanel: {fileID: 0}
+  controlsPanel: {fileID: 0}
+  audioPanel: {fileID: 0}
+  menuFirstSelected: {fileID: 0}
+  settingsFirstSelected: {fileID: 0}
+  controlsFirstSelected: {fileID: 0}
+  audioFirstSelected: {fileID: 0}

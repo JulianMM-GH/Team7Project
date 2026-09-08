@@ -16,6 +16,8 @@ public class ProjectileBehaviour : MonoBehaviour
     {
         if (other.CompareTag("Light"))
         {
+            RAudio.PlayOneShot("Set Shot Alight");
+
             currentState = ProjectileState.OnFire;
 
             if (TryGetComponent<SpriteRenderer>(out var sr))

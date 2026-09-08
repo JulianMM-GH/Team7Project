@@ -26,5 +26,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ArtCorner.unity
     guid: ecba8d9e86d25664bb3390e9e05305f9
+  - enabled: 1
+    path: Assets/Scenes/TempWin.unity
+    guid: 391767c33c3767345ac9a24522a8c955
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

@@ -8,14 +8,8 @@ public class MovingTarget : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent<ProjectileBehaviour>(out var projectile))
         {
-            if (projectile.currentState == ProjectileBehaviour.ProjectileState.OnFire)
-            {
-                Destroy(objectToDestroy);
-            }
-            else
-            {
-                Destroy(objectToDestroy);
-            }
+            RAudio.PlayOneShot("Bell");
+            Destroy(objectToDestroy);
 
             Destroy(collision.gameObject);
         }
