@@ -7,10 +7,13 @@ public class DoorMovment : MonoBehaviour
     private Vector2 StartPosition;
     public float raiseHeight;
     public float raiseSpeed;
+    public float sidePushSpeed = 8f;
     private float releaseTimer;
     private bool isOpening;
     private bool hasPlayedParticles = false;
 
+    private BoxCollider2D doorCollider;
+    private LayerMask playerMask;
 
     void Awake()
     {
@@ -23,6 +26,9 @@ public class DoorMovment : MonoBehaviour
             rb = gameObject.AddComponent<Rigidbody2D>();
 
         rb.bodyType = RigidbodyType2D.Kinematic;
+
+        doorCollider = GetComponent<BoxCollider2D>();
+        playerMask = LayerMask.GetMask("Player");
     }
 
     void Start()
@@ -58,7 +64,7 @@ public class DoorMovment : MonoBehaviour
         else
         {
             float d = Vector2.Distance(transform.localPosition, StartPosition);
-            float t = d / (d + 3f); 
+            float t = d / (d + 3f);
             transform.localPosition = Vector2.Lerp(transform.localPosition, StartPosition, Time.deltaTime * raiseSpeed * Mathf.Lerp(30f, 4f, t * t));
             if (Vector2.Distance(transform.localPosition, StartPosition) < 0.5f && !hasPlayedParticles)
             {
@@ -68,6 +74,28 @@ public class DoorMovment : MonoBehaviour
                 }
                 hasPlayedParticles = true;
             }
+
+            PushClearOfClosingDoor();
+        }
+    }
+
+    // Nudges anyone caught under the closing door out to whichever side they're
+    // already leaning toward, instead of letting them get squeezed underneath it.
+    void PushClearOfClosingDoor()
+    {
+        if (doorCollider == null)
+            return;
+
+        Bounds bounds = doorCollider.bounds;
+        Collider2D[] overlaps = Physics2D.OverlapBoxAll(bounds.center, bounds.size, 0f, playerMask);
+        foreach (Collider2D overlap in overlaps)
+        {
+            Rigidbody2D playerBody = overlap.attachedRigidbody;
+            if (playerBody == null)
+                continue;
+
+            float pushDirection = playerBody.position.x >= bounds.center.x ? 1f : -1f;
+            playerBody.position += new Vector2(pushDirection * sidePushSpeed * Time.deltaTime, 0f);
         }
     }
 }

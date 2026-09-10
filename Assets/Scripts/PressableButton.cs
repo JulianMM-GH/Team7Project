@@ -15,29 +15,32 @@ public class PressableButton : MonoBehaviour
     private float releaseTimer;
     public DoorMovment[] DoorMovmentScripts;
 
+    private Collider2D plateCollider;
+
     void Start()
     {
         StartPosition = (Vector2)transform.localPosition;
+        plateCollider = GetComponent<Collider2D>();
     }
 
-    void OnCollisionStay2D(Collision2D collision)
+    void Update()
     {
-        if (collision.gameObject.layer == targetLayer)
+        // Physics2D.OverlapBox is a spatial query, not a collision callback, so unlike
+        // OnCollisionStay2D it keeps detecting the player even if their Rigidbody2D has
+        // gone to sleep from standing still - which was causing the plate (and doors) to
+        // randomly reset while the player was idle on top of it.
+        bool touchingTarget = plateCollider != null &&
+            Physics2D.OverlapBox(plateCollider.bounds.center, plateCollider.bounds.size, 0f, 1 << targetLayer);
+
+        if (touchingTarget)
         {
             if (!isPressed)
                 RAudio.PlayOneShot("Pressure Plate Click");
 
             isPressed = true;
-
             releaseTimer = 0.1f;
         }
-    }
-
-
-
-    void Update()
-    {
-        if (releaseTimer > 0f)
+        else if (releaseTimer > 0f)
         {
             releaseTimer -= Time.deltaTime;
         }
