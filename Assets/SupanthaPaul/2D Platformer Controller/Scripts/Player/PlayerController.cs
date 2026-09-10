@@ -11,6 +11,7 @@ namespace SupanthaPaul
         public static bool JumpWasPressed;
         public static bool JumpIsHeld;
         public static bool JumpWasReleased;
+
         public static bool DashWasPressed;
 
         private InputAction moveAction;
@@ -23,6 +24,7 @@ namespace SupanthaPaul
         [SerializeField] private float jumpForce;
         [SerializeField] private float fallMultiplier;
         [SerializeField] private float coyoteTime = 0.1f;
+        [SerializeField] private float jumpCutMultiplier = 0.5f;
         [SerializeField] private Transform groundCheck;
         [SerializeField] private float groundCheckRadius;
         [SerializeField] private LayerMask whatIsGround;
@@ -347,6 +349,16 @@ namespace SupanthaPaul
                 m_rb.linearVelocity = Vector2.zero;
 
                 m_rb.AddForce(new Vector2(-m_onWallSide * wallClimbForce.x, wallClimbForce.y), ForceMode2D.Impulse);
+            }
+
+            // Variable jump height depending on input
+            if (JumpWasReleased)
+            {
+                // Only cut the velocity if the player is actively moving upwards
+                if (m_rb.linearVelocity.y > 0)
+                {
+                    m_rb.linearVelocity = new Vector2(m_rb.linearVelocity.x, m_rb.linearVelocity.y * jumpCutMultiplier);
+                }
             }
 
         }
