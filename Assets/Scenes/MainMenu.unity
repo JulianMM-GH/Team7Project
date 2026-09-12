@@ -328,7 +328,8 @@ MonoBehaviour:
   m_fontAsset: {fileID: 11400000, guid: 738bef99d8c0d7b46858ff55c71b83af, type: 2}
   m_sharedMaterial: {fileID: -8033912427089417082, guid: 738bef99d8c0d7b46858ff55c71b83af,
     type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: -8033912427089417082, guid: 738bef99d8c0d7b46858ff55c71b83af, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -708,7 +709,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -829,7 +831,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1212,6 +1214,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: MainMenuSettings, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 3578801453566838656, guid: c5f564b282086c04689b059b66eefbbc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6970972537900283372, guid: c5f564b282086c04689b059b66eefbbc,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1324,18 +1331,69 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8517166438191511367, guid: c5f564b282086c04689b059b66eefbbc,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8517166438191511367, guid: c5f564b282086c04689b059b66eefbbc,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8517166438191511367, guid: c5f564b282086c04689b059b66eefbbc,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8517166438191511367, guid: c5f564b282086c04689b059b66eefbbc,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7138707470594091335, guid: 36817d2600c82bf46b2f4d367d8a09e5,
+        type: 3}
+    - target: {fileID: 8517166438191511367, guid: c5f564b282086c04689b059b66eefbbc,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 339573076}
     - target: {fileID: 8517166438191511367, guid: c5f564b282086c04689b059b66eefbbc,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8517166438191511367, guid: c5f564b282086c04689b059b66eefbbc,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 8517166438191511367, guid: c5f564b282086c04689b059b66eefbbc,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: Close
       objectReference: {fileID: 0}
     - target: {fileID: 8517166438191511367, guid: c5f564b282086c04689b059b66eefbbc,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MenuTransition, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8517166438191511367, guid: c5f564b282086c04689b059b66eefbbc,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: MainMenuSettings, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8517166438191511367, guid: c5f564b282086c04689b059b66eefbbc,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8517166438191511367, guid: c5f564b282086c04689b059b66eefbbc,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_IntArgument
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8517166438191511367, guid: c5f564b282086c04689b059b66eefbbc,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1725,7 +1783,8 @@ MonoBehaviour:
   m_fontAsset: {fileID: 11400000, guid: 738bef99d8c0d7b46858ff55c71b83af, type: 2}
   m_sharedMaterial: {fileID: -8033912427089417082, guid: 738bef99d8c0d7b46858ff55c71b83af,
     type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: -8033912427089417082, guid: 738bef99d8c0d7b46858ff55c71b83af, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -1880,7 +1939,8 @@ MonoBehaviour:
   m_fontAsset: {fileID: 11400000, guid: 738bef99d8c0d7b46858ff55c71b83af, type: 2}
   m_sharedMaterial: {fileID: -8033912427089417082, guid: 738bef99d8c0d7b46858ff55c71b83af,
     type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: -8033912427089417082, guid: 738bef99d8c0d7b46858ff55c71b83af, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -2097,7 +2157,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

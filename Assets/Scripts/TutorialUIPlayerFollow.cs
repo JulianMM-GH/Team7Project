@@ -5,7 +5,7 @@ using UnityEngine;
 /// One instance sits on each tutorial trigger zone. While a player is inside, it asks that
 /// player's PlayerHeadPrompts (on SilasTutorial / PhoenixTutorial) to show this zone's prompt
 /// canvas instead of the default one; on exit it releases that request. The canvas itself no
-/// longer needs a separate keyboard/controller version - TutorialIconSwap on its icon handles
+/// longer needs a separate keyboard/controller version - ControlPromptIcon on its icon handles
 /// that, refreshed automatically whenever the zone's prompt is (re)shown.
 /// </summary>
 public class TutorialUIPlayerFollow : MonoBehaviour
