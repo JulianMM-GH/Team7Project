@@ -78393,17 +78393,17 @@ PrefabInstance:
     - target: {fileID: 2644038771920387393, guid: 87bf8c1bb82c18141b66b97e913ccc1e,
         type: 3}
       propertyPath: m_BackGroundColor.b
-      value: 0.21960786
+      value: 0.58431375
       objectReference: {fileID: 0}
     - target: {fileID: 2644038771920387393, guid: 87bf8c1bb82c18141b66b97e913ccc1e,
         type: 3}
       propertyPath: m_BackGroundColor.g
-      value: 0.21960786
+      value: 0.60784316
       objectReference: {fileID: 0}
     - target: {fileID: 2644038771920387393, guid: 87bf8c1bb82c18141b66b97e913ccc1e,
         type: 3}
       propertyPath: m_BackGroundColor.r
-      value: 0.21960786
+      value: 0.60784316
       objectReference: {fileID: 0}
     - target: {fileID: 2644038771920387393, guid: 87bf8c1bb82c18141b66b97e913ccc1e,
         type: 3}
