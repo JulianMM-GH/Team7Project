@@ -11,6 +11,7 @@ namespace SupanthaPaul
         public static bool JumpWasPressed;
         public static bool JumpIsHeld;
         public static bool JumpWasReleased;
+
         public static bool DashWasPressed;
 
         private InputAction moveAction;
@@ -23,6 +24,7 @@ namespace SupanthaPaul
         [SerializeField] private float jumpForce;
         [SerializeField] private float fallMultiplier;
         [SerializeField] private float coyoteTime = 0.1f;
+        [SerializeField] private float jumpCutMultiplier = 0.5f;
         [SerializeField] private Transform groundCheck;
         [SerializeField] private float groundCheckRadius;
         [SerializeField] private LayerMask whatIsGround;
@@ -66,7 +68,10 @@ namespace SupanthaPaul
 
         private Rigidbody2D m_rb;
         private ParticleSystem m_dustParticle;
-        private bool m_facingRight = true;
+
+        private Animator m_animator;
+
+        public bool m_facingRight = true;
         private int m_extraJumps;
         private float m_extraJumpForce;
         private float m_coyoteTimer = 0f;
@@ -107,6 +112,8 @@ namespace SupanthaPaul
 
             m_rb = GetComponent<Rigidbody2D>();
             m_dustParticle = GetComponentInChildren<ParticleSystem>();
+
+            m_animator = GetComponentInChildren<Animator>();
         }
 
         private void FixedUpdate()
@@ -241,6 +248,13 @@ namespace SupanthaPaul
                     m_dustParticle.Play();
                 }
 
+                // Sends updated physics data directly to the Animator parameters every physics step
+                if (m_animator != null)
+                {
+                    m_animator.SetFloat("Speed", Mathf.Abs(moveInput));
+                    m_animator.SetBool("isGrounded", isGrounded);
+                    m_animator.SetBool("isWallGrabbing", m_wallGrabbing);
+                }
             }
         }
         private void Awake()
@@ -349,14 +363,29 @@ namespace SupanthaPaul
                 m_rb.AddForce(new Vector2(-m_onWallSide * wallClimbForce.x, wallClimbForce.y), ForceMode2D.Impulse);
             }
 
+            // Variable jump height depending on input
+            if (JumpWasReleased)
+            {
+                // Only cut the velocity if the player is actively moving upwards
+                if (m_rb.linearVelocity.y > 0)
+                {
+                    m_rb.linearVelocity = new Vector2(m_rb.linearVelocity.x, m_rb.linearVelocity.y * jumpCutMultiplier);
+                }
+            }
+
         }
 
         void Flip()
         {
             m_facingRight = !m_facingRight;
-            Vector3 scale = transform.localScale;
-            scale.x *= -1;
-            transform.localScale = scale;
+
+            if (m_animator != null)
+            {
+                // Flip is visual only
+                Vector3 scale = m_animator.transform.localScale;
+                scale.x *= -1;
+                m_animator.transform.localScale = scale;
+            }
         }
 
         // Called on respawn so leftover velocity/dash/wall-grab state doesn't carry over.
