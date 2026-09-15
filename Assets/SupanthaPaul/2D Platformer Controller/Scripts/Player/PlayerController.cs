@@ -68,7 +68,10 @@ namespace SupanthaPaul
 
         private Rigidbody2D m_rb;
         private ParticleSystem m_dustParticle;
-        private bool m_facingRight = true;
+
+        private Animator m_animator;
+
+        public bool m_facingRight = true;
         private int m_extraJumps;
         private float m_extraJumpForce;
         private float m_coyoteTimer = 0f;
@@ -109,6 +112,8 @@ namespace SupanthaPaul
 
             m_rb = GetComponent<Rigidbody2D>();
             m_dustParticle = GetComponentInChildren<ParticleSystem>();
+
+            m_animator = GetComponentInChildren<Animator>();
         }
 
         private void FixedUpdate()
@@ -243,6 +248,13 @@ namespace SupanthaPaul
                     m_dustParticle.Play();
                 }
 
+                // Sends updated physics data directly to the Animator parameters every physics step
+                if (m_animator != null)
+                {
+                    m_animator.SetFloat("Speed", Mathf.Abs(moveInput));
+                    m_animator.SetBool("isGrounded", isGrounded);
+                    m_animator.SetBool("isWallGrabbing", m_wallGrabbing);
+                }
             }
         }
         private void Awake()
@@ -366,9 +378,14 @@ namespace SupanthaPaul
         void Flip()
         {
             m_facingRight = !m_facingRight;
-            Vector3 scale = transform.localScale;
-            scale.x *= -1;
-            transform.localScale = scale;
+
+            if (m_animator != null)
+            {
+                // Flip is visual only
+                Vector3 scale = m_animator.transform.localScale;
+                scale.x *= -1;
+                m_animator.transform.localScale = scale;
+            }
         }
 
         // Called on respawn so leftover velocity/dash/wall-grab state doesn't carry over.
