@@ -3,9 +3,10 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 /// <summary>
-/// Panel navigation for the Main Menu's Settings screen (Controls + Audio), mirroring
-/// PauseMenu's settings hub but standalone - no Time.timeScale, player input, or pause state
-/// involved here.
+/// Panel navigation for the Main Menu's Settings page - the physical page the camera pans to
+/// (HomeMenu > Settings). The Controls / Audio buttons and the volume sliders live directly on
+/// that page instead of in a screen overlay, and the page's own "Back" button calls Back():
+/// Audio -> hub, hub -> first menu. No Time.timeScale, player input, or pause state involved.
 ///
 /// Audio reuses AudioSettingsUI as-is (the sliders call it directly). Controls reuses the
 /// existing ControlsSetupPopup - it already saves every change via PlayerPrefs
@@ -20,13 +21,34 @@ public class MainMenuSettings : MonoBehaviour
     [SerializeField] private GameObject audioPanel;         // Hosts the volume sliders
     [SerializeField] private ControlsSetupPopup controlsSetupPopup;
 
+    [Header("Navigation")]
+    [SerializeField] private MenuTransition menuTransition;
+    [SerializeField] private int returnMenu = 1;            // MenuTransition page Back returns to
+
     [Header("First Selected Buttons (for controller navigation)")]
     [SerializeField] private GameObject hubFirstSelected;
     [SerializeField] private GameObject audioFirstSelected;
 
-    void OnEnable()
+    void Awake()
     {
-        ShowHub();
+        // The page is always visible in the world, so start on the hub without grabbing selection
+        settingsHubPanel.SetActive(true);
+        audioPanel.SetActive(false);
+    }
+
+    // Resets the page to the hub - wired to the Main Menu's "Settings" button
+    public void Open() => ShowHub();
+
+    // Wired to the Settings page's "Back" button
+    public void Back()
+    {
+        if (audioPanel.activeSelf)
+        {
+            ShowHub();
+            return;
+        }
+
+        menuTransition.ChangeMenu(returnMenu);
     }
 
     public void OpenControls()
@@ -55,14 +77,6 @@ public class MainMenuSettings : MonoBehaviour
 
         SyncAudioSliders();
     }
-
-    public void BackFromAudio() => ShowHub();
-
-    // Closes the whole Settings overlay - wired to the hub's own "Back" button
-    public void Close() => gameObject.SetActive(false);
-
-    // Opens the Settings overlay - wired to the Main Menu's "Settings" button
-    public void Open() => gameObject.SetActive(true);
 
     private void ShowHub()
     {
