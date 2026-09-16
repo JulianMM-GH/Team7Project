@@ -278,15 +278,23 @@ using UnityEngine.SceneManagement;
 			}
 		}
 
-		// ReSharper disable Unity.PerformanceAnalysis
-		public void PlayOneShot(string id)
-		{
-			AudioBinding bind = m_bindings.Find(s => s.id == id);
-			if (!bind.generateFromPath) PlayOneShot(bind.reference, Vector3.zero);
-			else RuntimeManager.PlayOneShot(bind.path, Vector3.zero);
-		}
+    // ReSharper disable Unity.PerformanceAnalysis
+    public void PlayOneShot(string id)
+    {
+        AudioBinding bind = m_bindings.Find(s => s.id == id);
 
-		public void Play(string id)
+        // Safety check
+        if (bind == null)
+        {
+            Debug.LogError($"[AudioManager] AudioBinding with ID '{id}' was not found in m_bindings list!");
+            return;
+        }
+
+        if (!bind.generateFromPath) PlayOneShot(bind.reference, Vector3.zero);
+        else RuntimeManager.PlayOneShot(bind.path, Vector3.zero);
+    }
+
+    public void Play(string id)
 		{
 			if (m_eventBindings == null)
 			{

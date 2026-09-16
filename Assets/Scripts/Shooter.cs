@@ -37,8 +37,16 @@ public class Shooter : MonoBehaviour
     [SerializeField] private int resolution = 30;
     [SerializeField] private float stepTime = 0.1f;
 
+    private PlayerController m_playerController;
+
     void Start()
     {
+        m_playerController = GetComponent<PlayerController>();
+        if (m_playerController == null)
+        {
+            m_playerController = GetComponentInParent<PlayerController>();
+        }
+
         if (chargeBar != null)
         {
             chargeBar.minValue = 0;
@@ -100,8 +108,17 @@ public class Shooter : MonoBehaviour
         GameObject projectile = Instantiate(projectilePrefab, LaunchOffset.position, transform.rotation);
         Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
 
-        // Determine direction based on the player's local scale (flipping direction)
-        float direction = transform.localScale.x > 0 ? -1f : 1f;
+        // Check m_facingRight from player controller
+        // Otherwise, default to the original logic.
+        float direction = 1f;
+        if (m_playerController != null)
+        {
+            direction = m_playerController.m_facingRight ? 1f : -1f;
+        }
+        else
+        {
+            direction = transform.localScale.x > 0 ? 1f : -1f;
+        }
 
         // Determine angled vector
         Vector2 launchDirection = new Vector2(direction, upwardForce).normalized;
@@ -132,8 +149,16 @@ public class Shooter : MonoBehaviour
         // Draw the trajectory from the Launch Offset postion, as that is the projectiles starting point
         Vector2 startPos = LaunchOffset.position;
 
-        // Determine direction based on the player's local scale (flipping direction)
-        float direction = transform.localScale.x > 0 ? -1f : 1f;
+        // Determine direction
+        float direction = 1f;
+        if (m_playerController != null)
+        {
+            direction = m_playerController.m_facingRight ? 1f : -1f;
+        }
+        else
+        {
+            direction = transform.localScale.x > 0 ? 1f : -1f;
+        }
 
         // Calculate the same force used in FireProjectile (found under "Apply force to projectile")
         float currentSpeed = minSpeed + (chargeTime * speedMultiplier);
