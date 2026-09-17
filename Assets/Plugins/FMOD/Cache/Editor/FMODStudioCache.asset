@@ -54,6 +54,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-8015142454447868513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Sling Draw
+  m_EditorClassIdentifier: 
+  Path: event:/Sling Draw
+  Guid:
+    Data1: 774910481
+    Data2: 1209542570
+    Data3: 1723947949
+    Data4: -1334191897
+  Banks:
+  - {fileID: 6755628491677920153}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-7983031098902856423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -465,13 +492,14 @@ MonoBehaviour:
   - {fileID: 5233629306126186262}
   - {fileID: 4774599433623409421}
   - {fileID: -3944540425143904688}
+  - {fileID: -8015142454447868513}
   EditorParameters: []
   MasterBanks:
   - {fileID: 6755628491677920153}
   StringsBanks:
   - {fileID: 7078075137390771572}
   cacheVersion: 131860
-  cacheTime: 639244939086723174
+  cacheTime: 639252563924522451
   SerializableEventsDict:
   - key: event:/Bell
     index: 0
@@ -507,6 +535,8 @@ MonoBehaviour:
     index: 15
   - key: event:/Ambience
     index: 16
+  - key: event:/Sling Draw
+    index: 17
 --- !u!114 &76748685120540780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -940,10 +970,10 @@ MonoBehaviour:
   Path: FMOD/Team 7/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639244939086713085
+  lastModified: 639252563924512420
   FileSizes:
   - Name: Desktop
-    Value: 2546912
+    Value: 2881280
   Exists: 1
 --- !u!114 &6765023681843341416
 MonoBehaviour:
@@ -987,10 +1017,10 @@ MonoBehaviour:
   Path: FMOD/Team 7/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639244939086723174
+  lastModified: 639252563924522451
   FileSizes:
   - Name: Desktop
-    Value: 1566
+    Value: 1614
   Exists: 1
 --- !u!114 &7703020225772294884
 MonoBehaviour:
@@ -1045,7 +1075,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 31159
+  Length: 53580
 --- !u!114 &8074048432279217113
 MonoBehaviour:
   m_ObjectHideFlags: 0
