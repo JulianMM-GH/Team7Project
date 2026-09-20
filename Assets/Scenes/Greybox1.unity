@@ -71215,12 +71215,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e36408aa79b0d44895635e149fef441, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueText: 'This is... it''s them... Why..... why is this here?
+  dialogueText: 'I thought I''d thrown this away...
 
-    ...
+    How is it here?
 
-    I
-    miss you....'
+'
   triggerOnce: 1
 --- !u!4 &237970290
 Transform:
@@ -76897,6 +76896,101 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1262087236}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!1 &593635532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 593635535}
+  - component: {fileID: 593635534}
+  - component: {fileID: 593635533}
+  m_Layer: 0
+  m_Name: DialogueTrigger (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!61 &593635533
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593635532}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0.22
+--- !u!114 &593635534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593635532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e36408aa79b0d44895635e149fef441, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueText: 'You''re not a normal bird...
+
+    You''re a Phoenix!'
+  triggerOnce: 1
+--- !u!4 &593635535
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593635532}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -15.73, y: 1.91, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &599559432
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -90966,8 +91060,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e36408aa79b0d44895635e149fef441, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueText: Our favourite place... we used to always play here... it feels so
-    hollow... empty now
+  dialogueText: 'Our favourite place... thanks for taking me here bud...
+
+    I miss
+    you!'
   triggerOnce: 1
 --- !u!4 &1235863989
 Transform:
@@ -94266,8 +94362,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e36408aa79b0d44895635e149fef441, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueText: You were always my closest friend... Why did you have to leave me?
-    Why?
+  dialogueText: '*giggles*
+
+    Dad would day we could monkey around here
+
+'
   triggerOnce: 1
 --- !u!4 &1461520295
 Transform:
@@ -143301,8 +143400,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e36408aa79b0d44895635e149fef441, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueText: My slingshot.... I had forgotten that I'd lost it out here... we
-    used to always use this to play....
+  dialogueText: "My slingshot! I had forgotten that I'd lost it out here... \nLet's
+    see if I can remember..."
   triggerOnce: 1
 --- !u!4 &1912568192
 Transform:
@@ -144882,6 +144981,104 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f39b2387a7a054fb7f50ed7f14e182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1995724108
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1995724111}
+  - component: {fileID: 1995724110}
+  - component: {fileID: 1995724109}
+  m_Layer: 0
+  m_Name: DialogueTrigger (5)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!61 &1995724109
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1995724108}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0.22
+--- !u!114 &1995724110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1995724108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e36408aa79b0d44895635e149fef441, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueText: 'Hey, You! Ummm....Macaw?!
+
+    Who are you?
+
+    Why do you seem
+    familiar?'
+  triggerOnce: 1
+--- !u!4 &1995724111
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1995724108}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -81.77, y: 2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1998648199
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -147930,6 +148127,8 @@ SceneRoots:
   - {fileID: 467395989}
   - {fileID: 191369010}
   - {fileID: 237970290}
+  - {fileID: 593635535}
+  - {fileID: 1995724111}
   - {fileID: 1461520295}
   - {fileID: 1912568192}
   - {fileID: 1235863989}
