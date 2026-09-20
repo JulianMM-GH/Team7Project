@@ -7184,36 +7184,6 @@ ScriptedImporter:
     flatten: 0
     isImported: 1
     isVisible: 1
-  - name: ph_body
-    spriteName: ph_body
-    isGroup: 0
-    parentIndex: -1
-    spriteID: eb8dae7f97325774fb5fd33403421314
-    layerID: -1336126029
-    mosaicPosition: {x: 4, y: 4}
-    flatten: 0
-    isImported: 1
-    isVisible: 1
-  - name: ph_neck
-    spriteName: ph_neck
-    isGroup: 0
-    parentIndex: -1
-    spriteID: 28781693e9fe32246ac1a6f5f1ee7c8b
-    layerID: -1463991932
-    mosaicPosition: {x: 4, y: 550}
-    flatten: 0
-    isImported: 1
-    isVisible: 1
-  - name: ph_tail
-    spriteName: ph_tail
-    isGroup: 0
-    parentIndex: -1
-    spriteID: fff3b24c7a9043c4384267584740f0a5
-    layerID: -569704553
-    mosaicPosition: {x: 4, y: 319}
-    flatten: 0
-    isImported: 1
-    isVisible: 1
   - name: ph_thigh_1
     spriteName: ph_thigh_1
     isGroup: 0
@@ -7241,6 +7211,36 @@ ScriptedImporter:
     spriteID: 9d7cf7c69970f2f4bb683610c93ded7b
     layerID: 85761831
     mosaicPosition: {x: 4, y: 951}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: ph_body
+    spriteName: ph_body
+    isGroup: 0
+    parentIndex: -1
+    spriteID: eb8dae7f97325774fb5fd33403421314
+    layerID: -1336126029
+    mosaicPosition: {x: 4, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: ph_neck
+    spriteName: ph_neck
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 28781693e9fe32246ac1a6f5f1ee7c8b
+    layerID: -1463991932
+    mosaicPosition: {x: 4, y: 550}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: ph_tail
+    spriteName: ph_tail
+    isGroup: 0
+    parentIndex: -1
+    spriteID: fff3b24c7a9043c4384267584740f0a5
+    layerID: -569704553
+    mosaicPosition: {x: 4, y: 319}
     flatten: 0
     isImported: 1
     isVisible: 1
