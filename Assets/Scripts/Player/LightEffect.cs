@@ -123,8 +123,9 @@ public class LightEffect : MonoBehaviour
         if (lightAction == null)
             return;
 
-        if (lightAction.WasPressedThisFrame())
-            lightEnabled = !lightEnabled;
+        if (lightAction.WasPressedThisFrame() && canLight)
+        lightEnabled = !lightEnabled;
+
 
         if (lightEnabled)
         {
