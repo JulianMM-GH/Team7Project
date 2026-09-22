@@ -13,6 +13,8 @@ public class TempWinScreen : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (hasTriggered) return;
+        // ignore Phoenix's light (a trigger) - only the player's actual body counts
+        if (other.isTrigger) return;
 
         // Object entering the trigger is a player
         PlayerController player = other.GetComponentInParent<PlayerController>();

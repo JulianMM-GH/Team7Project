@@ -22,18 +22,26 @@ public class PressableButton : MonoBehaviour
 
     void Update()
     {
-        // 1. Check if an object on the target layer is inside the zone
-        Collider2D hitCollider = Physics2D.OverlapBox(
+        // 1. Check every object on the target layer inside the zone. Phoenix's light is a trigger
+        // collider on the Player layer too, so a single OverlapBox could return the light instead of
+        // the player standing on the plate and wrongly release it - only solid Player bodies count.
+        Collider2D[] hitColliders = Physics2D.OverlapBoxAll(
             plateCollider.bounds.center,
             plateCollider.bounds.size,
             0f,
             1 << targetLayer
         );
 
-        // 2. Verify that an object was hit AND it has the "Player" tag
-        bool touchingTarget = plateCollider != null &&
-                             hitCollider != null &&
-                             hitCollider.CompareTag("Player");
+        // 2. Verify that a solid (non-trigger) collider with the "Player" tag was hit
+        bool touchingTarget = false;
+        foreach (Collider2D hitCollider in hitColliders)
+        {
+            if (!hitCollider.isTrigger && hitCollider.CompareTag("Player"))
+            {
+                touchingTarget = true;
+                break;
+            }
+        }
 
         if (touchingTarget)
         {

@@ -126758,6 +126758,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SettingsMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 3578801453566838656, guid: c5f564b282086c04689b059b66eefbbc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6970972537900283372, guid: c5f564b282086c04689b059b66eefbbc,
         type: 3}
       propertyPath: m_Pivot.x
@@ -127332,6 +127337,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ControlsMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 1037110699396400029, guid: faa33e7d13aae9744a2932e433823ef3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1041851232747800341, guid: faa33e7d13aae9744a2932e433823ef3,
         type: 3}
       propertyPath: spawner
@@ -127593,12 +127603,12 @@ PrefabInstance:
     - target: {fileID: 7762794536726767448, guid: 806fbf5407d53b84786747a111a71fe9,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 199
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 7762794536726767448, guid: 806fbf5407d53b84786747a111a71fe9,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 291
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -5331,7 +5331,7 @@ MonoBehaviour:
   maxSlipSpeed: 8
   wallUnstickBuffer: 0.2
   wallJumpRegrabDelay: 0.25
-  wallJumpForce: {x: 4, y: 16}
+  wallJumpForce: {x: 7, y: 15}
   wallClimbForce: {x: 4, y: 14}
   m_facingRight: 1
 --- !u!114 &830854498358484181

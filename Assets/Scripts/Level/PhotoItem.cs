@@ -109,6 +109,8 @@ public class PhotoItem : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (hasBeenPickedUp) return;
+        // ignore Phoenix's light (a trigger) - only the player's actual body counts
+        if (other.isTrigger) return;
 
         // Verify the triggering object belongs to an actual player setup
         PlayerController touchingPlayer = other.GetComponentInParent<PlayerController>();
@@ -127,6 +129,7 @@ public class PhotoItem : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (collision.isTrigger) return;
         playerInRange = false;
         buttonPromptIcon?.SetVisible(false);
     }
