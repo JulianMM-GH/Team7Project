@@ -2689,7 +2689,7 @@ MonoBehaviour:
   hiddenPosition: {x: 0, y: 750}
   shownPosition: {x: 0, y: 370}
   slideSpeed: 8
-  typingSpeed: 0.03
+  typingSpeed: 0.02
   stayDuration: 5
   slideAwayOnHide: 1
   fadeAwayOnHide: 0
@@ -52908,7 +52908,7 @@ MonoBehaviour:
   m_fontSizeMin: 35
   m_fontSizeMax: 200
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
