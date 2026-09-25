@@ -143,7 +143,7 @@ namespace SupanthaPaul
                     // only steer if a direction is held - otherwise keep the jump's
                     // momentum so the wall jump carries you further on its own
                     if (moveInput != 0f)
-                        m_rb.linearVelocity = Vector2.Lerp(m_rb.linearVelocity, (new Vector2(moveInput * speed, m_rb.linearVelocity.y)), 1.5f * Time.fixedDeltaTime);
+                        m_rb.linearVelocity = Vector2.Lerp(m_rb.linearVelocity, (new Vector2(moveInput * speed, m_rb.linearVelocity.y)), 4f * Time.fixedDeltaTime);
                 }
                 else
                 {
