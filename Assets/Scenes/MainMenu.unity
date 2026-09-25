@@ -7203,7 +7203,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b1bac3987b1ad064a80f72496ee46425, type: 3}
+  m_Sprite: {fileID: 6506776770209576652, guid: 419671bd3d8217a4081d4a0977c90bc5,
+    type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7259,14 +7260,14 @@ MonoBehaviour:
   BookPanel: {fileID: 5709126530741676240}
   background: {fileID: 21300000, guid: 3c47abcf3fb3d12408efe3073b2e379f, type: 3}
   bookPages:
-  - {fileID: 21300000, guid: b1bac3987b1ad064a80f72496ee46425, type: 3}
-  - {fileID: 21300000, guid: 9f1ddd79b2fa5444b9f0150b809a8dd0, type: 3}
+  - {fileID: 6506776770209576652, guid: 419671bd3d8217a4081d4a0977c90bc5, type: 3}
+  - {fileID: -256854109861965086, guid: 8247b637b0b5bca42b0d43857caed520, type: 3}
   - {fileID: 21300000, guid: fca57dd61c151c649adcbc7ba39e71bb, type: 3}
   - {fileID: 21300000, guid: b85050c83db242e4eafba8f57eb350d9, type: 3}
   - {fileID: 21300000, guid: b0c18c676ab4d4343adc234472e1d618, type: 3}
-  - {fileID: 21300000, guid: 86cccff4f962a034c841b8a741b9d50b, type: 3}
+  - {fileID: -7082322965638928159, guid: 65af9d8bb810fb44ca8cbc690746c9f8, type: 3}
   interactable: 0
-  enableShadowEffect: 1
+  enableShadowEffect: 0
   currentPage: 0
   ClippingPlane: {fileID: 5709126530754736770}
   NextPageClip: {fileID: 5709126530754781314}
