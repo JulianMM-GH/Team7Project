@@ -378,6 +378,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1280
+--- !u!114 &-1722897477805475295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Bird Clawsteps
+  m_EditorClassIdentifier: 
+  Path: event:/Bird Clawsteps
+  Guid:
+    Data1: 1893607713
+    Data2: 1148429956
+    Data3: 585642163
+    Data4: -489432019
+  Banks:
+  - {fileID: 6755628491677920153}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1000
 --- !u!114 &-719027522028701574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -432,6 +459,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-28567327047952219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Page Turn
+  m_EditorClassIdentifier: 
+  Path: event:/Page Turn
+  Guid:
+    Data1: 1329346453
+    Data2: 1087753993
+    Data3: 710318771
+    Data4: 1666122138
+  Banks:
+  - {fileID: 6755628491677920153}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1000
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -466,13 +520,16 @@ MonoBehaviour:
   - {fileID: 4774599433623409421}
   - {fileID: -3944540425143904688}
   - {fileID: 1335937228883198138}
+  - {fileID: -1722897477805475295}
+  - {fileID: -28567327047952219}
+  - {fileID: 4969135875612164178}
   EditorParameters: []
   MasterBanks:
   - {fileID: 6755628491677920153}
   StringsBanks:
   - {fileID: 7078075137390771572}
   cacheVersion: 131860
-  cacheTime: 639257973799550241
+  cacheTime: 639259652807085389
   SerializableEventsDict:
   - key: event:/Bell
     index: 0
@@ -510,6 +567,12 @@ MonoBehaviour:
     index: 16
   - key: event:/Sling Draw
     index: 17
+  - key: event:/Bird Clawsteps
+    index: 18
+  - key: event:/Page Turn
+    index: 19
+  - key: event:/Storybook Music
+    index: 20
 --- !u!114 &76748685120540780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -780,6 +843,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 215
+--- !u!114 &4969135875612164178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Storybook Music
+  m_EditorClassIdentifier: 
+  Path: event:/Storybook Music
+  Guid:
+    Data1: 1217337017
+    Data2: 1198082353
+    Data3: 222725539
+    Data4: 1721840574
+  Banks:
+  - {fileID: 6755628491677920153}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 33993
 --- !u!114 &5173565821029485137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -970,10 +1060,10 @@ MonoBehaviour:
   Path: FMOD/Team 7/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639257973799550241
+  lastModified: 639259652807075279
   FileSizes:
   - Name: Desktop
-    Value: 2881280
+    Value: 3383488
   Exists: 1
 --- !u!114 &6765023681843341416
 MonoBehaviour:
@@ -1017,10 +1107,10 @@ MonoBehaviour:
   Path: FMOD/Team 7/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639257973799550241
+  lastModified: 639259652807085389
   FileSizes:
   - Name: Desktop
-    Value: 1614
+    Value: 1766
   Exists: 1
 --- !u!114 &7703020225772294884
 MonoBehaviour:
