@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using SupanthaPaul;
+using UnityEngine;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -11,11 +12,35 @@ public class DialogueTrigger : MonoBehaviour
 
     [SerializeField] private bool triggerOnce = true;
 
+    [Tooltip("Off = only plays when something calls Trigger() (e.g. a PhotoItem on pickup)")]
+    [SerializeField] private bool triggerOnEnter = true;
+
     private bool hasTriggered;
+
+    public bool TriggerOnEnter
+    {
+        get => triggerOnEnter;
+        set => triggerOnEnter = value;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!triggerOnEnter)
+            return;
 
+        // only the player's actual body counts - ignore triggers (Phoenix's light) and
+        // anything that isn't part of a player (slingshot projectiles etc.)
+        if (collision.isTrigger)
+            return;
+
+        if (collision.GetComponentInParent<PlayerController>() == null)
+            return;
+
+        Trigger();
+    }
+
+    public void Trigger()
+    {
         if (triggerOnce && hasTriggered)
             return;
 
