@@ -254,6 +254,13 @@ namespace SupanthaPaul
                     m_animator.SetFloat("Speed", Mathf.Abs(moveInput));
                     m_animator.SetBool("isGrounded", isGrounded);
                     m_animator.SetBool("isWallGrabbing", m_wallGrabbing);
+
+                    // If the player starts falling downwards after a wall jump, clear the flag
+                    if (m_wallJumping && m_rb.linearVelocity.y < 0f)
+                    {
+                        m_wallJumping = false;
+                    }
+                    m_animator.SetBool("isWallJumping", m_wallJumping);
                 }
             }
         }
