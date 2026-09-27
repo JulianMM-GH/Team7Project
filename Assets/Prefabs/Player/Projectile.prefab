@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -79,13 +79,13 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
+  m_Sprite: {fileID: 7331315201791160908, guid: b3cf17cd78f2a4049885ecf27d9689de,
     type: 3}
-  m_Color: {r: 1, g: 0.5615011, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.94, y: 1.67}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -126,7 +126,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Radius: 0.4
 --- !u!50 &8288299540544060258
 Rigidbody2D:
   serializedVersion: 5
@@ -167,8 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  fireColor: {r: 1, g: 0, b: 0, a: 1}
-  fireSoundClips:
-  - {fileID: 8300000, guid: 0d444ea6bb838504a809051dc2c9612a, type: 3}
-  - {fileID: 8300000, guid: 03e5579c62dc94441967994f14a69674, type: 3}
-  - {fileID: 8300000, guid: 426e4fbd150ae5a4c872ceea4d0403e7, type: 3}
+  baseSprite: {fileID: 7331315201791160908, guid: b3cf17cd78f2a4049885ecf27d9689de,
+    type: 3}
+  fireSprite: {fileID: 8476764939301271271, guid: 00aaa17332f27f94692b803e70121678,
+    type: 3}
