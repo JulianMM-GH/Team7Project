@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
 
 public class LightEffect : MonoBehaviour
 {
@@ -8,25 +9,33 @@ public class LightEffect : MonoBehaviour
 
     private InputAction lightAction;
 
+    [Header("Light")]
     [SerializeField] public bool canLight = false;
+    public float lightRadius = 0.5f;
 
+    [Header("Charge Settings")]
+    private float ChargePower = 0f;
+    public float MaxChargePower = 100f;
+
+    [Header("2D Light System")]
+    [SerializeField] private Light2D spotLight2D;
+    public float baseLightIntensity = 1f;
+    public float baseInnerRadius = 0.2f;
+    public float baseOuterRadius = 1.0f;
+
+    [Header("Properties")]
     public float rotationSpeed = 100f;
     public float scaleSpeed = 5f;
     public float minScale = 1f;
     public float maxScale = 3f;
-    private float ChargePower = 0f;
-    public float MaxChargePower = 100f;
-
     public float animationSpeed = 10f;
-    public float lightRadius = 0.5f;
     public float hideDelay = 0.15f;
     public GameObject MaskObj;
     private Vector2 MaskPos;
-
-
     public Sprite[] lightFrames;
     public Sprite[] emptyFrames;
     public LayerMask affectedLayers;
+
     private bool lightEnabled;
 
     SpriteMask spriteMask;
@@ -56,6 +65,11 @@ public class LightEffect : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         transform.localScale = Vector3.one * minScale;
+
+        if (spotLight2D == null)
+        {
+            spotLight2D = GetComponentInChildren<Light2D>();
+        }
     }
 
     void Start()
@@ -183,6 +197,13 @@ public class LightEffect : MonoBehaviour
             Vector3.one * targetScale,
             scaleSpeed * Time.deltaTime
         );
+
+        if (spotLight2D != null)
+        {
+            float currentScaleFactor = transform.localScale.x;
+            spotLight2D.pointLightInnerRadius = baseInnerRadius * currentScaleFactor;
+            spotLight2D.pointLightOuterRadius = baseOuterRadius * currentScaleFactor;
+        }
     }
 
     void UpdateVisibility(bool isHoldingLight)
@@ -198,6 +219,11 @@ public class LightEffect : MonoBehaviour
 
         spriteMask.enabled = shouldShow;
         spriteRenderer.enabled = shouldShow;
+
+        if (spotLight2D != null)
+        {
+            spotLight2D.enabled = shouldShow;
+        }
     }
 
     void UpdateLitObjects(bool lightIsActive)
@@ -247,9 +273,16 @@ public class LightEffect : MonoBehaviour
 
     void FadeLightInAndOut()
     {
+        float alphaFactor = Mathf.Lerp(0.3f, 1f, Mathf.Sin(Time.time * 2f) * 0.5f + 0.5f);
+
         Color color = spriteRenderer.color;
-        color.a = Mathf.Lerp(0.3f, 1f, Mathf.Sin(Time.time * 2f) * 0.5f + 0.5f);
+        color.a = alphaFactor;
         spriteRenderer.color = color;
+
+        if (spotLight2D != null)
+        {
+            spotLight2D.intensity = baseLightIntensity * alphaFactor;
+        }
     }
 
     void ChangeAnimationFrame()
