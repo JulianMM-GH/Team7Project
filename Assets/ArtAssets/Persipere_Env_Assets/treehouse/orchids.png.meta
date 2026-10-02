@@ -1,0 +1,400 @@
+fileFormatVersion: 2
+guid: 5a1a81c6fb9bf9245a33721437f5b524
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4467121252444401523
+    second: orchids_0
+  - first:
+      213: 6012838216696610400
+    second: orchids_1
+  - first:
+      213: -3619653404112054105
+    second: orchids_2
+  - first:
+      213: 3807948712422344750
+    second: orchids_3
+  - first:
+      213: 4140484623687095573
+    second: orchids_4
+  - first:
+      213: -7786268874529043137
+    second: orchids_5
+  - first:
+      213: -5940805982001537669
+    second: orchids_6
+  - first:
+      213: -2838538583672345444
+    second: orchids_7
+  - first:
+      213: -7275386190880112933
+    second: orchids_8
+  - first:
+      213: -3238387446899319517
+    second: orchids_9
+  - first:
+      213: -6838483162141226944
+    second: orchids_10
+  - first:
+      213: 1099166645648656805
+    second: orchids_11
+  - first:
+      213: 8032543790849333067
+    second: orchids_12
+  - first:
+      213: 7630563126381489656
+    second: orchids_13
+  - first:
+      213: -8134967785504361577
+    second: orchids_14
+  - first:
+      213: -8728335335185233541
+    second: orchids_15
+  - first:
+      213: 6432467500356668092
+    second: orchids_16
+  - first:
+      213: 2207452864775467026
+    second: orchids_17
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: orchids_0
+      rect:
+        serializedVersion: 2
+        x: 983
+        y: 2900
+        width: 125
+        height: 285
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37feb8c7c176efd30800000000000000
+      internalID: 4467121252444401523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orchids_3
+      rect:
+        serializedVersion: 2
+        x: 1338
+        y: 2626
+        width: 341
+        height: 379
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2807d6bd2d88d430800000000000000
+      internalID: 3807948712422344750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orchids_4
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 1752
+        width: 316
+        height: 307
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51516d8f3d4f57930800000000000000
+      internalID: 4140484623687095573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orchids_5
+      rect:
+        serializedVersion: 2
+        x: 569
+        y: 1675
+        width: 344
+        height: 310
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3d040846bd91f390800000000000000
+      internalID: -7786268874529043137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orchids_6
+      rect:
+        serializedVersion: 2
+        x: 1478
+        y: 1731
+        width: 344
+        height: 333
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7d58436f640e8da0800000000000000
+      internalID: -5940805982001537669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orchids_10
+      rect:
+        serializedVersion: 2
+        x: 619
+        y: 1065
+        width: 245
+        height: 365
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 048051ebbc3d811a0800000000000000
+      internalID: -6838483162141226944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orchids_14
+      rect:
+        serializedVersion: 2
+        x: 1209
+        y: 517
+        width: 311
+        height: 382
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79334c566e9ca1f80800000000000000
+      internalID: -8134967785504361577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orchids_15
+      rect:
+        serializedVersion: 2
+        x: 451
+        y: 18
+        width: 296
+        height: 381
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b794bc1e149bed680800000000000000
+      internalID: -8728335335185233541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orchids_17
+      rect:
+        serializedVersion: 2
+        x: 1525
+        y: 231
+        width: 136
+        height: 137
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2103c575fa272ae10800000000000000
+      internalID: 2207452864775467026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      orchids_0: 4467121252444401523
+      orchids_1: 6012838216696610400
+      orchids_10: -6838483162141226944
+      orchids_11: 1099166645648656805
+      orchids_12: 8032543790849333067
+      orchids_13: 7630563126381489656
+      orchids_14: -8134967785504361577
+      orchids_15: -8728335335185233541
+      orchids_16: 6432467500356668092
+      orchids_17: 2207452864775467026
+      orchids_2: -3619653404112054105
+      orchids_3: 3807948712422344750
+      orchids_4: 4140484623687095573
+      orchids_5: -7786268874529043137
+      orchids_6: -5940805982001537669
+      orchids_7: -2838538583672345444
+      orchids_8: -7275386190880112933
+      orchids_9: -3238387446899319517
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
