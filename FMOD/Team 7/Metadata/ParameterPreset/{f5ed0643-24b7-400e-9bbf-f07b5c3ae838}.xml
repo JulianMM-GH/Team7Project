@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="ParameterPreset" id="{f5ed0643-24b7-400e-9bbf-f07b5c3ae838}">
+		<property name="name">
+			<value>Move to Outro</value>
+		</property>
+		<relationship name="folder">
+			<destination>{1fa3327f-cd69-4220-8cf0-a1e95b8276ea}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{8d75722a-915a-4ad0-a7c8-d4c3e69194f4}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{8d75722a-915a-4ad0-a7c8-d4c3e69194f4}">
+		<property name="parameterType">
+			<value>1</value>
+		</property>
+		<property name="maximum">
+			<value>2</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>
