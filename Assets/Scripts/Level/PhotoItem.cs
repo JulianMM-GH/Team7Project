@@ -35,6 +35,10 @@ public class PhotoItem : MonoBehaviour
     public string photoTextChildName = "photoText";
     public string PheonixText = "Pheonix";
 
+    [Header("Dialogue")]
+    [Tooltip("Plays when this photo is picked up. Its walk-in trigger is turned off automatically.")]
+    public DialogueTrigger pickupDialogue;
+
     [Header("Fade")]
     public float fadeTime = 1f;
     public float stayTime = 1f;
@@ -51,6 +55,10 @@ public class PhotoItem : MonoBehaviour
     void Start()
     {
         startPosition = transform.position;
+
+        // this dialogue belongs to the pickup, so walking past it shouldn't set it off early
+        if (pickupDialogue != null)
+            pickupDialogue.TriggerOnEnter = false;
 
         if (photoFrame == null)
         {
@@ -145,6 +153,9 @@ public class PhotoItem : MonoBehaviour
 
         // Execute dynamic targeted unlocking
         EnableAbilitiesFiltered();
+
+        if (pickupDialogue != null)
+            pickupDialogue.Trigger();
 
         if (photoImage != null)
             photoImage.sprite = PheonixImage;

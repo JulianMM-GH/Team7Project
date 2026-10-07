@@ -18,6 +18,11 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private float slideSpeed = 8f;
     [SerializeField] private float typingSpeed = 0.03f;
 
+    [Header("Text Sizing")]
+    [Tooltip("Font is sized once to fit the whole line, then stays fixed while it's revealed")]
+    [SerializeField] private float minFontSize = 34f;
+    [SerializeField] private float maxFontSize = 60f;
+
     [Header("Auto-Hide")]
     [Tooltip("How long the dialogue stays on screen (after typing finishes) before it hides itself")]
     [SerializeField] private float stayDuration = 3f;
@@ -44,7 +49,13 @@ public class DialogueManager : MonoBehaviour
         dialogueBox.anchoredPosition = hiddenPosition;
         dialogueText.text = "";
 
-        dialogueCanvasGroup = dialogueBox.GetComponent<CanvasGroup>();
+        // wrap + auto-size within the box so long lines shrink to fit instead of spilling out
+        dialogueText.textWrappingMode = TextWrappingModes.Normal;
+        dialogueText.enableAutoSizing = true;
+        dialogueText.fontSizeMin = minFontSize;
+        dialogueText.fontSizeMax = maxFontSize;
+
+        dialogueCanvasGroup =dialogueBox.GetComponent<CanvasGroup>();
         if (dialogueCanvasGroup == null)
             dialogueCanvasGroup = dialogueBox.gameObject.AddComponent<CanvasGroup>();
     }
@@ -59,7 +70,10 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator DialogueSequence(string text)
     {
-        dialogueText.text = "";
+        // lay out the full line up front (so font size + wrapping are final), then reveal it left to right
+        dialogueText.text = text;
+        dialogueText.maxVisibleCharacters = 0;
+        dialogueText.ForceMeshUpdate();
         dialogueCanvasGroup.alpha = 1f;
 
         while (Vector2.Distance(dialogueBox.anchoredPosition, shownPosition) > 0.1f)
@@ -74,9 +88,10 @@ public class DialogueManager : MonoBehaviour
         }
 
         dialogueBox.anchoredPosition = shownPosition;
-        foreach (char letter in text)
+        int totalCharacters = dialogueText.textInfo.characterCount;
+        for (int i = 1; i <= totalCharacters; i++)
         {
-            dialogueText.text += letter;
+            dialogueText.maxVisibleCharacters = i;
             yield return new WaitForSeconds(typingSpeed);
         }
 
