@@ -72,6 +72,12 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{d1d18230-28f8-4965-809f-5095e6af7373}">
+		<property name="volume">
+			<value>-0.5</value>
+		</property>
+		<relationship name="modulators">
+			<destination>{b6ce3caa-e2d6-4ee4-9368-ad659838b9c5}</destination>
+		</relationship>
 		<relationship name="effectChain">
 			<destination>{17620a1e-8402-4e51-aa5f-8ef4f7d18b98}</destination>
 		</relationship>
@@ -93,6 +99,17 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{3c2791b0-44b2-4f04-92e6-1e130a659afc}" />
+	<object class="LFOModulator" id="{b6ce3caa-e2d6-4ee4-9368-ad659838b9c5}">
+		<property name="nameOfPropertyBeingModulated">
+			<value>volume</value>
+		</property>
+		<property name="depth">
+			<value>6</value>
+		</property>
+		<property name="direction">
+			<value>-100</value>
+		</property>
+	</object>
 	<object class="MixerBusEffectChain" id="{17620a1e-8402-4e51-aa5f-8ef4f7d18b98}">
 		<relationship name="effects">
 			<destination>{925fa1ce-571b-4f7c-bfa3-9a861d7092e9}</destination>
