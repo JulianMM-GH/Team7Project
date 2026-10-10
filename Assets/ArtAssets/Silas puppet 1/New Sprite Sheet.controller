@@ -369,7 +369,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 125ee1d7f79eda5449075c5072065f72, type: 2}
+  m_Motion: {fileID: 7400000, guid: e6aa041174fd59147be1587479674d9a, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -708,7 +708,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Jump Off Wall
+  m_Name: Wall Grab
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -724,7 +724,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: e6aa041174fd59147be1587479674d9a, type: 2}
+  m_Motion: {fileID: 7400000, guid: 125ee1d7f79eda5449075c5072065f72, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
