@@ -195,8 +195,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInput: {fileID: 5440674214064144875}
-  canLight: 1
+  canLight: 0
   lightRadius: 0.25
+  ChargePower: 5
   MaxChargePower: 5
   spotLight2D: {fileID: 8400484775511361526}
   baseLightIntensity: 1

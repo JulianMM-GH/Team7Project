@@ -14,8 +14,8 @@ public class LightEffect : MonoBehaviour
     public float lightRadius = 0.5f;
 
     [Header("Charge Settings")]
-    private float ChargePower = 0f;
-    public float MaxChargePower = 100f;
+    public float ChargePower = 5f;
+    public float MaxChargePower = 5f;
 
     [Header("2D Light System")]
     [SerializeField] private Light2D spotLight2D;
