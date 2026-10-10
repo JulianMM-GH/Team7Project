@@ -277,6 +277,7 @@ public class Book : MonoBehaviour {
     public void DragRightPageToPoint(Vector3 point)
     {
         if (currentPage >= bookPages.Length) return;
+        if (!pageDragging) RAudio.PlayOneShot("Page Turn");
         pageDragging = true;
         mode = FlipMode.RightToLeft;
         f = point;
@@ -312,6 +313,7 @@ public class Book : MonoBehaviour {
     public void DragLeftPageToPoint(Vector3 point)
     {
         if (currentPage <= 0) return;
+        if (!pageDragging) RAudio.PlayOneShot("Page Turn");
         pageDragging = true;
         mode = FlipMode.LeftToRight;
         f = point;

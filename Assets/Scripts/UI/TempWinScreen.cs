@@ -25,6 +25,9 @@ public class TempWinScreen : MonoBehaviour
 
             Time.timeScale = 1f;
 
+            // switch the music to its outro - TempWin's LevelAudio keeps it playing
+            RAudio.SetMusicParam("Outro", 1f);
+
             // Load the next level
             SceneManager.LoadScene(targetSceneIndex);
         }

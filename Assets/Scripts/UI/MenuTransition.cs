@@ -10,6 +10,13 @@ public class MenuTransition : MonoBehaviour
     public float ZoomSpeed = 5f;
     public float ZoomTarget = 3f;
     public float ZoomTravel = 7f;
+
+    [Header("Music")]
+    [Tooltip("Menu number that shows the storybook")]
+    public int StorybookMenu = 3;
+    public string MenuMusic = "UI Music";
+    public string StorybookMusic = "Storybook Music";
+
     private Camera cam;
     private int lastMenu;
     private float travelDistance;
@@ -30,8 +37,13 @@ public class MenuTransition : MonoBehaviour
 
         if (CurrentMenu != lastMenu)
         {
+            bool wasStorybook = lastMenu == StorybookMenu;
             lastMenu = CurrentMenu;
             ResetDistance();
+
+            bool isStorybook = CurrentMenu == StorybookMenu;
+            if (isStorybook != wasStorybook)
+                RAudio.PlayMusic(isStorybook ? StorybookMusic : MenuMusic);
         }
 
         Transform target = menus[CurrentMenu - 1].transform;
