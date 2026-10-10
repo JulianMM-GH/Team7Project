@@ -522,6 +522,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: a539800e-afcc-48f5-87f1-7ba137e84b4f
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2437cf34-3b72-4546-8dfb-47e356b8414c
+    m_ActionName: 'UI/ToggleMenu[/Keyboard/escape]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
