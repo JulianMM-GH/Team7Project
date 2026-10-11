@@ -62,6 +62,7 @@ namespace SupanthaPaul
         public float slipRampDuration = 1.5f;
         public float maxSlipSpeed = 8f;
         public float wallUnstickBuffer = 0.2f;
+        public float m_wallJumpInputLockTimer = 0f;
         public float wallJumpRegrabDelay = 0.25f;
         public Vector2 wallJumpForce = new Vector2(16f, 18f);
         public Vector2 wallClimbForce = new Vector2(4f, 14f);
@@ -289,9 +290,20 @@ namespace SupanthaPaul
 
             DashWasPressed = dashAction.WasPressedThisFrame();
 
-            // horizontal input
-            moveInput = moveAction.ReadValue<Vector2>().x;
+            // Handle the input lock countdown
+            if (m_wallJumpInputLockTimer > 0f)
+            {
+                m_wallJumpInputLockTimer -= Time.deltaTime;
 
+                // Force the movement input to push AWAY from the wall they just kicked off of
+                // This stops the player from pressing into the wall to scale it
+                moveInput = -m_onWallSide;
+            }
+            else
+            {
+                // Normal horizontal input reading when not locked
+                moveInput = moveAction.ReadValue<Vector2>().x;
+            }
 
             if (isGrounded)
             {
@@ -354,6 +366,10 @@ namespace SupanthaPaul
                 m_wallGrabbing = false;
                 m_wallJumping = true;
                 m_grabLockout = wallJumpRegrabDelay;
+
+                // Locks input away from the wall for the same duration
+                m_wallJumpInputLockTimer = wallJumpRegrabDelay;
+
                 Debug.Log("Wall jumped");
                 if (m_playerSide == m_onWallSide)
                     Flip();

@@ -5414,6 +5414,7 @@ MonoBehaviour:
   slipRampDuration: 1.5
   maxSlipSpeed: 8
   wallUnstickBuffer: 0.2
+  m_wallJumpInputLockTimer: 0.7
   wallJumpRegrabDelay: 0.25
   wallJumpForce: {x: 7, y: 15}
   wallClimbForce: {x: 4, y: 14}
