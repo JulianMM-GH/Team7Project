@@ -159,9 +159,9 @@ namespace SupanthaPaul
                 }
 
                 // Flipping
-                if (!m_facingRight && moveInput > 0f)
+                if (!m_facingRight && moveInput > 0f && !m_wallGrabbing)
                     Flip();
-                else if (m_facingRight && moveInput < 0f)
+                else if (m_facingRight && moveInput < 0f && !m_wallGrabbing)
                     Flip();
 
                 // Dashing logic
@@ -197,6 +197,14 @@ namespace SupanthaPaul
                     {
                         m_wallGrabTimer = 0f;
                         m_currentSlipSpeed = 0f;
+
+                        // Force the player to face the wall upon initial contact
+                        // If wall is on the right (m_onWallSide == 1) but we are facing left, flip right.
+                        // If wall is on the left (m_onWallSide == -1) but we are facing right, flip left.
+                        if ((m_onWallSide == 1 && !m_facingRight) || (m_onWallSide == -1 && m_facingRight))
+                        {
+                            Flip();
+                        }
                     }
 
                     actuallyWallGrabbing = true;    // for animation
@@ -224,7 +232,7 @@ namespace SupanthaPaul
                 {
                     m_wallStick -= Time.deltaTime;
                     actuallyWallGrabbing = false;
-                    if (m_wallStick <= 0f)
+                    if (m_wallStick <= 0f || !m_onWall)
                         m_wallGrabbing = false;
                 }
                 if (m_wallGrabbing && isGrounded)
