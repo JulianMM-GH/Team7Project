@@ -2,12 +2,20 @@ using SupanthaPaul;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using System.Collections;
 
 public class Shooter : MonoBehaviour
 {
     [SerializeField] public static PlayerInput PlayerInput;
 
     private InputAction shootAction;
+
+    private InputAction moveAction;
+    private InputAction jumpAction;
+
+    [Header("Input Action Names")]
+    [SerializeField] private string moveActionName = "Move";
+    [SerializeField] private string jumpActionName = "Jump";
 
     [SerializeField] public GameObject projectilePrefab;
     [SerializeField] Transform LaunchOffset;
@@ -37,7 +45,16 @@ public class Shooter : MonoBehaviour
     [SerializeField] private int resolution = 30;
     [SerializeField] private float stepTime = 0.1f;
 
+    [Header("Animation Tuning")]
+    [SerializeField] private float projectileSpawnDelay = 0.35f;
+    [SerializeField] private float totalShootLockoutDuration = 0.5f;
+
     private PlayerController m_playerController;
+    private Animator m_animator;
+    private Rigidbody2D m_rb2d;
+
+    private bool isCharging = false;
+    private bool isLockoutActive = false;
 
     void Start()
     {
@@ -45,6 +62,15 @@ public class Shooter : MonoBehaviour
         if (m_playerController == null)
         {
             m_playerController = GetComponentInParent<PlayerController>();
+        }
+
+        if (m_playerController != null)
+        {
+            m_animator = m_playerController.GetComponentInChildren<Animator>();
+        }
+        else
+        {
+            m_animator = GetComponentInChildren<Animator>();
         }
 
         if (chargeBar != null)
@@ -63,6 +89,9 @@ public class Shooter : MonoBehaviour
         PlayerInput = GetComponent<PlayerInput>();
 
         shootAction = PlayerInput.actions["Shoot"];
+
+        moveAction = PlayerInput.actions[moveActionName];
+        jumpAction = PlayerInput.actions[jumpActionName];
     }
 
     private void Update()
@@ -70,9 +99,14 @@ public class Shooter : MonoBehaviour
         // Check if the slingshot is on cooldown
         bool isOffCooldown = Time.time >= cooldownTimer;
 
-        if (shootAction.IsPressed() && canShoot && isOffCooldown)
+        bool isPlayerGrounded = m_playerController != null && m_playerController.isGrounded;
+
+        if (shootAction.IsPressed() && canShoot && isOffCooldown && isPlayerGrounded && !isLockoutActive)
         {
-            chargeBar.gameObject.SetActive(true);
+            if (!isCharging)
+            {
+                StartCharging();
+            }
 
             chargeTime += Time.deltaTime;
             chargeTime = Mathf.Clamp(chargeTime, 0f, maxChargeTime);
@@ -92,16 +126,86 @@ public class Shooter : MonoBehaviour
             // Hide trajectory
             lineRenderer.enabled = false;
 
-            FireProjectile();
+            StartCoroutine(ShootSequenceCoroutine(chargeTime));
 
             // Set cooldown timestamp
             cooldownTimer = Time.time + cooldown;
 
             ResetProjectileCharge();
         }
+
+        // Catch instances where the player releases early without executing a shot
+        else if (shootAction.WasReleasedThisFrame() && isCharging)
+        {
+            if (chargeBar != null) chargeBar.gameObject.SetActive(false);
+            if (lineRenderer != null) lineRenderer.enabled = false;
+
+            CancelCharge();
+
+            ResetProjectileCharge();
+        }
     }
 
-    void FireProjectile()
+    private void StartCharging()
+    {
+        isCharging = true;
+
+        if (chargeBar != null) chargeBar.gameObject.SetActive(true);
+
+        if (m_rb2d != null)
+        {
+            m_rb2d.linearVelocity = new Vector2(0f, m_rb2d.linearVelocity.y);
+        }
+
+        if (moveAction != null) moveAction.Disable();
+        if (jumpAction != null) jumpAction.Disable();
+
+        if (m_animator != null)
+        {
+            m_animator.SetBool("isPullingSlingshot", true);
+        }
+    }
+
+    // Slightly delayed shot to match the newly added animation
+    // Player is locked, can't use movement or jump
+    // Can't move still for a moment after shooting, ensuring effective animation transition
+    private IEnumerator ShootSequenceCoroutine(float finalizedChargeTime)
+    {
+        isCharging = false;
+        isLockoutActive = true;
+
+        if (m_animator != null)
+        {
+            m_animator.SetBool("isPullingSlingshot", false);
+            m_animator.SetTrigger("shootSlingshot");
+        }
+
+        yield return new WaitForSeconds(projectileSpawnDelay);
+
+        FireProjectile(finalizedChargeTime);
+
+        float remainingLockoutTime = Mathf.Max(0f, totalShootLockoutDuration - projectileSpawnDelay);
+        yield return new WaitForSeconds(remainingLockoutTime);
+
+        isLockoutActive = false;
+        if (moveAction != null) moveAction.Enable();
+        if (jumpAction != null) jumpAction.Enable();
+    }
+
+    private void CancelCharge()
+    {
+        isCharging = false;
+
+        if (moveAction != null) moveAction.Enable();
+        if (jumpAction != null) jumpAction.Enable();
+
+        if (m_animator != null)
+        {
+            m_animator.SetBool("isPullingSlingshot", false);
+        }
+    }
+
+    void FireProjectile(float finalCharge)
     {
         RAudio.PlayOneShot("Slingshot");
 
@@ -124,7 +228,8 @@ public class Shooter : MonoBehaviour
         Vector2 launchDirection = new Vector2(direction, upwardForce).normalized;
 
         // Apply force to the projectile
-        float totalSpeed = minSpeed + (chargeTime * speedMultiplier);
+        //float totalSpeed = minSpeed + (chargeTime * speedMultiplier);
+        float totalSpeed = minSpeed + (finalCharge * speedMultiplier);
         Vector2 force = launchDirection * totalSpeed;
 
         rb.AddForce(force, ForceMode2D.Impulse);
@@ -210,5 +315,14 @@ public class Shooter : MonoBehaviour
         chargeTime = 0f;
         if (chargeBar != null) chargeBar.value = 0;
         if (barFill != null) barFill.color = chargeGradient.Evaluate(0);
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+        if (isCharging)
+        {
+            CancelCharge();
+        }
     }
 }
